@@ -1,0 +1,42 @@
+<div id="<%= dom_id issue %>">
+  <p>
+    <strong>Subject:</strong>
+    <%= issue.subject %>
+  </p>
+
+  <p>
+    <strong>Content:</strong>
+    <%= issue.content %>
+  </p>
+   <p>
+    <strong>Created At: </strong>
+    <%=
+      issue.created_at.strftime("%A,%y-%m-%d %H:%M") %>
+  </p>
+
+  <p>
+    <strong>State:</strong>
+    <%= issue.state %>
+  </p>
+
+  <p>
+    <strong>Type:</strong>
+    <%= issue.type %>
+  </p>
+
+  <p>
+    <strong>Severity:</strong>
+    <%= issue.severity %>
+  </p>
+
+  <p>
+    <strong>Priority:</strong>
+    <%= issue.priority %>
+  </p>
+
+  <p>
+    <strong>User:</strong>
+    <%= issue.user_id %>
+  </p>
+
+</div>
