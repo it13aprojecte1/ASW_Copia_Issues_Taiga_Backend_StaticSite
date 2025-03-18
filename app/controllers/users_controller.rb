@@ -52,19 +52,25 @@ class UsersController < ApplicationController
     @user.destroy!
 
     respond_to do |format|
-      format.html { redirect_to users_path, status: :see_other, notice: "User was successfully destroyed." }
+      format.html { redirect_to new_user_session_path, status: :see_other, notice: "User was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
-  private
+ private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params.expect(:id))
-    end
+      # Redirigir si el ID es "sign_out"
+    if params[:id] == "sign_out"
+    # Redirigir a la ruta correcta de cierre de sesión
+    return redirect_to new_user_session_path
+  end
+
+  @user = User.find(params[:id])
+end
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.expect(user: [ :username, :password ])
+      params.require(:user).permit(:username, :password)
     end
 end

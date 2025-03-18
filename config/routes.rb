@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
-  resources :issues
-  resources :users
+devise_for :users
+
+ #equivalente a get '/issues', to: 'issues#index'
+#get '/issues/new', to: 'issues#new'
+#post '/issues', to: 'issues#create'
+
+resources :issues
+resources :users
+
+
+
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
