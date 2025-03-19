@@ -1,45 +1,53 @@
-/* Contenedor principal */
+/* Contenedor principal: más alto y menos ancho */
 .issue-form-container {
-  max-width: 900px;
+  max-width: 650px; /* Lo hacemos más estrecho */
   margin: auto;
-  padding: 40px;
+  padding: 60px 30px; /* Más espacio arriba y abajo */
 }
 
 /* Layout FLEX para distribuir las columnas */
 .form-layout {
   display: flex;
+  flex-direction: row;
+  align-items: stretch; /* Asegura que ambas columnas tengan la misma altura */
   gap: 30px;
 }
 
 /* La izquierda ocupa más espacio (70%) */
 .left-column {
   flex: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Más espacio entre elementos */
 }
 
-/* La derecha ocupa menos espacio (30%) */
+/* La derecha ocupa menos espacio (30%) pero igual altura */
 .right-column {
   flex: 30%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  justify-content: space-between; /* Distribuye bien los selectores */
+  gap: 25px; /* Espaciado entre selectores */
 }
 
-/* Inputs más grandes */
+/* Inputs más grandes y con más altura */
 .large-input {
   width: 100%;
-  font-size: 16px;
-  padding: 12px;
+  font-size: 18px;
+  padding: 14px;
 }
 
+/* Descripción más alta */
 .large-textarea {
   width: 100%;
-  font-size: 16px;
-  padding: 12px;
+  font-size: 18px;
+  padding: 14px;
+  height: 200px; /* Aumentamos la altura */
 }
 
 /* Más espacio entre elementos */
 .mb-4 {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 /* Botón de cerrar (X) */
@@ -50,7 +58,7 @@
 }
 
 .close-btn {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
   color: #888;
   text-decoration: none;
@@ -68,15 +76,17 @@
   align-items: center;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 8px;
+  padding: 14px; /* Más espacio interno */
   background: white;
   justify-content: space-between;
+  height: 50px; /* Asegura que los selects sean altos */
 }
 
 .select-label {
   font-weight: bold;
   margin-right: 8px;
   white-space: nowrap;
+  font-size: 16px;
 }
 
 .custom-select {
@@ -85,6 +95,7 @@
   background: transparent;
   outline: none;
   cursor: pointer;
+  font-size: 16px;
 }
 
 /* Botón de Crear */
@@ -92,10 +103,11 @@
   background-color: #72ead7;
   color: black;
   font-weight: bold;
-  padding: 10px 20px;
+  padding: 14px 20px;
   border-radius: 5px;
   border: none;
   width: 100%;
+  font-size: 18px;
 }
 
 .btn-create:hover {
@@ -107,6 +119,7 @@
   color: #007bff;
   text-decoration: none;
   font-weight: bold;
+  font-size: 16px;
 }
 
 .add-tag:hover {
