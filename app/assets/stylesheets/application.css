@@ -1,53 +1,62 @@
-/* Contenedor principal: más alto y menos ancho */
-.issue-form-container {
-  max-width: 650px; /* Lo hacemos más estrecho */
-  margin: auto;
-  padding: 60px 30px; /* Más espacio arriba y abajo */
+/* Fuente general */
+body {
+  font-family: 'Inter', sans-serif;
 }
 
-/* Layout FLEX para distribuir las columnas */
+/* Contenedor principal */
+.issue-form-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 60px 40px;
+}
+
+/* Centrar "New Issue" completamente */
+h2.text-center {
+  text-align: center;
+  width: 100%;
+  font-size: 24px;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+/* Layout FLEX para columnas */
 .form-layout {
   display: flex;
   flex-direction: row;
-  align-items: stretch; /* Asegura que ambas columnas tengan la misma altura */
-  gap: 30px;
+  align-items: flex-start;
+  gap: 40px;
 }
 
-/* La izquierda ocupa más espacio (70%) */
+/* Izquierda: ocupa más espacio */
 .left-column {
   flex: 70%;
   display: flex;
   flex-direction: column;
-  gap: 25px; /* Más espacio entre elementos */
+  gap: 20px;
 }
 
-/* La derecha ocupa menos espacio (30%) pero igual altura */
+/* Derecha: ocupa menos espacio en vertical */
 .right-column {
   flex: 30%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Distribuye bien los selectores */
-  gap: 25px; /* Espaciado entre selectores */
+  gap: 15px;
+  justify-content: flex-start;
 }
 
-/* Inputs más grandes y con más altura */
-.large-input {
+/* Inputs grandes */
+.large-input, .large-textarea {
   width: 100%;
-  font-size: 18px;
-  padding: 14px;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
 }
 
-/* Descripción más alta */
+/* Descripción más grande */
 .large-textarea {
-  width: 100%;
-  font-size: 18px;
-  padding: 14px;
-  height: 200px; /* Aumentamos la altura */
-}
-
-/* Más espacio entre elementos */
-.mb-4 {
-  margin-bottom: 30px;
+  height: 220px;
 }
 
 /* Botón de cerrar (X) */
@@ -70,58 +79,143 @@
   color: #555;
 }
 
-/* Estilo para los selectores personalizados */
+/* Selectores */
 .custom-select-box {
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 14px; /* Más espacio interno */
-  background: white;
+  padding: 10px;
+  background: #f7f7f7;
+  height: 45px;
+}
+
+/* Contenedor para alinear label y select */
+.select-container {
+  display: flex;
   justify-content: space-between;
-  height: 50px; /* Asegura que los selects sean altos */
+  align-items: center;
+  width: 100%;
 }
 
 .select-label {
-  font-weight: bold;
-  margin-right: 8px;
-  white-space: nowrap;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 14px;
+  flex: 1; /* Ocupa el espacio necesario */
+  text-align: left;
 }
 
+/* Alineación correcta del select */
 .custom-select {
   border: none;
-  flex-grow: 1;
+  flex: 1;
   background: transparent;
   outline: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
+  text-align: right; /* Alineación del texto del select */
+  text-align-last: right;
+  min-width: 120px; /* Para evitar que se encoja demasiado */
 }
 
-/* Botón de Crear */
+.custom-select option {
+  text-align: center;
+}
+
+/* Iconos debajo de Priority */
+.icon-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* Botones de iconos (reloj y candado) */
+.icon-btn {
+  background: #f7f7f7;
+  border: 2px solid #ccc;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 5px;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+}
+
+.icon-btn:hover {
+  border-color: #aaa;
+}
+
+/* Estilo cuando el botón de bloqueo está activado */
+.icon-btn.active {
+  background: #ddd;
+  border-color: #888;
+}
+
+/* Calendario */
+.date-picker-container {
+  position: relative;
+}
+
+.date-picker-popup {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+/* Bloqueo del issue */
+.locked-textarea {
+  display: none;
+  margin-top: 10px;
+}
+
+.locked-textarea textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Botón "CREATE" */
 .btn-create {
   background-color: #72ead7;
-  color: black;
+  color: #555;
   font-weight: bold;
-  padding: 14px 20px;
+  padding: 10px 20px;
   border-radius: 5px;
   border: none;
   width: 100%;
-  font-size: 18px;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-top: 20px; /* Más espacio */
 }
 
 .btn-create:hover {
   background-color: #5dd8c4;
 }
 
-/* Link "Add tag" */
+/* "Add tag" */
 .add-tag {
+  display: inline-block;
   color: #007bff;
   text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 14px;
+  border: 2px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background: #f7f7f7;
 }
 
 .add-tag:hover {
-  text-decoration: underline;
+  border-color: #aaa;
 }
