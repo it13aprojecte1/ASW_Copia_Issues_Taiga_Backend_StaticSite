@@ -1,10 +1,114 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+/* Contenedor principal */
+.issue-form-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px;
+}
+
+/* Layout FLEX para distribuir las columnas */
+.form-layout {
+  display: flex;
+  gap: 30px;
+}
+
+/* La izquierda ocupa más espacio (70%) */
+.left-column {
+  flex: 70%;
+}
+
+/* La derecha ocupa menos espacio (30%) */
+.right-column {
+  flex: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Inputs más grandes */
+.large-input {
+  width: 100%;
+  font-size: 16px;
+  padding: 12px;
+}
+
+.large-textarea {
+  width: 100%;
+  font-size: 16px;
+  padding: 12px;
+}
+
+/* Más espacio entre elementos */
+.mb-4 {
+  margin-bottom: 20px;
+}
+
+/* Botón de cerrar (X) */
+.close-btn-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.close-btn {
+  font-size: 24px;
+  font-weight: bold;
+  color: #888;
+  text-decoration: none;
+  background: none;
+  border: none;
+}
+
+.close-btn:hover {
+  color: #555;
+}
+
+/* Estilo para los selectores personalizados */
+.custom-select-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  background: white;
+  justify-content: space-between;
+}
+
+.select-label {
+  font-weight: bold;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+.custom-select {
+  border: none;
+  flex-grow: 1;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Botón de Crear */
+.btn-create {
+  background-color: #72ead7;
+  color: black;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  width: 100%;
+}
+
+.btn-create:hover {
+  background-color: #5dd8c4;
+}
+
+/* Link "Add tag" */
+.add-tag {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.add-tag:hover {
+  text-decoration: underline;
+}
