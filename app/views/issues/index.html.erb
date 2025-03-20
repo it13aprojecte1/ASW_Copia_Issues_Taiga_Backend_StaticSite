@@ -1,17 +1,123 @@
-<p style="color: green"><%= notice %></p>
+<style>
+  .custom-btn {
+    background-color: #98F5E1;
+    color: black;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 530;
+    width: 120px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    float: right;
+    margin-bottom: 20px;
+  }
 
-<% content_for :title, "Issues" %>
+  .custom-btn:hover {
+    background-color: #0085A1;
+    color: white;
+  }
 
-<h1>Issues</h1>
+  .plus-sign {
+    font-size: 25px; /* Aumenta el tamaño del "+" */
+    font-weight: 500;
+    margin-right: 8px; /* Mueve el "+" más a la izquierda separándolo del texto */
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+  }
 
-<div id="issues">
-  <% @issues.each do |issue| %>
-    <%= render issue %>
-    <p>
-      <%= link_to "Show this issue", issue %>
-    </p>
-    <hr>
+  .table {
+    border-collapse: separate;  /* Evitar que las celdas se fusionen */
+    border-spacing: 0 15px; /* Espacio entre las filas */
+    width: 100%;
+  }
+
+  .table tbody tr {
+    background-color: #f8f9fa; /* Fondo gris claro */
+    border: 1px solid #ddd; /* Borde gris claro para toda la fila */
+  }
+
+  .table tbody tr td {
+    padding: 12px; /* Espaciado interno */
+    background-color: transparent; /* Asegura que solo la fila tenga el fondo gris */
+    vertical-align: middle; /* Alineación vertical para mejor visibilidad */
+  }
+
+  .table tbody tr:first-child td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  .table tbody tr:first-child td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .table tbody tr:last-child td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  .table tbody tr:last-child td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .table-responsive {
+    margin-left: 15px; /* Añadir margen a la izquierda */
+  }
+</style>
+
+<div class="container-fluid mt-4">
+    <p style="color: green"><%= notice %></p>
+
+  <h1 class="mb-4" style="color: #0085A1; font-family: 'Arial', sans-serif; font-weight: bold;">Issues</h1>
+
+  <div class="d-flex justify-content-end mb-5" style="margin-bottom: 30px;">
+    <%= link_to '<span class="plus-sign">+</span> NEW ISSUE'.html_safe, new_issue_path, class: 'custom-btn' %>
+  </div>
+
+  <% if @issues.any? %>
+    <div class="table-responsive">
+      <table class="table table-striped w-100" style="width: 100vw;">
+        <thead class="thead-light text-center">
+          <tr>
+            <th style="width: 14%;">Tipo</th>
+            <th style="width: 14%;">Gravedad</th>
+            <th style="width: 14%;">Prioridad</th>
+            <th style="width: 14%;">Petición</th>
+            <th style="width: 14%;">Estado</th>
+            <th style="width: 14%;">Modificado</th>
+            <th style="width: 16%;">Asignada a</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @issues.each do |issue| %>
+            <tr>
+              <td style="width: 14%; text-align: center;"><%= issue.type_name.to_s.humanize %></td>
+              <td style="width: 14%; text-align: center;"><%= issue.severity_name.to_s.humanize %></td>
+              <td style="width: 14%; text-align: center;"><%= issue.priority_name.to_s.humanize %></td>
+              <td style="width: 14%; text-align: center;">
+                <%= link_to "##{issue.id} #{issue.subject}", issue_path(issue), class: 'text-primary fw-bold' %>
+              </td>
+              <td style="width: 14%; text-align: center;">
+                <span class="badge <%= issue.state == 'new_issue' ? 'badge-warning' : 'badge-success' %>">
+                  <%= issue.state_name.to_s.humanize %>
+                </span>
+              </td>
+              <td style="width: 14%; text-align: center;"><%= issue.updated_at.strftime('%d %b. %Y') %></td>
+              <td style="width: 16%; text-align: center;"><strong><%= issue.user&.email.presence || 'No asignado' %></strong></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="text-muted">No hay peticiones a reportar :-)</p>
+    <%= link_to '¿Ha encontrado una petición?', new_issue_path, class: 'btn btn-outline-primary' %>
   <% end %>
 </div>
-
-<%= link_to "New issue", new_issue_path %>
