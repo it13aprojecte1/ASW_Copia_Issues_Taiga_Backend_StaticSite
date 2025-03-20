@@ -16,11 +16,11 @@
         </div>
 
         <div class="mb-3">
-          <a href="#" class="add-tag">+ Add tag</a>
+          <a href="#" class="add-tag disabled">+ Add tag</a>
         </div>
 
         <div class="mb-3">
-          <%= form.text_area :description, class: "form-control large-textarea", placeholder: "Please add descriptive text to help others better understand this issue" %>
+          <%= form.text_area :content, class: "form-control large-textarea", placeholder: "Please add descriptive text to help others better understand this issue" %>
         </div>
       </div>
 
@@ -29,42 +29,41 @@
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Type</span>
-            <%= form.select :issue_type,
-              [["Bug", "bug"], ["Question", "question"], ["Enhancement", "enhancement"]],
-              {}, class: "form-select custom-select" %>
+            <select class="form-select custom-select" disabled>
+              <option>Bug</option>
+              <option>Question</option>
+              <option>Enhancement</option>
+            </select>
           </div>
         </div>
 
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Severity</span>
-            <%= form.select :severity,
-              [["Wishlist", "wishlist"], ["Minor", "minor"], ["Normal", "normal"], ["Important", "important"], ["Critical", "critical"]],
-              {}, class: "form-select custom-select" %>
+            <select class="form-select custom-select" disabled>
+              <option>Wishlist</option>
+              <option>Minor</option>
+              <option>Normal</option>
+              <option>Important</option>
+              <option>Critical</option>
+            </select>
           </div>
         </div>
 
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Priority</span>
-            <%= form.select :priority,
-              [["Low", "low"], ["Normal", "normal"], ["High", "high"]],
-              {}, class: "form-select custom-select" %>
+            <select class="form-select custom-select" disabled>
+              <option>Low</option>
+              <option>Normal</option>
+              <option>High</option>
+            </select>
           </div>
         </div>
 
-
         <div class="icon-container">
-          <button type="button" class="icon-btn" id="calendar-btn">⏳</button>
-          <button type="button" class="icon-btn" id="lock-btn">🔒</button>
-        </div>
-
-        <div class="date-picker-container">
-          <div class="date-picker-popup" id="date-picker"></div>
-        </div>
-
-        <div id="locked-text" class="locked-textarea">
-          <textarea placeholder="Reason for blocking"></textarea>
+          <button type="button" class="icon-btn disabled">⏳</button>
+          <button type="button" class="icon-btn disabled">🔒</button>
         </div>
       </div>
     </div>

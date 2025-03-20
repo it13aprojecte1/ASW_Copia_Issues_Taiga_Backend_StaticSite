@@ -70,6 +70,6 @@ end
   end
     # Only allow a list of trusted parameters through.
     def issue_params
-      params.expect(issue: [ :subject, :content, :state, :issue_type, :severity, :priority, :user_id ])
+      params.expect(issue: [ :subject, :content, ])
     end
 end
