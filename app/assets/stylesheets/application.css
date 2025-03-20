@@ -201,3 +201,255 @@ h2.text-center {
 .add-tag:hover {
   border-color: #aaa;
 }
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.issue-form-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 60px 40px;
+}
+
+h2.text-center {
+  text-align: center;
+  width: 100%;
+  font-size: 24px;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.form-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.left-column {
+  flex: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right-column {
+  flex: 30%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: flex-start;
+}
+
+.large-input, .large-textarea {
+  width: 100%;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+}
+
+.large-textarea {
+  height: 220px;
+}
+
+.close-btn-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.close-btn {
+  font-size: 28px;
+  font-weight: bold;
+  color: #888;
+  text-decoration: none;
+  background: none;
+  border: none;
+}
+
+.close-btn:hover {
+  color: #555;
+}
+
+.custom-select-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  background: #f7f7f7;
+  height: 45px;
+}
+
+.select-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.select-label {
+  font-weight: 500;
+  font-size: 14px;
+  flex: 1;
+  text-align: left;
+}
+
+.custom-select {
+  border: none;
+  flex: 1;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: right;
+  text-align-last: right;
+  min-width: 120px;
+}
+
+.custom-select option {
+  text-align: center;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.icon-btn {
+  background: #f7f7f7;
+  border: 2px solid #ccc;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 5px;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+}
+
+.icon-btn:hover {
+  border-color: #aaa;
+}
+
+.icon-btn.active {
+  background: #ddd;
+  border-color: #888;
+}
+
+.date-picker-container {
+  position: relative;
+}
+
+.date-picker-popup {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.locked-textarea {
+  display: none;
+  margin-top: 10px;
+}
+
+.locked-textarea textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.btn-create {
+  background-color: #98F5E1;
+  color: black;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+
+.btn-create:hover {
+  background-color: #0085A1;
+  color: white;
+}
+
+.add-tag {
+  display: inline-block;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  border: 2px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background: #f7f7f7;
+}
+
+.add-tag:hover {
+  border-color: #aaa;
+}
+
+/* Estilos para la barra de navegación */
+nav {
+  background-color: #f8f9fa;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+nav form {
+  margin: 0;
+}
+
+nav button, nav a {
+  background-color: #98F5E1;
+  color: black;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 5px;
+  border: none;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+nav button:hover, nav a:hover {
+  background-color: #0085A1;
+  color: white;
+}
+
+/* Para que los links tengan el mismo estilo que los botones */
+nav a {
+  display: inline-block;
+}
+
+/* Alineación del contenedor derecho de la barra de navegación */
+.nav-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}

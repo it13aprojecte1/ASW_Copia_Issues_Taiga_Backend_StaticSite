@@ -2,6 +2,10 @@ class IssuesController < ApplicationController
   before_action :set_issue, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
 
+  #Action que oculta la barra de navegacion donde tenemos el cerrar sesion en el momento que estoy haciendo esto
+  before_action :hide_navbar, only: [:new]
+
+
   # GET /issues or /issues.json
   def index
     @issues = current_user.issues.order(created_at: :desc)
@@ -72,4 +76,8 @@ end
     def issue_params
       params.expect(issue: [ :subject, :content, ])
     end
+
+    def hide_navbar
+    @hide_navbar = true
+  end
 end

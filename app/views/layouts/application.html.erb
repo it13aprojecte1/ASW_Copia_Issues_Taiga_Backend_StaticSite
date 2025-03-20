@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Waslab04" %></title>
+    <title><%= content_for(:title) || "CopiaTaigaRoR" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -24,18 +24,18 @@
 
   <%#COSAS NUEVAS %>
   <body>
+    <% unless @hide_navbar %>
     <nav>
-      <% if user_signed_in? %>
-        <%= button_to 'Cerrar sesión', destroy_user_session_path, method: :delete %>
-
-      <% else %>
-        <%= link_to 'Iniciar sesión', new_user_session_path %>
-
-        <%#REVISAR#!!!!!!!!!!!!!!!!!!!!!!!1%>
-        <%= link_to 'Registrarse', new_user_registration_path %>
-      <% end %>
+    <div class="nav-right">
+        <% if user_signed_in? %>
+          <%= button_to 'Cerrar sesión', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to 'Iniciar sesión', new_user_session_path %>
+          <%= link_to 'Registrarse', new_user_registration_path %>
+        <% end %>
+      </div>
     </nav>
-
+<%end%>
     <%= yield %>
   </body>
 </html>

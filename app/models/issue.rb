@@ -1,7 +1,7 @@
 class Issue < ApplicationRecord
   belongs_to :user
   validates :subject, presence: true, length: { minimum: 1 }
-  validates :content, presence: true
+  #validates :content, presence: true
 
   # Definició de "states" de forma manual ja que enum fa fatal.
   STATES = {
