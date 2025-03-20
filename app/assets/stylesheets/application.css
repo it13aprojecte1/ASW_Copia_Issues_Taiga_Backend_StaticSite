@@ -1,16 +1,13 @@
-/* Fuente general */
 body {
   font-family: 'Inter', sans-serif;
 }
 
-/* Contenedor principal */
 .issue-form-container {
   max-width: 800px;
   margin: auto;
   padding: 60px 40px;
 }
 
-/* Centrar "New Issue" completamente */
 h2.text-center {
   text-align: center;
   width: 100%;
@@ -19,7 +16,6 @@ h2.text-center {
   font-weight: 600;
 }
 
-/* Layout FLEX para columnas */
 .form-layout {
   display: flex;
   flex-direction: row;
@@ -27,7 +23,6 @@ h2.text-center {
   gap: 40px;
 }
 
-/* Izquierda: ocupa más espacio */
 .left-column {
   flex: 70%;
   display: flex;
@@ -35,7 +30,6 @@ h2.text-center {
   gap: 20px;
 }
 
-/* Derecha: ocupa menos espacio en vertical */
 .right-column {
   flex: 30%;
   display: flex;
@@ -44,7 +38,6 @@ h2.text-center {
   justify-content: flex-start;
 }
 
-/* Inputs grandes */
 .large-input, .large-textarea {
   width: 100%;
   font-size: 16px;
@@ -54,12 +47,10 @@ h2.text-center {
   background-color: #f7f7f7;
 }
 
-/* Descripción más grande */
 .large-textarea {
   height: 220px;
 }
 
-/* Botón de cerrar (X) */
 .close-btn-container {
   position: absolute;
   top: 20px;
@@ -79,7 +70,6 @@ h2.text-center {
   color: #555;
 }
 
-/* Selectores */
 .custom-select-box {
   display: flex;
   align-items: center;
@@ -90,7 +80,6 @@ h2.text-center {
   height: 45px;
 }
 
-/* Contenedor para alinear label y select */
 .select-container {
   display: flex;
   justify-content: space-between;
@@ -101,11 +90,10 @@ h2.text-center {
 .select-label {
   font-weight: 500;
   font-size: 14px;
-  flex: 1; /* Ocupa el espacio necesario */
+  flex: 1;
   text-align: left;
 }
 
-/* Alineación correcta del select */
 .custom-select {
   border: none;
   flex: 1;
@@ -113,16 +101,15 @@ h2.text-center {
   outline: none;
   cursor: pointer;
   font-size: 14px;
-  text-align: right; /* Alineación del texto del select */
+  text-align: right;
   text-align-last: right;
-  min-width: 120px; /* Para evitar que se encoja demasiado */
+  min-width: 120px;
 }
 
 .custom-select option {
   text-align: center;
 }
 
-/* Iconos debajo de Priority */
 .icon-container {
   display: flex;
   align-items: center;
@@ -130,7 +117,6 @@ h2.text-center {
   margin-top: 10px;
 }
 
-/* Botones de iconos (reloj y candado) */
 .icon-btn {
   background: #f7f7f7;
   border: 2px solid #ccc;
@@ -147,13 +133,11 @@ h2.text-center {
   border-color: #aaa;
 }
 
-/* Estilo cuando el botón de bloqueo está activado */
 .icon-btn.active {
   background: #ddd;
   border-color: #888;
 }
 
-/* Calendario */
 .date-picker-container {
   position: relative;
 }
@@ -171,7 +155,6 @@ h2.text-center {
   z-index: 10;
 }
 
-/* Bloqueo del issue */
 .locked-textarea {
   display: none;
   margin-top: 10px;
@@ -185,10 +168,9 @@ h2.text-center {
   border-radius: 5px;
 }
 
-/* Botón "CREATE" */
 .btn-create {
-  background-color: #72ead7;
-  color: #555;
+  background-color: #98F5E1;
+  color: black;
   font-weight: bold;
   padding: 10px 20px;
   border-radius: 5px;
@@ -196,14 +178,14 @@ h2.text-center {
   width: 100%;
   font-size: 14px;
   text-transform: uppercase;
-  margin-top: 20px; /* Más espacio */
+  margin-top: 20px;
 }
 
 .btn-create:hover {
-  background-color: #5dd8c4;
+  background-color: #0085A1;
+  color: white;
 }
 
-/* "Add tag" */
 .add-tag {
   display: inline-block;
   color: #007bff;
