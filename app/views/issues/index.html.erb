@@ -1,4 +1,11 @@
 <style>
+  .custom-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    margin-right: 100px;
+  }
+
   .custom-btn {
     background-color: #98F5E1;
     color: black;
@@ -30,10 +37,34 @@
     display: inline-block;
   }
 
+  .table-container {
+    margin-right: 20px;
+    margin-left: 20px;
+    overflow-x: auto;
+  }
+
   .table {
     border-collapse: separate;
     border-spacing: 0 15px;
     width: 100%;
+  }
+
+  .table thead th {
+    text-transform: uppercase;
+    color: #4a4a4a;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+  }
+
+  .table thead th.issue-column {
+    text-align: left;
+  }
+
+  .table tbody td {
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    text-align: left;
   }
 
   .table tbody tr {
@@ -57,9 +88,87 @@
     border-bottom-right-radius: 10px;
   }
 
-  .table-responsive {
-    margin-left: 15px;
+  .table thead th:nth-child(1),
+  .table tbody td:nth-child(1),
+  .table thead th:nth-child(2),
+  .table tbody td:nth-child(2),
+  .table thead th:nth-child(3),
+  .table tbody td:nth-child(3),
+  .table thead th:nth-child(5),
+  .table tbody td:nth-child(5) {
+    width: 12%;
   }
+
+  .table thead th:nth-child(4),
+  .table tbody td:nth-child(4) {
+    width: 50%;
+  }
+
+  .table thead th:nth-child(6),
+  .table tbody td:nth-child(6) {
+    width: 14%;
+  }
+
+  .table thead th:nth-child(7),
+  .table tbody td:nth-child(7) {
+    width: 16%;
+  }
+
+  .table tbody tr:hover {
+    background-color: #e0e0e0;
+    transition: background-color 0.3s ease;
+  }
+
+  .issue-id {
+    color: #0085A1;
+  }
+
+  .issue-title {
+    color: black;
+    text-decoration: none;
+  }
+
+  td:hover .issue-id {
+    color: black;
+  }
+
+  td:hover .issue-title {
+    color: #0085A1;
+  }
+
+  .no-issues-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.no-issues-text {
+  color: #7a7a7a;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  margin-bottom: 15px;
+}
+
+.no-issues-button {
+  color: #0085A1;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.no-issues-button:hover {
+  text-decoration: underline;
+}
+
+.no-issues-button:hover {
+  color: #4a4a4a;
+  text-decoration: none;
+}
 </style>
 
 <div class="container-fluid mt-4">
@@ -67,47 +176,52 @@
 
   <h1 class="mb-4" style="color: #0085A1; font-family: 'Arial', sans-serif; font-weight: bold;">Issues</h1>
 
-  <div class="d-flex justify-content-end mb-5" style="margin-bottom: 30px;">
+  <div class="custom-btn-container">
     <%= link_to '<span class="plus-sign">+</span> NEW ISSUE'.html_safe, new_issue_path, class: 'custom-btn' %>
   </div>
 
   <% if @issues.any? %>
-    <div class="table-responsive">
-      <table class="table table-striped w-100" style="width: 100vw;">
-        <thead class="thead-light text-center">
+    <div class="table-container">
+      <table class="table table-striped w-100">
+        <thead class="thead-light text-right">
           <tr>
-            <th style="width: 14%;">Tipo</th>
-            <th style="width: 14%;">Gravedad</th>
-            <th style="width: 14%;">Prioridad</th>
-            <th style="width: 14%;">Petición</th>
-            <th style="width: 14%;">Estado</th>
-            <th style="width: 14%;">Modificado</th>
-            <th style="width: 16%;">Asignada a</th>
+            <th style="width: 12%;">TYPE</th>
+            <th style="width: 12%;">SEVERITY</th>
+            <th style="width: 12%;">PRIORITY</th>
+            <th class="issue-column">ISSUE</th>
+            <th style="width: 12%;">STATUS</th>
+            <th style="width: 14%;">MODIFIED</th>
+            <th style="width: 16%;">ASSIGN TO</th>
           </tr>
         </thead>
         <tbody>
           <% @issues.each do |issue| %>
             <tr>
-              <td style="width: 14%; text-align: center;"><%= issue.type_name.to_s.humanize %></td>
-              <td style="width: 14%; text-align: center;"><%= issue.severity_name.to_s.humanize %></td>
-              <td style="width: 14%; text-align: center;"><%= issue.priority_name.to_s.humanize %></td>
-              <td style="width: 14%; text-align: center;">
-                <%= link_to "##{issue.id} #{issue.subject}", issue_path(issue), class: 'text-primary fw-bold' %>
+              <td style="width: 12%; text-align: center;"><%= issue.type_name.to_s.humanize %></td>
+              <td style="width: 12%; text-align: center;"><%= issue.severity_name.to_s.humanize %></td>
+              <td style="width: 12%; text-align: center;"><%= issue.priority_name.to_s.humanize %></td>
+              <td style="width: 50%; text-align: left; cursor: pointer;" onclick="window.location='<%= issue_path(issue) %>'">
+                <span class="issue-id">#<%= issue.id %></span>
+                <span class="issue-title"><%= issue.subject %></span>
               </td>
-              <td style="width: 14%; text-align: center;">
+              </td>
+              <td style="width: 12%; text-align: center;">
                 <span class="badge <%= issue.state == 'new_issue' ? 'badge-warning' : 'badge-success' %>">
                   <%= issue.state_name.to_s.humanize %>
                 </span>
               </td>
               <td style="width: 14%; text-align: center;"><%= issue.updated_at.strftime('%d %b. %Y') %></td>
-              <td style="width: 16%; text-align: center;"><strong><%= issue.user&.email.presence || 'No asignado' %></strong></td>
+              <td style="width: 16%; text-align: center;">
+                <%= issue.user&.email.presence || 'No asignado' %>
+              </td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
   <% else %>
-    <p class="text-muted">No hay peticiones a reportar :-)</p>
-    <%= link_to '¿Ha encontrado una petición?', new_issue_path, class: 'btn btn-outline-primary' %>
+    <div class="no-issues-container">
+      <p class="no-issues-text">There are no issues to report 🙂</p>
+      <%= link_to 'Did you find an issue?', new_issue_path, class: 'no-issues-button' %>
+    </div>
   <% end %>
-</div>
