@@ -8,4 +8,6 @@ class User < ApplicationRecord
 
   has_many :issues
   has_many :comments
+  has_many :assigned_issues, class_name: 'Issue', foreign_key: 'assignee_id'
+  has_and_belongs_to_many :watched_issues, class_name: 'Issue', join_table: 'issue_watchers'
 end

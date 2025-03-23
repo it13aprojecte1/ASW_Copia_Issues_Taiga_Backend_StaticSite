@@ -197,22 +197,27 @@
         <tbody>
           <% @issues.each do |issue| %>
             <tr>
-              <td style="width: 12%; text-align: center;"><%= issue.type_name.to_s.humanize %></td>
-              <td style="width: 12%; text-align: center;"><%= issue.severity_name.to_s.humanize %></td>
-              <td style="width: 12%; text-align: center;"><%= issue.priority_name.to_s.humanize %></td>
+              <td style="width: 12%; text-align: center;">
+                <%= issue.issue_type.name %>
+              </td>
+              <td style="width: 12%; text-align: center;">
+                <%= issue.issue_severity.name %>
+              </td>
+              <td style="width: 12%; text-align: center;">
+                <%= issue.issue_priority.name %>
+              </td>
               <td style="width: 50%; text-align: left; cursor: pointer;" onclick="window.location='<%= issue_path(issue) %>'">
                 <span class="issue-id">#<%= issue.id %></span>
                 <span class="issue-title"><%= issue.subject %></span>
               </td>
-              </td>
               <td style="width: 12%; text-align: center;">
-                <span class="badge <%= issue.state == 'new_issue' ? 'badge-warning' : 'badge-success' %>">
-                  <%= issue.state_name.to_s.humanize %>
+                <span class="badge <%= issue.issue_status.name.downcase == 'new' ? 'badge-warning' : 'badge-success' %>">
+                  <%= issue.issue_status.name %>
                 </span>
               </td>
               <td style="width: 14%; text-align: center;"><%= issue.updated_at.strftime('%d %b. %Y') %></td>
               <td style="width: 16%; text-align: center;">
-                <%= issue.user&.email.presence || 'No asignado' %>
+                <%= issue.assignee&.email.presence || issue.user&.email %>
               </td>
             </tr>
           <% end %>
@@ -225,3 +230,4 @@
       <%= link_to 'Did you find an issue?', new_issue_path, class: 'no-issues-button' %>
     </div>
   <% end %>
+</div>

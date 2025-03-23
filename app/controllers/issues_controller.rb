@@ -21,10 +21,10 @@ class IssuesController < ApplicationController
   #en el model de issue.rb)
 def new
   @issue = Issue.new
-  @issue.state = Issue::STATES[:new_issue] # Usamos el valor numérico
-  @issue.issue_type = Issue::TYPES[:bug]
-  @issue.severity = Issue::SEVERITIES[:normal]
-  @issue.priority = Issue::PRIORITIES[:normal]
+  @issue.issue_status = IssueStatus.find_by(name: 'New')
+  @issue.issue_type = IssueType.find_by(name: 'Bug')
+  @issue.issue_severity = IssueSeverity.find_by(name: 'Normal')
+  @issue.issue_priority = IssuePriority.find_by(name: 'Normal')
 end
 
 
@@ -73,9 +73,9 @@ end
   @issue = Issue.find(params[:id])
   end
     # Only allow a list of trusted parameters through.
-    def issue_params
-      params.expect(issue: [ :subject, :content, ])
-    end
+  def issue_params
+  params.require(:issue).permit(:subject, :content, :issue_status_id, :issue_type_id, :issue_severity_id, :issue_priority_id)
+  end
 
     def hide_navbar
     @hide_navbar = true
