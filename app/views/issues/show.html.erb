@@ -1,6 +1,6 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @issue %>
+<%= render 'issue', issue: @issue %>
 
 <div>
   <%= link_to "Edit this issue", edit_issue_path(@issue) %> |

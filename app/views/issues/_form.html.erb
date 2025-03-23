@@ -26,35 +26,28 @@
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Type</span>
-            <select class="form-select custom-select" disabled>
-              <option>Bug</option>
-              <option>Question</option>
-              <option>Enhancement</option>
-            </select>
+            <%= form.collection_select :issue_type_id, IssueType.all, :id, :name, {}, class: "form-select custom-select" %>
           </div>
         </div>
 
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Severity</span>
-            <select class="form-select custom-select" disabled>
-              <option>Wishlist</option>
-              <option>Minor</option>
-              <option>Normal</option>
-              <option>Important</option>
-              <option>Critical</option>
-            </select>
+            <%= form.collection_select :issue_severity_id, IssueSeverity.all, :id, :name, {}, class: "form-select custom-select" %>
           </div>
         </div>
 
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Priority</span>
-            <select class="form-select custom-select" disabled>
-              <option>Low</option>
-              <option>Normal</option>
-              <option>High</option>
-            </select>
+            <%= form.collection_select :issue_priority_id, IssuePriority.all, :id, :name, {}, class: "form-select custom-select" %>
+          </div>
+        </div>
+
+        <div class="custom-select-box">
+          <div class="select-container">
+            <span class="select-label">Status</span>
+            <%= form.collection_select :issue_status_id, IssueStatus.all, :id, :name, {}, class: "form-select custom-select" %>
           </div>
         </div>
 

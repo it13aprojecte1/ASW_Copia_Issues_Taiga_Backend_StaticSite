@@ -31,28 +31,28 @@
       <div class="custom-select-box">
         <div class="select-container">
           <span class="select-label">State:</span>
-          <span class="custom-select"><%= issue.state_name %></span>
+          <span class="custom-select"><%= issue.issue_status.name %></span>
         </div>
       </div>
 
       <div class="custom-select-box">
         <div class="select-container">
           <span class="select-label">Type:</span>
-          <span class="custom-select"><%= issue.type_name %></span>
+          <span class="custom-select"><%= issue.issue_type.name %></span>
         </div>
       </div>
 
       <div class="custom-select-box">
         <div class="select-container">
           <span class="select-label">Severity:</span>
-          <span class="custom-select"><%= issue.severity_name %></span>
+          <span class="custom-select"><%= issue.issue_severity.name %></span>
         </div>
       </div>
 
       <div class="custom-select-box">
         <div class="select-container">
           <span class="select-label">Priority:</span>
-          <span class="custom-select"><%= issue.priority_name %></span>
+          <span class="custom-select"><%= issue.issue_priority.name %></span>
         </div>
       </div>
 
@@ -62,6 +62,15 @@
           <span class="custom-select"><%= issue.user.email %></span>
         </div>
       </div>
+
+      <% if issue.assignee.present? %>
+        <div class="custom-select-box">
+          <div class="select-container">
+            <span class="select-label">Assigned to:</span>
+            <span class="custom-select"><%= issue.assignee.email %></span>
+          </div>
+        </div>
+      <% end %>
 
       <p>
         <strong>Created At:</strong><br>
