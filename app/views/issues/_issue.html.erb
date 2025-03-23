@@ -1,42 +1,74 @@
-<div id="<%= dom_id issue %>">
-  <p>
-    <strong>Subject:</strong>
-    <%= issue.subject %>
-  </p>
+<div class="issue-form-container">
+  <h2 class="text-center"><%= issue.subject %></h2>
 
-  <p>
-    <strong>Content:</strong>
-    <%= issue.content %>
-  </p>
-   <p>
-    <strong>Created At: </strong>
-    <%=
-      issue.created_at.strftime("%A,%y-%m-%d %H:%M") %>
-  </p>
+  <div class="form-layout">
+    <div class="left-column">
+      <p>
+        <strong>Content:</strong><br>
+        <div class="large-textarea"><%= issue.content %></div>
+      </p>
 
-  <p>
-    <strong>State:</strong>
-    <%= issue.state %>
-  </p>
+      <h2>Comentarios</h2>
 
-  <p>
-    <strong>Type:</strong>
-    <%= issue.issue_type %>
-  </p>
+      <ul>
+        <% issue.comments.each do |comment| %>
+          <li>
+            <strong><%= comment.user.email %>:</strong>
+            <%= comment.content %>
+          </li>
+        <% end %>
+      </ul>
 
-  <p>
-    <strong>Severity:</strong>
-    <%= issue.severity %>
-  </p>
+      <h2>Añadir Comentario</h2>
 
-  <p>
-    <strong>Priority:</strong>
-    <%= issue.priority %>
-  </p>
+      <%= form_with(model: [issue, Comment.new]) do |form| %>
+        <%= form.text_area :content, class: 'large-textarea' %>
+        <%= form.submit 'Añadir Comentario', class: 'btn-create' %>
+      <% end %>
+    </div>
 
-  <p>
-    <strong>User:</strong>
-    <%= issue.user_id %>
-  </p>
+    <div class="right-column">
+      <div class="custom-select-box">
+        <div class="select-container">
+          <span class="select-label">State:</span>
+          <span class="custom-select"><%= issue.state_name %></span>
+        </div>
+      </div>
 
+      <div class="custom-select-box">
+        <div class="select-container">
+          <span class="select-label">Type:</span>
+          <span class="custom-select"><%= issue.type_name %></span>
+        </div>
+      </div>
+
+      <div class="custom-select-box">
+        <div class="select-container">
+          <span class="select-label">Severity:</span>
+          <span class="custom-select"><%= issue.severity_name %></span>
+        </div>
+      </div>
+
+      <div class="custom-select-box">
+        <div class="select-container">
+          <span class="select-label">Priority:</span>
+          <span class="custom-select"><%= issue.priority_name %></span>
+        </div>
+      </div>
+
+      <div class="custom-select-box">
+        <div class="select-container">
+          <span class="select-label">User:</span>
+          <span class="custom-select"><%= issue.user.email %></span>
+        </div>
+      </div>
+
+      <p>
+        <strong>Created At:</strong><br>
+        <%= issue.created_at.strftime("%A, %y-%m-%d %H:%M") %>
+      </p>
+
+      <a href="#" class="add-tag">Add tag +</a>
+    </div>
+  </div>
 </div>
