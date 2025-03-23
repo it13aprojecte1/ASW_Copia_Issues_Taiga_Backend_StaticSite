@@ -454,44 +454,6 @@ nav a {
   margin-left: auto;
 }
 
-.custom-btn-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-    margin-right: 100px;
-  }
-
-  .custom-btn {
-    background-color: #98F5E1;
-    color: black;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-weight: 530;
-    width: 120px;
-    text-align: center;
-    text-transform: uppercase;
-    text-decoration: none;
-    font-family: Arial, sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    float: right;
-    margin-bottom: 20px;
-  }
-
-  .custom-btn:hover {
-    background-color: #0085A1;
-    color: white;
-  }
-
-  .plus-sign {
-    font-size: 25px;
-    font-weight: 500;
-    margin-right: 8px;
-    display: inline-block;
-    position: relative;
-    top: 1px;
-    display: inline-block;
-  }
-
   .table-container {
     margin-right: 20px;
     margin-left: 20px;
@@ -625,3 +587,81 @@ nav a {
   text-decoration: none;
 }
 
+.custom-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    gap: 50px;
+  }
+
+  .custom-btn {
+    background-color: #98F5E1;
+    color: black;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 530;
+    width: 120px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    float: right;
+    margin-bottom: 20px;
+  }
+
+  .custom-btn:hover {
+    background-color: #0085A1;
+    color: white;
+  }
+
+  .plus-sign {
+    font-size: 25px;
+    font-weight: 500;
+    margin-right: 8px;
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    display: inline-block;
+  }
+
+.issues-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.issues-title {
+  color: #0085A1;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  margin: 0;
+}
+
+.issues-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #DCE3EB; /* Color del botón */
+  width: 41px;
+  height: 41px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.issues-menu-button i {
+  font-size: 12px;
+  color: #374151; /* Color del icono */
+  margin: 2px;
+}
+
+.issues-menu-button:hover {
+  background-color: #0085A1; /* Cambia a turquesa al pasar el ratón */
+}
+
+.issues-menu-button:hover i {
+  color: white; /* Cambia los iconos a blanco al hacer hover */
+}
