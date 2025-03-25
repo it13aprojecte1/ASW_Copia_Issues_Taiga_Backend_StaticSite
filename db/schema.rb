@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_131035) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_25_184045) do
   create_table "comments", force: :cascade do |t|
     t.text "content"
     t.integer "user_id", null: false
@@ -78,6 +78,31 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_23_131035) do
     t.index ["issue_status_id"], name: "index_issues_on_issue_status_id"
     t.index ["issue_type_id"], name: "index_issues_on_issue_type_id"
     t.index ["user_id"], name: "index_issues_on_user_id"
+  end
+
+  create_table "priorities", force: :cascade do |t|
+    t.string "name"
+    t.string "color"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "severities", force: :cascade do |t|
+    t.string "name"
+    t.string "color"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "statuses", force: :cascade do |t|
+    t.string "name"
+    t.string "color"
+    t.boolean "is_closed"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

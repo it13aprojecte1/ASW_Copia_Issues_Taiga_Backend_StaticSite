@@ -1,0 +1,37 @@
+<%= form_with(model: [:settings, @status], local: true) do |form| %>
+  <% if @status.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(@status.errors.count, "error") %> al guardar:</h4>
+      <ul>
+        <% @status.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, 'Nombre' %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :color, 'Color' %>
+    <%= form.color_field :color, class: 'form-control' %>
+  </div>
+
+  <div class="form-check mb-3">
+    <%= form.check_box :is_closed, class: 'form-check-input' %>
+    <%= form.label :is_closed, '¿Es estado cerrado?', class: 'form-check-label' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :position, 'Posición' %>
+    <%= form.number_field :position, class: 'form-control' %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit 'Guardar', class: 'btn btn-primary' %>
+    <%= link_to 'Cancelar', settings_statuses_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>

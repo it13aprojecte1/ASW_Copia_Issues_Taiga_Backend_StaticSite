@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "settings/index"
   get "comments/create"
 devise_for :users
 
@@ -13,7 +14,15 @@ resources :issues do
   resources :comments, only: :create
 end
 
+ namespace :settings do
+    resources :statuses
+    resources :priorities
+    resources :issue_types
+    resources :severities
+  end
 
+ # Ruta principal para la página de settings
+  get 'settings', to: 'settings#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

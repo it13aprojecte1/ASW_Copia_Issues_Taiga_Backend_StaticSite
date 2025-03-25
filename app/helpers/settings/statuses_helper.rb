@@ -1,0 +1,2 @@
+module Settings::StatusesHelper
+end

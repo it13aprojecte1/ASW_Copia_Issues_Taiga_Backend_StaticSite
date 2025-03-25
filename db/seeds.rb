@@ -1,59 +1,33 @@
-# Crear estados
-statuses = [
-  { name: 'New', position: 1 },
-  { name: 'Open', position: 2 },
-  { name: 'On Hold', position: 3 },
-  { name: 'Resolved', position: 4 },
-  { name: 'Closed', position: 5 }
-]
+# Estados iniciales
+Status.create([
+  { name: 'New', color: '#8A2BE2', is_closed: false, position: 1 },
+  { name: 'In progress', color: '#1E90FF', is_closed: false, position: 2 },
+  { name: 'Ready for test', color: '#FFA500', is_closed: false, position: 3 },
+  { name: 'Closed', color: '#32CD32', is_closed: true, position: 4 },
+  { name: 'Needs info', color: '#FF6347', is_closed: false, position: 5 }
+])
 
-statuses.each do |status|
-  IssueStatus.find_or_create_by!(name: status[:name]) do |s|
-    s.position = status[:position]
-  end
-end
+# Prioridades iniciales
+Priority.create([
+  { name: 'Low', color: '#8BC34A', position: 1 },
+  { name: 'Normal', color: '#3F51B5', position: 2 },
+  { name: 'High', color: '#FF9800', position: 3 },
+  { name: 'Critical', color: '#F44336', position: 4 }
+])
 
-# Crear tipos
-types = [
-  { name: 'Bug', color: '#FF0000', position: 1 },
-  { name: 'Enhancement', color: '#0000FF', position: 2 },
-  { name: 'Feature', color: '#00FF00', position: 3 },
-  { name: 'Task', color: '#FFFF00', position: 4 }
-]
+# Tipos iniciales
+IssueType.create([
+  { name: 'Bug', color: '#F44336', position: 1 },
+  { name: 'Feature', color: '#4CAF50', position: 2 },
+  { name: 'Enhancement', color: '#2196F3', position: 3 },
+  { name: 'Task', color: '#9C27B0', position: 4 }
+])
 
-types.each do |type|
-  IssueType.find_or_create_by!(name: type[:name]) do |t|
-    t.color = type[:color]
-    t.position = type[:position]
-  end
-end
-
-# Crear severidades
-severities = [
-  { name: 'Wishlist', color: '#C0C0C0', position: 1 },
-  { name: 'Minor', color: '#00FF00', position: 2 },
-  { name: 'Normal', color: '#FFFF00', position: 3 },
-  { name: 'Important', color: '#FFA500', position: 4 },
-  { name: 'Critical', color: '#FF0000', position: 5 }
-]
-
-severities.each do |severity|
-  IssueSeverity.find_or_create_by!(name: severity[:name]) do |s|
-    s.color = severity[:color]
-    s.position = severity[:position]
-  end
-end
-
-# Crear prioridades
-priorities = [
-  { name: 'Low', color: '#00FF00', position: 1 },
-  { name: 'Normal', color: '#FFFF00', position: 2 },
-  { name: 'High', color: '#FF0000', position: 3 }
-]
-
-priorities.each do |priority|
-  IssuePriority.find_or_create_by!(name: priority[:name]) do |p|
-    p.color = priority[:color]
-    p.position = priority[:position]
-  end
-end
+# Severidades iniciales
+Severity.create([
+  { name: 'Wishlist', color: '#9E9E9E', position: 1 },
+  { name: 'Minor', color: '#8BC34A', position: 2 },
+  { name: 'Normal', color: '#3F51B5', position: 3 },
+  { name: 'Important', color: '#FF9800', position: 4 },
+  { name: 'Critical', color: '#F44336', position: 5 }
+])
