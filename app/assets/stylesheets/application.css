@@ -589,7 +589,7 @@ nav a {
 
 .custom-btn-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin-bottom: 20px;
     margin-right: 20px;
     gap: 50px;
@@ -674,4 +674,25 @@ nav a {
 
 .issues-menu-button:hover i {
   color: white; /* Cambia los iconos a blanco al hacer hover */
+}
+
+.filter-btn {
+  background-color: #6c757d; /* Gris oscuro */
+  color: white;
+  border-radius: 4px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.search-bar {
+  height: 28px;
+  padding: 5px 10px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  flex-grow: 1; /* Para que la barra de búsqueda se ajuste automáticamente */
+  min-width: 200px;
 }
