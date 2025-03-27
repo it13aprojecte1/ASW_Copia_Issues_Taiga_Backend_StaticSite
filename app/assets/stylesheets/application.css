@@ -179,6 +179,7 @@ h2.text-center {
   font-size: 14px;
   text-transform: uppercase;
   margin-top: 20px;
+  cursor: pointer;
 }
 
 .btn-create:hover {
@@ -588,27 +589,23 @@ nav a {
 }
 
 .custom-btn-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    gap: 50px;
-  }
+  display: flex;
+  gap: 10px; /* Separa los botones entre sí */
+}
 
   .custom-btn {
     background-color: #98F5E1;
     color: black;
     padding: 6px 12px;
-    border-radius: 4px;
+    border-radius: 5px;
     font-weight: 530;
     width: 120px;
     text-align: center;
-    text-transform: uppercase;
+    text-transform: none;
     text-decoration: none;
     font-family: Arial, sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
     float: right;
-    margin-bottom: 20px;
   }
 
   .custom-btn:hover {
@@ -677,22 +674,67 @@ nav a {
 }
 
 .filter-btn {
-  background-color: #6c757d; /* Gris oscuro */
-  color: white;
-  border-radius: 4px;
-  padding: 6px 12px;
+  background-color: #f8f9fa;
+  color: #0085A1;
+  border-radius: 10px;
+  padding: 8px 16px;
   display: flex;
   align-items: center;
   font-size: 14px;
   font-weight: bold;
+  height: 42px;
+  cursor: pointer;
+  text-align: center;
+  text-transform: none;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+}
+
+.filter-btn:hover {
+  background-color: #e0e0e0;
+  color: #0085A1;
+}
+
+.filter-btn i {
+  margin-right: 8px; /* Espaciado entre el icono y el texto */
+}
+
+.search-container {
+  flex-grow: 1; /* Hace que la barra ocupe todo el espacio disponible */
+  max-width: 1000px; /* Puedes ajustar el ancho máximo según prefieras */
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 .search-bar {
   height: 28px;
-  padding: 5px 10px;
+  padding: 5px 35px 5px 10px;
   border: 2px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
-  flex-grow: 1; /* Para que la barra de búsqueda se ajuste automáticamente */
-  min-width: 200px;
+  width: 100%; /* Hace que ocupe el espacio disponible */
+  transition: border-color 0.3s ease-in-out;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px; /* Ajusta la posición de la lupa */
+  font-size: 14px;
+  color: #0085A1;
+}
+
+.search-bar:focus {
+  border-color: #0085A1; /* Color turquesa */
+  outline: none; /* Elimina el contorno negro predeterminado */
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Distribuye los elementos equitativamente */
+  width: 100%;
+  padding: 0 20px;
 }
