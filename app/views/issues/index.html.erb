@@ -1,16 +1,18 @@
 <div class="container-fluid mt-4">
     <p style="color: green"><%#= notice %></p>
+
   <h1 class="mb-4" style="color: #0085A1; font-family: 'Arial', sans-serif; font-weight: bold;">Issues</h1>
+
   <div class="custom-btn-container">
-    <%= link_to '<span class="plus-sign">+</span> NEW ISSUE'.html_safe, new_issue_path, class: 'custom-btn' %>
-    <%= link_to settings_path, class: 'custom-btn', style: 'margin-left: 10px;' do %>
-      <span class="plus-sign">⚙️</span> SETTINGS
-    <% end %>
-    <%= link_to new_issue_path, class: 'issues-menu-button' do %>
-      <i class="fas fa-plus"></i>
-      <i class="fas fa-bars"></i>
-    <% end %>
-  </div>
+  <%= link_to '<span class="gear-sign">⚙️</span> SETTINGS'.html_safe, settings_path, class: 'custom-btn' %>
+  <%= link_to '<span class="plus-sign">+</span> NEW ISSUE'.html_safe, new_issue_path, class: 'custom-btn' %>
+
+  <%= link_to new_issue_path, class: 'issues-menu-button' do %>
+    <i class="fas fa-plus"></i>
+    <i class="fas fa-bars"></i>
+  <% end %>
+</div>
+</div>
 
   <% if @issues.any? %>
     <div class="table-container">
