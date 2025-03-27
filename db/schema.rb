@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_25_184045) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_26_130134) do
   create_table "comments", force: :cascade do |t|
     t.text "content"
     t.integer "user_id", null: false
@@ -72,6 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_25_184045) do
     t.integer "issue_severity_id"
     t.integer "issue_priority_id"
     t.integer "assignee_id"
+    t.date "deadline"
     t.index ["assignee_id"], name: "index_issues_on_assignee_id"
     t.index ["issue_priority_id"], name: "index_issues_on_issue_priority_id"
     t.index ["issue_severity_id"], name: "index_issues_on_issue_severity_id"

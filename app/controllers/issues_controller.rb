@@ -19,12 +19,13 @@ class IssuesController < ApplicationController
 
   # GET /issues/new con ejemplo de valores posibles (esto en la BD se guarda con los numeros concretos que tenemos
   #en el model de issue.rb)
-def new
-  @issue = Issue.new
-  @issue.issue_status = IssueStatus.find_by(name: 'New')
-  @issue.issue_type = IssueType.find_by(name: 'Bug')
-  @issue.issue_severity = IssueSeverity.find_by(name: 'Normal')
-  @issue.issue_priority = IssuePriority.find_by(name: 'Normal')
+ def new
+  @issue = Issue.new(
+    issue_priority_id: IssuePriority.find_by(name: 'Normal')&.id,
+    issue_severity_id: IssueSeverity.find_by(name: 'Normal')&.id,
+    issue_type_id: IssueType.find_by(name: 'Bug')&.id,
+    issue_status_id: IssueStatus.find_by(name: 'New')&.id
+  )
 end
 
 
@@ -36,6 +37,7 @@ end
   # POST /issues or /issues.json crea el issue i li assigna el user sino no en té cap d'assignat
 def create
   @issue = current_user.issues.build(issue_params)
+  logger.debug "PARAMS: #{params.inspect}"
 
   if @issue.save
     redirect_to issues_path, notice: "Issue creada correctamente."
@@ -74,7 +76,7 @@ end
   end
     # Only allow a list of trusted parameters through.
   def issue_params
-  params.require(:issue).permit(:subject, :content, :issue_status_id, :issue_type_id, :issue_severity_id, :issue_priority_id)
+  params.require(:issue).permit(:subject, :content, :issue_status_id, :issue_type_id, :issue_severity_id, :issue_priority_id, :deadline)
   end
 
     def hide_navbar

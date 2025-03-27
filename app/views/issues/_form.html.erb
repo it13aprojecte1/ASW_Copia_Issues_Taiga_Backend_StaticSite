@@ -23,37 +23,53 @@
       </div>
 
       <div class="right-column">
+        <!-- Tipo de Issue -->
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Type</span>
-            <%= form.collection_select :issue_type_id, IssueType.all, :id, :name, {}, class: "form-select custom-select" %>
+            <%= form.select :issue_type_id,
+                IssueType.all.collect { |t| [t.name, t.id] },
+                {},
+                { class: "form-select custom-select" } %>
           </div>
         </div>
 
+        <!-- Severidad -->
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Severity</span>
-            <%= form.collection_select :issue_severity_id, IssueSeverity.all, :id, :name, {}, class: "form-select custom-select" %>
+            <%= form.select :issue_severity_id,
+                IssueSeverity.all.collect { |s| [s.name, s.id] },
+                {},
+                { class: "form-select custom-select" } %>
           </div>
         </div>
 
+        <!-- Prioridad -->
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Priority</span>
-            <%= form.collection_select :issue_priority_id, IssuePriority.all, :id, :name, {}, class: "form-select custom-select" %>
+            <%= form.select :issue_priority_id,
+                IssuePriority.all.collect { |p| [p.name, p.id] },
+                {},
+                { class: "form-select custom-select" } %>
           </div>
         </div>
 
+        <!-- Estado -->
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Status</span>
-            <%= form.collection_select :issue_status_id, IssueStatus.all, :id, :name, {}, class: "form-select custom-select" %>
+            <%= form.select :issue_status_id,
+                IssueStatus.all.collect { |s| [s.name, s.id] },
+                {},
+                { class: "form-select custom-select" } %>
           </div>
         </div>
 
-        <div class="icon-container">
-          <button type="button" class="icon-btn disabled">⏳</button>
-          <button type="button" class="icon-btn disabled">🔒</button>
+        <!-- Fecha límite (Date Picker) -->
+        <div class="mb-3">
+          <%= form.date_field :deadline, class: "form-control large-input", placeholder: "Select deadline", id: "deadline" %>
         </div>
       </div>
     </div>

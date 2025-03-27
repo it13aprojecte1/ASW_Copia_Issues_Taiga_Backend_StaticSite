@@ -1,0 +1,14 @@
+ => 
+[[32m#<Issue:0x00007808ae881f60[0m
+  id: [34m[1m1[0m,
+  subject: [31m[1m"[0m[31mIssue Prova [0m[31m[1m"[0m,
+  content: [31m[1m"[0m[31mProva1[0m[31m[1m"[0m,
+  user_id: [34m[1m1[0m,
+  created_at: [31m[1m"[0m[31m2025-03-26 13:18:45.513365000 +0000[0m[31m[1m"[0m,
+  updated_at: [31m[1m"[0m[31m2025-03-26 13:18:45.513365000 +0000[0m[31m[1m"[0m,
+  issue_status_id: [36m[1mnil[0m,
+  issue_type_id: [36m[1mnil[0m,
+  issue_severity_id: [36m[1mnil[0m,
+  issue_priority_id: [36m[1mnil[0m,
+  assignee_id: [36m[1mnil[0m,
+  deadline: [31m[1m"[0m[31m2025-03-26[0m[31m[1m"[0m[32m>[0m] 
