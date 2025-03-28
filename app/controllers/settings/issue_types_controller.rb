@@ -1,4 +1,4 @@
-class Settings::IssueTypesController < ApplicationController
+class Settings::IssueTypeController < ApplicationController
   def index
   end
 

@@ -1,9 +1,9 @@
 class Issue < ApplicationRecord
   belongs_to :user
-  belongs_to :issue_status
+  belongs_to :status
   belongs_to :issue_type
-  belongs_to :issue_severity
-  belongs_to :issue_priority
+  belongs_to :severity
+  belongs_to :priority
 
   has_many :comments, dependent: :destroy
 

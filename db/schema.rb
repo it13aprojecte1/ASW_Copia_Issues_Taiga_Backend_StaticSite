@@ -21,35 +21,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_130134) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
-  create_table "issue_priorities", force: :cascade do |t|
-    t.string "name"
-    t.string "color"
-    t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "issue_severities", force: :cascade do |t|
-    t.string "name"
-    t.string "color"
-    t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "issue_statuses", force: :cascade do |t|
-    t.string "name"
-    t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "issue_types", force: :cascade do |t|
     t.string "name"
     t.string "color"
     t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "issue_watchers", force: :cascade do |t|
@@ -67,17 +42,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_130134) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "issue_status_id"
+    t.integer "status_id"
     t.integer "issue_type_id"
-    t.integer "issue_severity_id"
-    t.integer "issue_priority_id"
+    t.integer "severity_id"
+    t.integer "priority_id"
     t.integer "assignee_id"
     t.date "deadline"
     t.index ["assignee_id"], name: "index_issues_on_assignee_id"
-    t.index ["issue_priority_id"], name: "index_issues_on_issue_priority_id"
-    t.index ["issue_severity_id"], name: "index_issues_on_issue_severity_id"
-    t.index ["issue_status_id"], name: "index_issues_on_issue_status_id"
     t.index ["issue_type_id"], name: "index_issues_on_issue_type_id"
+    t.index ["priority_id"], name: "index_issues_on_priority_id"
+    t.index ["severity_id"], name: "index_issues_on_severity_id"
+    t.index ["status_id"], name: "index_issues_on_status_id"
     t.index ["user_id"], name: "index_issues_on_user_id"
   end
 
@@ -85,16 +60,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_130134) do
     t.string "name"
     t.string "color"
     t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "severities", force: :cascade do |t|
     t.string "name"
     t.string "color"
     t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "statuses", force: :cascade do |t|
@@ -102,8 +73,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_130134) do
     t.string "color"
     t.boolean "is_closed"
     t.integer "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -124,10 +93,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_26_130134) do
   add_foreign_key "comments", "users"
   add_foreign_key "issue_watchers", "issues"
   add_foreign_key "issue_watchers", "users"
-  add_foreign_key "issues", "issue_priorities"
-  add_foreign_key "issues", "issue_severities"
-  add_foreign_key "issues", "issue_statuses"
   add_foreign_key "issues", "issue_types"
+  add_foreign_key "issues", "priorities"
+  add_foreign_key "issues", "severities"
+  add_foreign_key "issues", "statuses"
   add_foreign_key "issues", "users"
   add_foreign_key "issues", "users", column: "assignee_id"
 end

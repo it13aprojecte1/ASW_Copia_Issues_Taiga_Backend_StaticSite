@@ -38,8 +38,8 @@
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Severity</span>
-            <%= form.select :issue_severity_id,
-                IssueSeverity.all.collect { |s| [s.name, s.id] },
+            <%= form.select :severity_id,
+                Severity.all.collect { |s| [s.name, s.id] },
                 {},
                 { class: "form-select custom-select" } %>
           </div>
@@ -49,8 +49,8 @@
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Priority</span>
-            <%= form.select :issue_priority_id,
-                IssuePriority.all.collect { |p| [p.name, p.id] },
+            <%= form.select :priority_id,
+                Priority.all.collect { |p| [p.name, p.id] },
                 {},
                 { class: "form-select custom-select" } %>
           </div>
@@ -60,8 +60,8 @@
         <div class="custom-select-box">
           <div class="select-container">
             <span class="select-label">Status</span>
-            <%= form.select :issue_status_id,
-                IssueStatus.all.collect { |s| [s.name, s.id] },
+            <%= form.select :status_id,
+                Status.all.collect { |s| [s.name, s.id] },
                 {},
                 { class: "form-select custom-select" } %>
           </div>

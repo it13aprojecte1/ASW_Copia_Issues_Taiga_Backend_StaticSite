@@ -21,10 +21,10 @@ class IssuesController < ApplicationController
   #en el model de issue.rb)
  def new
   @issue = Issue.new(
-    issue_priority_id: IssuePriority.find_by(name: 'Normal')&.id,
-    issue_severity_id: IssueSeverity.find_by(name: 'Normal')&.id,
+    priority_id: Priority.find_by(name: 'Normal')&.id,
+    severity_id: Severity.find_by(name: 'Normal')&.id,
     issue_type_id: IssueType.find_by(name: 'Bug')&.id,
-    issue_status_id: IssueStatus.find_by(name: 'New')&.id
+    status_id: Status.find_by(name: 'New')&.id
   )
 end
 
@@ -76,7 +76,7 @@ end
   end
     # Only allow a list of trusted parameters through.
   def issue_params
-  params.require(:issue).permit(:subject, :content, :issue_status_id, :issue_type_id, :issue_severity_id, :issue_priority_id, :deadline)
+  params.require(:issue).permit(:subject, :content, :status_id, :issue_type_id, :severity_id, :priority_id, :deadline)
   end
 
     def hide_navbar

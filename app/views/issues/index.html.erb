@@ -45,15 +45,15 @@
           <% @issues.each do |issue| %>
             <tr>
               <td style="width: 12%; text-align: center;"><%= issue.issue_type.name %></td>
-              <td style="width: 12%; text-align: center;"><%= issue.issue_severity.name %></td>
-              <td style="width: 12%; text-align: center;"><%= issue.issue_priority.name %></td>
+              <td style="width: 12%; text-align: center;"><%= issue.severity.name %></td>
+              <td style="width: 12%; text-align: center;"><%= issue.priority.name %></td>
               <td style="width: 50%; text-align: left; cursor: pointer;" onclick="window.location='<%= issue_path(issue) %>'">
                 <span class="issue-id">#<%= issue.id %></span>
                 <span class="issue-title"><%= issue.subject %></span>
               </td>
               <td style="width: 12%; text-align: center;">
-                <span class="badge <%= issue.issue_status.name.downcase == 'new' ? 'badge-warning' : 'badge-success' %>">
-                  <%= issue.issue_status.name %>
+                <span class="badge <%= issue.status.name.downcase == 'new' ? 'badge-warning' : 'badge-success' %>">
+                  <%= issue.status.name %>
                 </span>
               </td>
               <td style="width: 14%; text-align: center;"><%= issue.updated_at.strftime('%d %b. %Y') %></td>
