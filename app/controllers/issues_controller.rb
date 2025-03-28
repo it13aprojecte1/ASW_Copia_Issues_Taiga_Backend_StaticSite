@@ -76,7 +76,7 @@ end
   end
     # Only allow a list of trusted parameters through.
   def issue_params
-  params.require(:issue).permit(:subject, :content, :status_id, :issue_type_id, :severity_id, :priority_id, :deadline)
+  params.require(:issue).permit(:subject, :content, :status_id, :issue_type_id, :severity_id, :priority_id)
   end
 
     def hide_navbar
