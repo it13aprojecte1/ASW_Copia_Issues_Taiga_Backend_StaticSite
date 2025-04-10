@@ -25,9 +25,9 @@
           <td><%= status.position %></td>
           <td>
             <%= link_to 'Editar', edit_settings_status_path(status), class: 'btn btn-sm btn-secondary' %>
-            <%= link_to 'Eliminar', settings_status_path(status),
-                data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' },
-                class: 'btn btn-sm btn-danger' %>
+            <%= form_with url: settings_status_path(status), method: :delete, class: 'd-inline' do %>
+              <%= submit_tag 'Eliminar', class: 'btn btn-sm btn-danger', data: { confirm: '¿Estás seguro?' } %>
+            <% end %>
 
 
           </td>
