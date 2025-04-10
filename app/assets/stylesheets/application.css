@@ -945,3 +945,70 @@ td:hover .issue-title {
 .delete-icon:hover svg {
   stroke: #dc3545;
 }
+
+/* Avatar styling in navbar */
+.nav-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.nav-profile-link {
+  margin-right: 10px;
+  color: #333;
+}
+
+/ Styling for user profile page /
+.profile-header {
+  padding: 20px 0;
+}
+
+.profile-avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+  display: block;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.profile-stat {
+  text-align: center;
+}
+
+.profile-stat h3 {
+  margin-bottom: 5px;
+}
+
+.profile-tabs {
+  margin-top: 30px;
+}
+
+.bio-container {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+
+/* Make nav a flexbox container */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}

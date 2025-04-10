@@ -17,7 +17,13 @@ Rails.application.routes.draw do
 #post '/issues', to: 'issues#create'
 
 resources :issues
-resources :users
+resources :users do
+  member do
+    get :profile
+    patch :update_avatar
+    patch :update_bio
+  end
+end
 
 resources :issues do
   resources :comments, only: :create
