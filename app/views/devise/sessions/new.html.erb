@@ -26,7 +26,7 @@
 
   <div style="margin-bottom: 30px; border-top: 1px solid #ccc; padding-top: 20px;">
     <p style="margin-bottom: 15px; font-weight: bold;">O inicia sesión con:</p>
-    <%= link_to user_github_omniauth_authorize_path, data: { turbo: false }, method: :post, class: "github-login-btn", style: "display: block; background-color: #24292e; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; text-align: center; margin: 0 auto; width: 80%;" do %>
+    <%= button_to user_github_omniauth_authorize_path, data: { turbo: false }, class: "github-login-btn", style: "background-color: #24292e; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; text-align: center; margin: 0 auto; width: 80%; border: none; cursor: pointer;" do %>
       <i class="fa fa-github" style="margin-right: 10px;" aria-hidden="true"></i> Iniciar sesión con GitHub
     <% end %>
   </div>
