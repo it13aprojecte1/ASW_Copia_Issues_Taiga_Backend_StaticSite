@@ -24,11 +24,24 @@ resources :users do
     patch :update_bio
   end
 end
+# Rutas dedicadas para filtros con mayor prioridad
+post '/issues/add_filter', to: 'issues#add_filter', as: 'add_filter_issues'
+post '/issues/remove_filter', to: 'issues#remove_filter', as: 'remove_filter_issues'
+post '/issues/clear_filters', to: 'issues#clear_filters', as: 'clear_filters_issues'
+post '/issues/toggle_filters', to: 'issues#toggle_filters', as: 'toggle_filters_issues'
 
+# Un solo bloque de resources :issues con todas las rutas anidadas
 resources :issues do
   resources :comments, only: :create
   delete :attachment, action: :delete_attachment, on: :member
+  collection do
+    get 'bulk_new'
+    post 'bulk_create'
+  end
+
 end
+
+resources :users
 
  namespace :settings do
     resources :statuses do
@@ -54,7 +67,7 @@ end
   end
 
  # Ruta principal para la página de settings
-  get 'settings', to: 'settings#index'
+get 'settings', to: 'settings#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

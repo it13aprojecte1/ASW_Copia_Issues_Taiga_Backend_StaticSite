@@ -280,19 +280,25 @@ nav a {
   overflow-x: auto;
 }
 
-.table {
-  border-collapse: separate;
-  border-spacing: 0 15px;
-  width: 100%;
-}
+  .table {
+    border-collapse: separate;
+    border-spacing: 0 18px;
+    width: 100%;
+  }
 
-.table thead th {
-  text-transform: uppercase;
-  color: #4a4a4a;
-  font-family: Arial, sans-serif;
-  font-weight: normal;
-  font-size: 14px;
-}
+  .table thead th {
+    text-transform: uppercase;
+    color: #4a4a4a;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .table thead th:hover {
+    color: #0085A1;
+  }
 
 .table thead th.issue-column {
   text-align: left;
@@ -309,11 +315,11 @@ nav a {
   border: 1px solid #ddd;
 }
 
-.table tbody tr td {
-  padding: 12px;
-  background-color: transparent;
-  vertical-align: middle;
-}
+  .table tbody tr td {
+    padding: 18px;
+    background-color: transparent;
+    vertical-align: middle;
+  }
 
 .table tbody tr td:first-child {
   border-top-left-radius: 10px;
@@ -336,20 +342,20 @@ nav a {
   width: 12%;
 }
 
-.table thead th:nth-child(4),
-.table tbody td:nth-child(4) {
-  width: 50%;
-}
+  .table thead th:nth-child(4),
+  .table tbody td:nth-child(4) {
+    width: 40%;
+  }
 
-.table thead th:nth-child(6),
-.table tbody td:nth-child(6) {
-  width: 14%;
-}
+  .table thead th:nth-child(6),
+  .table tbody td:nth-child(6) {
+    width: 25%;
+  }
 
-.table thead th:nth-child(7),
-.table tbody td:nth-child(7) {
-  width: 16%;
-}
+  .table thead th:nth-child(7),
+  .table tbody td:nth-child(7) {
+    width: 15%;
+  }
 
 .table tbody tr:hover {
   background-color: #e0e0e0;
@@ -462,7 +468,7 @@ td:hover .issue-title {
   margin: 0;
 }
 
-.issues-menu-button {
+.bulk-issues {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -474,18 +480,18 @@ td:hover .issue-title {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.issues-menu-button i {
+.bulk-issues i {
   font-size: 12px;
   color: #374151;
   margin: 2px;
 }
 
-.issues-menu-button:hover {
-  background-color: #0085A1;
+.bulk-issues:hover {
+  background-color: #0085A1; /* Cambia a turquesa al pasar el ratón */
 }
 
-.issues-menu-button:hover i {
-  color: white;
+.bulk-issues:hover i {
+  color: white; /* Cambia los iconos a blanco al hacer hover */
 }
 
 /* Botón de filtro */
@@ -508,7 +514,8 @@ td:hover .issue-title {
   border: none;
 }
 
-.filter-btn:hover {
+.filter-btn:hover,
+.filter-btn.active {
   background-color: #e0e0e0;
   color: #0085A1;
 }
@@ -524,6 +531,10 @@ td:hover .issue-title {
   display: flex;
   align-items: center;
   position: relative;
+}
+
+.search-form {
+  width: 96%; /* El formulario ocupa todo el ancho del contenedor */
 }
 
 .search-bar {
@@ -1287,4 +1298,530 @@ input[type="date"].large-input {
   color: #6c757d;
   font-style: italic;
   margin-bottom: 20px;
+}
+.sort-header {
+  color: #4a4a4a;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}
+
+.sort-header:hover {
+  color: #0085A1;
+}
+
+.sort-icon {
+  font-size: 16px; /*14????*/
+  margin-left: 0 1px;
+  display: inline-block;
+  color: #DCE3EB;
+}
+
+.sort-active {
+  color: #0085A1;
+}
+
+.sort-inactive {
+  color: #DCE3EB;
+}
+
+.bulk-textarea {
+  width: 80%;
+  max-width: 800px;
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.bulk-textarea:focus {
+  border-color: #0085A1;
+  outline: none;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-cancel {
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-btn {
+  padding: 8px 16px;
+  background-color: #98F5E1;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #0085A1;
+  color: white;
+}
+
+.bulk-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.filter-count {
+  background-color: #0085A1;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+/* Estilos para el panel de filtros */
+.filter-dropdown {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 550px;
+  max-height: 80vh;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  z-index: 1050;
+  overflow-y: auto;
+}
+
+/* Fondo oscuro detrás del modal */
+.filter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+/* Sección de filtros activos */
+.filter-section.active-filters {
+  background-color: #f6f8e8;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-section h3 {
+  font-size: 14px;
+  color: #777;
+  margin: 0 0 10px 0;
+  font-weight: normal;
+}
+
+.applied-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-tag {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 13px;
+  border-left: 3px solid #999;
+}
+
+/* Colores de etiquetas por severidad */
+.filter-tag.wishlist {
+  border-left-color: #7A9CC0;
+}
+
+.filter-tag.minor {
+  border-left-color: #5BB974;
+}
+
+.filter-tag.important {
+  border-left-color: #F9AB00;
+}
+
+.filter-tag.critical {
+  border-left-color: #D93025;
+}
+
+/* Etiquetas de filtros de exclusión */
+.filter-tag.exclude {
+  background-color: #fff1f0;
+  border-left-color: #D93025;
+}
+
+.remove-filter {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 5px;
+  padding: 0 4px;
+  text-decoration: none;
+}
+
+.remove-filter:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.clear-all-filters {
+  margin-top: 10px;
+  color: #0085A1;
+  text-decoration: none;
+  font-size: 13px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.clear-all-filters:hover {
+  text-decoration: underline;
+}
+
+/* Selector de tipo de filtro */
+.filter-type-selector {
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  gap: 20px;
+}
+
+.filter-type-selector label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.filter-mode-form {
+  display: flex;
+  gap: 20px;
+}
+
+/* Categorías de filtro */
+.filter-category {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  cursor: pointer;
+  background-color: #fff;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  color: #333;
+}
+
+/* Encabezado del modal de filtros */
+.filter-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.filter-modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+}
+
+.filter-modal-close {
+  color: #777;
+  font-size: 20px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.filter-modal-close:hover {
+  color: #0085A1;
+}
+
+/* Contenedor de categorías de filtro */
+.filter-categories-container {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0 5px;
+}
+
+/* Pie del modal de filtros */
+.filter-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 25px;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Botón de aplicar filtros */
+.apply-filters-btn {
+  background-color: #0085A1;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  min-width: 150px;
+  text-align: center;
+  font-size: 14px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.apply-filters-btn:hover {
+  background-color: #006b80;
+  color: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Mejorar las categorías de filtro para el modal */
+.filter-category {
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s;
+}
+
+.filter-category:hover {
+  background-color: #f5f5f5;
+}
+
+.filter-category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  cursor: pointer;
+  background-color: transparent;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.filter-category-header:hover {
+  color: #0085A1;
+}
+
+.filter-category-content {
+  padding: 0 20px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-option {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 13px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-option:hover {
+  background-color: #0085A1;
+  color: white;
+}
+
+/* Variantes de color para severidad */
+.filter-option.wishlist { border-left: 3px solid #9E9E9E; }
+.filter-option.minor { border-left: 3px solid #8BC34A; }
+.filter-option.normal { border-left: 3px solid #3F51B5; }
+.filter-option.important { border-left: 3px solid #FF9800; }
+.filter-option.critical { border-left: 3px solid #F44336; }
+
+/* Título de la categoría con contador */
+.filter-category-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Contador pequeño de filtros */
+.filter-count-small {
+  font-size: 11px;
+  background-color: #0085A1;
+  color: white;
+  border-radius: 10px;
+  padding: 1px 6px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Estilos para opciones activas */
+.filter-option.active {
+  background-color: #e3f2fd;
+  border-left: 3px solid #0085A1;
+  font-weight: 500;
+}
+
+.filter-option.active i {
+  margin-left: 5px;
+  color: #0085A1;
+  font-size: 12px;
+}
+
+/* Formulario de opciones de filtro */
+.filter-option-form {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.filter-option-form button.filter-option {
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Formularios para filtros */
+.remove-filter-form,
+.clear-filters-form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.remove-filter-form button.remove-filter,
+.clear-filters-form button.clear-all-filters {
+  background: none;
+  border: none;
+  padding: 0 4px;
+  font-size: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+.remove-filter-form button.remove-filter {
+  color: #999;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.remove-filter-form button.remove-filter:hover {
+  color: #333;
+}
+
+.clear-filters-form button.clear-all-filters {
+  margin-top: 10px;
+  color: #0085A1;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 0;
+}
+
+.clear-filters-form button.clear-all-filters:hover {
+  text-decoration: underline;
+}
+
+/* Formularios para toggle-filters y apply-filters */
+.toggle-filters-form,
+.apply-filters-form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.toggle-filters-form button,
+.apply-filters-form button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.toggle-filters-form.close-form {
+  display: inline;
+}
+
+.toggle-filters-form button.filter-modal-close {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Formulario para expandir categoría */
+.expand-category-form {
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.expand-category-form button.filter-category-header {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.2s;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.expand-category-form button.filter-category-header:hover {
+  color: #0085A1;
 }

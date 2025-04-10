@@ -1,0 +1,113 @@
+<% button_text = session[:show_filters] ? "Hide filters" : "Filters" %>
+<% button_class = session[:show_filters] ? "filter-btn active" : "filter-btn" %>
+
+<%= form_with(url: toggle_filters_issues_path, method: :post, class: "toggle-filters-form") do |f| %>
+  <%= f.button type: :submit, class: button_class do %>
+    <i class="fas fa-sliders-h"></i> <%= button_text %>
+    <% if @active_filters_count > 0 %>
+      <span class="filter-count"><%= @active_filters_count %></span>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if session[:show_filters] %>
+  <!-- Overlay de fondo oscuro -->
+  <div class="filter-overlay"></div>
+  
+  <!-- Modal de filtros -->
+  <div class="filter-dropdown">
+    <div class="filter-modal-header">
+      <h2>Filter Issues</h2>
+      <%= form_with(url: toggle_filters_issues_path, method: :post, class: "toggle-filters-form close-form") do |f| %>
+        <%= f.button type: :submit, class: "filter-modal-close" do %>
+          <i class="fas fa-times"></i>
+        <% end %>
+      <% end %>
+    </div>
+    
+    <!-- Sección de filtros activos -->
+    <div class="filter-section active-filters">
+      <h3>Filtered by:</h3>
+      
+      <div class="applied-filters">
+        <% has_filters = false %>
+        <% if session[:filters] && session[:filters][:include].is_a?(Hash) && !session[:filters][:include].empty? %>
+          <% session[:filters][:include].each do |filter_type, values| %>
+            <% if values.is_a?(Array) && !values.empty? %>
+              <% has_filters = true %>
+              <% values.each do |value| %>
+                <div class="filter-tag <%= value.to_s.downcase if filter_type == 'severity' %>">
+                  <span>
+                    <strong><%= filter_type.humanize %>:</strong> 
+                    <%= get_display_name(filter_type, value) %>
+                  </span>
+                  <%= form_with(url: remove_filter_issues_path, method: :post, class: "remove-filter-form") do |f| %>
+                    <%= f.hidden_field :filter_type, value: filter_type %>
+                    <%= f.hidden_field :filter_value, value: value %>
+                    <%= f.hidden_field :filter_mode, value: 'include' %>
+                    <%= f.button "×", type: :submit, class: 'remove-filter' %>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+        
+        <% if !has_filters %>
+          <div style="margin: 10px 0; font-style: italic; color: #888;">No filters applied</div>
+        <% end %>
+
+        <% if has_filters %>
+          <%= form_with(url: clear_filters_issues_path, method: :post, class: "clear-filters-form") do |f| %>
+            <%= f.button "Clear all", type: :submit, class: 'clear-all-filters' %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="filter-categories-container">
+      <!-- Categorías de filtro -->
+      <%= render 'filter_category',
+        title: 'Type',
+        category: 'type',
+        options: @type_options,
+        expanded: params[:expand_category] == 'type' %>
+
+      <%= render 'filter_category',
+        title: 'Severity',
+        category: 'severity',
+        options: @severity_options,
+        expanded: params[:expand_category] == 'severity' %>
+
+      <%= render 'filter_category',
+        title: 'Priority',
+        category: 'priority',
+        options: @priority_options,
+        expanded: params[:expand_category] == 'priority' %>
+
+      <%= render 'filter_category',
+        title: 'Status',
+        category: 'status',
+        options: @status_options,
+        expanded: params[:expand_category] == 'status' %>
+
+      <%= render 'filter_category',
+        title: 'Assigned to',
+        category: 'assigned_to',
+        options: @user_options,
+        expanded: params[:expand_category] == 'assigned_to' %>
+
+      <%= render 'filter_category',
+        title: 'Created by',
+        category: 'created_by',
+        options: @user_options,
+        expanded: params[:expand_category] == 'created_by' %>
+    </div>
+    
+    <div class="filter-modal-footer">
+      <%= form_with(url: issues_path, method: :get, class: "apply-filters-form") do |f| %>
+        <%= f.button "Apply Filters", type: :submit, class: 'apply-filters-btn' %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

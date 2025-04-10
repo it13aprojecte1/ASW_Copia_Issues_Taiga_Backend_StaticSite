@@ -1,0 +1,17 @@
+<div class="container">
+   <h1 class="mb-4" style="color: #0085A1; font-family: 'Arial', sans-serif; font-weight: bold;">Bulk Create Issues</h1>
+
+  <div class="bulk-issues-form">
+    <%= form_with(url: bulk_create_issues_path, method: :post, local: true) do |f| %>
+      <div class="form-group">
+        <%= f.text_area :bulk_issues, class: 'form-control bulk-textarea',
+                       placeholder: 'Enter one issue per line...', rows: 15 %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit 'SAVE', class: 'save-btn' %>
+        <%= link_to 'Cancel', issues_path, class: 'btn-cancel' %>
+      </div>
+    <% end %>
+  </div>
+</div>

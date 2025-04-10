@@ -5,12 +5,22 @@
 
   <div class="custom-btn-container">
       <div class="top-bar">
-        <button class="filter-btn">
+
+        <!-- <button class="filter-btn">
           <i class="fas fa-sliders-h"></i> Filters
-        </button>
+        </button> -->
+        <%= render 'filter_button' %>
 
         <div class="search-container">
-          <input type="text" placeholder="Search issues..." class="search-bar" />
+          <%= form_with(url: issues_path, method: :get, local: true, class: "search-form") do |f| %>
+            <%= f.text_field :search, placeholder: "Search issues...", class: "search-bar", value: params[:search] %>
+            <% if params[:sort].present? %>
+              <%= f.hidden_field :sort, value: params[:sort] %>
+            <% end %>
+            <% if params[:direction].present? %>
+              <%= f.hidden_field :direction, value: params[:direction] %>
+            <% end %>
+          <% end %>
           <i class="fas fa-search search-icon"></i>
         </div>
 
@@ -18,7 +28,7 @@
           <%= link_to '<span class="gear-sign">⚙️</span> SETTINGS'.html_safe, settings_path, class: 'custom-btn' %>
           <%= link_to '<span class="plus-sign">+</span> NEW ISSUE'.html_safe, new_issue_path, class: 'custom-btn' %>
 
-          <%= link_to new_issue_path, class: 'issues-menu-button' do %>
+          <%= link_to bulk_new_issues_path, class: 'bulk-issues' do %>
             <i class="fas fa-plus"></i>
             <i class="fas fa-bars"></i>
           <% end %>
@@ -29,41 +39,7 @@
 
   <% if @issues.any? %>
     <div class="table-container">
-      <table class="table table-striped w-100">
-        <thead class="thead-light text-right">
-          <tr>
-            <th style="width: 12%;">TYPE</th>
-            <th style="width: 12%;">SEVERITY</th>
-            <th style="width: 12%;">PRIORITY</th>
-            <th class="issue-column">ISSUE</th>
-            <th style="width: 12%;">STATUS</th>
-            <th style="width: 14%;">MODIFIED</th>
-            <th style="width: 16%;">ASSIGN TO</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @issues.each do |issue| %>
-            <tr>
-              <td style="width: 12%; text-align: center;"><%= issue.issue_type.name %></td>
-              <td style="width: 12%; text-align: center;"><%= issue.severity.name %></td>
-              <td style="width: 12%; text-align: center;"><%= issue.priority.name %></td>
-              <td style="width: 50%; text-align: left; cursor: pointer;" onclick="window.location='<%= issue_path(issue) %>'">
-                <span class="issue-id">#<%= issue.id %></span>
-                <span class="issue-title"><%= issue.subject %></span>
-              </td>
-              <td style="width: 12%; text-align: center;">
-                <span class="badge <%= issue.status.name.downcase == 'new' ? 'badge-warning' : 'badge-success' %>">
-                  <%= issue.status.name %>
-                </span>
-              </td>
-              <td style="width: 14%; text-align: center;"><%= issue.updated_at.strftime('%d %b. %Y') %></td>
-              <td style="width: 16%; text-align: center;">
-                <%= issue.assignee&.email.presence || issue.user&.email %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <%= render 'issues_table', issues: @issues %>
     </div>
   <% else %>
     <div class="no-issues-container">

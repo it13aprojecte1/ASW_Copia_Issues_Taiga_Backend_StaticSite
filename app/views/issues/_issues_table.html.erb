@@ -1,0 +1,135 @@
+<!-- app/views/issues/_issues_table.html.erb -->
+
+<table class="table table-striped w-100">
+  <thead class="thead-light text-right">
+    <tr>
+      <th style="width: 12%;">
+        <%= link_to issues_path(sort: "issue_type_id", direction: sort_direction("issue_type_id"), search: params[:search], expand_category: params[:expand_category]),
+        class: "sort-header" do %>
+          TYPE
+          <span class="sort-container">
+            <% if params[:sort] == "issue_type_id" && params[:direction] == "asc" %>
+              <i class="fas fa-caret-up sort-icon sort-active"></i>
+            <% elsif params[:sort] == "issue_type_id" && params[:direction] == "desc" %>
+              <i class="fas fa-caret-down sort-icon sort-active"></i>
+            <% else %>
+              <i class="fas fa-sort sort-icon sort-inactive"></i>
+            <% end %>
+          </span>
+        <% end %>
+      </th>
+      <th style="width: 12%;">
+        <%= link_to issues_path(sort: "severity_id", direction: sort_direction("severity_id"), search: params[:search], expand_category: params[:expand_category]),
+        class: "sort-header" do %>
+          SEVERITY
+          <span class="sort-container">
+            <% if params[:sort] == "severity_id" && params[:direction] == "asc" %>
+              <i class="fas fa-caret-up sort-icon sort-active"></i>
+            <% elsif params[:sort] == "severity_id" && params[:direction] == "desc" %>
+              <i class="fas fa-caret-down sort-icon sort-active"></i>
+            <% else %>
+              <i class="fas fa-sort sort-icon sort-inactive"></i>
+            <% end %>
+          </span>
+        <% end %>
+      </th>
+      <th style="width: 12%;">
+        <%= link_to issues_path(sort: "priority_id", direction: sort_direction("priority_id"), search: params[:search], expand_category: params[:expand_category]),
+        class: "sort-header" do %>
+          PRIORITY
+          <span class="sort-container">
+            <% if params[:sort] == "priority_id" && params[:direction] == "asc" %>
+              <i class="fas fa-caret-up sort-icon sort-active"></i>
+            <% elsif params[:sort] == "priority_id" && params[:direction] == "desc" %>
+              <i class="fas fa-caret-down sort-icon sort-active"></i>
+            <% else %>
+              <i class="fas fa-sort sort-icon sort-inactive"></i>
+            <% end %>
+          </span>
+        <% end %>
+      </th>
+      <th class="issue-column" style="width: 40%;">
+        <%= link_to issues_path(sort: "subject", direction: sort_direction("subject"), search: params[:search], expand_category: params[:expand_category]),
+        class: "sort-header" do %>
+          ISSUE
+          <span class="sort-container">
+            <% if params[:sort] == "subject" && params[:direction] == "asc" %>
+              <i class="fas fa-caret-up sort-icon sort-active"></i>
+            <% elsif params[:sort] == "subject" && params[:direction] == "desc" %>
+              <i class="fas fa-caret-down sort-icon sort-active"></i>
+            <% else %>
+              <i class="fas fa-sort sort-icon sort-inactive"></i>
+            <% end %>
+          </span>
+        <% end %>
+      </th>
+      <th style="width: 12%;">
+        <%= link_to issues_path(sort: "status_id", direction: sort_direction("status_id"), search: params[:search], expand_category: params[:expand_category]),
+        class: "sort-header" do %>
+          STATUS
+          <span class="sort-container">
+            <% if params[:sort] == "status_id" && params[:direction] == "asc" %>
+              <i class="fas fa-caret-up sort-icon sort-active"></i>
+            <% elsif params[:sort] == "status_id" && params[:direction] == "desc" %>
+              <i class="fas fa-caret-down sort-icon sort-active"></i>
+            <% else %>
+              <i class="fas fa-sort sort-icon sort-inactive"></i>
+            <% end %>
+          </span>
+        <% end %>
+      </th>
+      <th style="width: 25%;">
+        <%= link_to issues_path(sort: "updated_at", direction: sort_direction("updated_at"), search: params[:search], expand_category: params[:expand_category]),
+        class: "sort-header" do %>
+          MODIFIED
+          <span class="sort-container">
+            <% if params[:sort] == "updated_at" && params[:direction] == "asc" %>
+              <i class="fas fa-caret-up sort-icon sort-active"></i>
+            <% elsif params[:sort] == "updated_at" && params[:direction] == "desc" %>
+              <i class="fas fa-caret-down sort-icon sort-active"></i>
+            <% else %>
+              <i class="fas fa-sort sort-icon sort-inactive"></i>
+            <% end %>
+          </span>
+        <% end %>
+      </th>
+      <th style="width: 15%;">
+        <%= link_to issues_path(sort: "user_id", direction: sort_direction("user_id"), search: params[:search], expand_category: params[:expand_category]),
+        class: "sort-header" do %>
+          ASSIGN TO
+          <span class="sort-container">
+            <% if params[:sort] == "user_id" && params[:direction] == "asc" %>
+              <i class="fas fa-caret-up sort-icon sort-active"></i>
+            <% elsif params[:sort] == "user_id" && params[:direction] == "desc" %>
+              <i class="fas fa-caret-down sort-icon sort-active"></i>
+            <% else %>
+              <i class="fas fa-sort sort-icon sort-inactive"></i>
+            <% end %>
+          </span>
+        <% end %>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% issues.each do |issue| %>
+      <tr>
+        <td style="width: 12%; text-align: center;"><%= issue.issue_type.name %></td>
+        <td style="width: 12%; text-align: center;"><%= issue.severity.name %></td>
+        <td style="width: 12%; text-align: center;"><%= issue.priority.name %></td>
+        <td style="width: 40%; text-align: left; cursor: pointer;" onclick="window.location='<%= issue_path(issue) %>'">
+          <span class="issue-id">#<%= issue.id %></span>
+          <span class="issue-title"><%= issue.subject %></span>
+        </td>
+        <td style="width: 12%; text-align: center;">
+          <span class="badge <%= issue.status.name.downcase == 'new' ? 'badge-warning' : 'badge-success' %>">
+            <%= issue.status.name %>
+          </span>
+        </td>
+        <td style="width: 25%; text-align: center;"><%= issue.updated_at.strftime('%d %b. %Y') %></td>
+        <td style="width: 15%; text-align: center;">
+          <%= issue.user&.email || "Unassigned" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
