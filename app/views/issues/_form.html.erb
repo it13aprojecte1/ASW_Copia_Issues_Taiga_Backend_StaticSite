@@ -1,27 +1,17 @@
 <div class="container issue-form-container">
-  <div class="close-btn-container">
-    <%= link_to "×", issues_path, class: "close-btn", title: "Back to Issues" %>
-  </div>
-
-  <h2 class="text-center">New Issue</h2>
-
   <%= form_with(model: @issue, local: true, class: "issue-form") do |form| %>
-
     <div class="form-layout">
       <div class="left-column">
         <div class="mb-3">
           <%= form.text_field :subject, class: "form-control large-input", placeholder: "Subject" %>
         </div>
-
         <div class="mb-3">
           <a href="#" class="add-tag disabled">+ Add tag</a>
         </div>
-
         <div class="mb-3">
           <%= form.text_area :content, class: "form-control large-textarea", placeholder: "Please add descriptive text to help others better understand this issue" %>
         </div>
       </div>
-
       <div class="right-column">
         <!-- Tipo de Issue -->
         <div class="custom-select-box">
@@ -33,7 +23,6 @@
                 { class: "form-select custom-select" } %>
           </div>
         </div>
-
         <!-- Severidad -->
         <div class="custom-select-box">
           <div class="select-container">
@@ -44,7 +33,6 @@
                 { class: "form-select custom-select" } %>
           </div>
         </div>
-
         <!-- Prioridad -->
         <div class="custom-select-box">
           <div class="select-container">
@@ -55,7 +43,6 @@
                 { class: "form-select custom-select" } %>
           </div>
         </div>
-
         <!-- Estado -->
         <div class="custom-select-box">
           <div class="select-container">
@@ -66,17 +53,50 @@
                 { class: "form-select custom-select" } %>
           </div>
         </div>
-
         <!-- Fecha límite (Date Picker) -->
-        <div class="mb-3">
-          <%= form.date_field :deadline, class: "form-control large-input", placeholder: "Select deadline", id: "deadline" %>
+        <div class="custom-select-box" style="margin-bottom: 20px;">
+          <div class="select-container">
+            <span class="select-label">Deadline</span>
+            <%= form.date_field :deadline,
+                class: "form-control large-input",
+                placeholder: "Select deadline",
+                id: "deadline" %>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="text-center mt-4">
-      <%= form.submit "CREATE", class: "btn btn-create" %>
-    </div>
+    <!-- Watchers fuera de las columnas, en una nueva sección -->
+    <div class="full-width-section" style="margin-top: 20px;">
+      <div class="custom-select-box">
+        <div class="select-container">
+          <span class="select-label">Watchers</span>
+          <%= form.collection_select :watcher_ids,
+              User.all, :id, :email,
+              { include_blank: true },
+              { class: "form-select custom-select", multiple: true } %>
+        </div>
+      </div>
 
+      <!-- Nuevo campo para Assign to -->
+      <div class="custom-select-box" style="margin-top: 15px;">
+        <div class="select-container">
+          <span class="select-label">Assign to</span>
+          <%= form.collection_select :assignee_id,
+              User.all, :id, :email,
+              { include_blank: "Select user" },
+              { class: "form-select custom-select" } %>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <%= form.submit "CREATE", class: "btn btn-create" %>
+      </div>
+    </div>
   <% end %>
-</div>
+  </div>
+
+  <!-- Botón Back con el mismo estilo que CREATE -->
+  <div class="text-center mt-3">
+    <%= link_to "BACK", issues_path, class: "btn btn-create" %>
+  </div>

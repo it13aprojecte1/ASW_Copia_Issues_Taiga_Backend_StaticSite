@@ -1,15 +1,12 @@
 <div class="issue-form-container">
   <h2 class="text-center"><%= issue.subject %></h2>
-
   <div class="form-layout">
     <div class="left-column">
       <p>
         <strong>Content:</strong><br>
         <div class="large-textarea"><%= issue.content %></div>
       </p>
-
       <h2>Comentarios</h2>
-
       <ul>
         <% issue.comments.each do |comment| %>
           <li>
@@ -18,15 +15,12 @@
           </li>
         <% end %>
       </ul>
-
       <h2>Añadir Comentario</h2>
-
       <%= form_with(model: [issue, Comment.new]) do |form| %>
         <%= form.text_area :content, class: 'large-textarea' %>
         <%= form.submit 'Añadir Comentario', class: 'btn-create' %>
       <% end %>
     </div>
-
     <div class="right-column">
       <div class="custom-select-box">
         <div class="select-container">
@@ -34,35 +28,30 @@
           <span class="custom-select"><%= issue.status.name %></span>
         </div>
       </div>
-
       <div class="custom-select-box">
         <div class="select-container">
           <span class="select-label">Type:</span>
           <span class="custom-select"><%= issue.issue_type.name %></span>
         </div>
       </div>
-
       <div class="custom-select-box">
         <div class="select-container">
           <span class="select-label">Severity:</span>
           <span class="custom-select"><%= issue.severity.name %></span>
         </div>
       </div>
-
       <div class="custom-select-box">
         <div class="select-container">
           <span class="select-label">Priority:</span>
           <span class="custom-select"><%= issue.priority.name %></span>
         </div>
       </div>
-
       <div class="custom-select-box">
         <div class="select-container">
           <span class="select-label">User:</span>
           <span class="custom-select"><%= issue.user.email %></span>
         </div>
       </div>
-
       <% if issue.assignee.present? %>
         <div class="custom-select-box">
           <div class="select-container">
@@ -72,11 +61,27 @@
         </div>
       <% end %>
 
+      <!-- Aquí comienza la sección de watchers -->
+      <div class="custom-select-box">
+        <div class="select-container">
+          <span class="select-label">Watchers:</span>
+          <div class="watchers-list">
+            <% if issue.watchers.any? %>
+              <% issue.watchers.each do |watcher| %>
+                <div class="watcher-item"><%= watcher.email %></div>
+              <% end %>
+            <% else %>
+              <span class="text-muted">No watchers</span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <!-- Fin de la sección de watchers -->
+
       <p>
         <strong>Created At:</strong><br>
         <%= issue.created_at.strftime("%A, %y-%m-%d %H:%M") %>
       </p>
-
       <a href="#" class="add-tag">Add tag +</a>
     </div>
   </div>

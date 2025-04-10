@@ -1,10 +1,19 @@
 <p style="color: green"><%= notice %></p>
-
 <%= render 'issue', issue: @issue %>
 
-<div>
-  <%= link_to "Edit this issue", edit_issue_path(@issue) %> |
-  <%= link_to "Back to issues", issues_path %>
+<div class="custom-btn-container" style="margin-top: 20px; display: flex; justify-content: space-between;">
+  <!-- Botón de Editar -->
+  <%= link_to edit_issue_path(@issue), class: "btn btn-create", style: "width: auto; text-decoration: none; text-align: center; font-weight: bold; text-transform: uppercase;" do %>
+    EDIT
+  <% end %>
 
-  <%= button_to "Destroy this issue", @issue, method: :delete %>
+  <!-- Botón de Volver -->
+  <%= link_to issues_path, class: "btn btn-create", style: "width: auto; text-decoration: none; text-align: center; font-weight: bold; text-transform: uppercase;" do %>
+    BACK
+  <% end %>
+
+  <!-- Botón de Eliminar con icono de papelera único -->
+  <%= button_to @issue, method: :delete, class: "btn btn-create", style: "width: auto; background-color: #ff6b6b; text-decoration: none; text-align: center; font-weight: bold;" do %>
+    🗑️
+  <% end %>
 </div>

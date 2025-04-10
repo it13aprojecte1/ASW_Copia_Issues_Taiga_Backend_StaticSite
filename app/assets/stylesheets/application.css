@@ -775,3 +775,129 @@ nav a {
   background-color: #007bff;
   color: white;
 }
+
+.watchers-list {
+  padding: 5px 0;
+}
+
+.watcher-item {
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  padding: 3px 8px;
+  margin: 2px 0;
+  font-size: 0.9em;
+}
+
+.text-muted {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.custom-select[multiple] {
+  height: auto;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 5px;
+  text-align: left;
+  text-align-last: left;
+}
+
+.custom-select[multiple] option {
+  padding: 5px;
+  margin-bottom: 2px;
+  border-radius: 3px;
+}
+
+.custom-select[multiple] option:checked {
+  background-color: #e0e0e0;
+}
+
+/* Asegurar que el date picker tenga el mismo tamaño que los otros elementos */
+input[type="date"].large-input {
+  height: 45px;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0 12px;
+}
+
+/* Para que el contenedor del select de watchers sea consistente */
+.watchers-select-container {
+  margin-top: 20px;
+}
+
+/* Estilo para la nueva sección de ancho completo */
+.full-width-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Ajustar el selector múltiple de watchers */
+.custom-select[multiple] {
+  height: auto;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 5px;
+  text-align: left;
+  text-align-last: left;
+}
+
+.custom-select[multiple] option {
+  padding: 5px;
+  margin-bottom: 2px;
+  border-radius: 3px;
+}
+
+.custom-select[multiple] option:checked {
+  background-color: #e0e0e0;
+}
+
+/* Ajustar el input de fecha para que coincida con los otros selectores */
+input[type="date"].large-input {
+  height: 45px;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0 12px;
+}
+
+/* Estilos mejorados para el selector múltiple de watchers */
+.custom-select[multiple] {
+  height: auto;
+  max-height: 150px;
+  overflow-y: auto;
+  overflow-x: hidden; /* Evita scroll horizontal */
+  padding: 5px;
+  text-align: left;
+  text-align-last: left;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  white-space: normal; /* Permite que el texto se envuelva */
+  word-wrap: break-word; /* Rompe palabras largas */
+}
+
+/* Mejorar el estilo de las opciones */
+.custom-select[multiple] option {
+  padding: 5px;
+  margin-bottom: 2px;
+  border-radius: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Añade puntos suspensivos al texto que excede */
+  white-space: nowrap; /* Mantiene el texto en una línea */
+  max-width: 100%; /* Limita el ancho al contenedor */
+}
+
+/* Estilo para opciones seleccionadas */
+.custom-select[multiple] option:checked {
+  background-color: #e0e0e0;
+}
+
+/* Contenedor del select para watchers */
+.full-width-section .custom-select-box {
+  width: 100%;
+}
+
+/* Asegurar que el contenedor select esté bien configurado */
+.select-container {
+  width: 100%;
+  overflow: hidden; /* Evita desbordamiento */
+}
