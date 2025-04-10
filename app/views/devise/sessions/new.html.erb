@@ -1,38 +1,15 @@
 <div class="issue-form-container" style="text-align: center; max-width: 500px;">
   <h2 class="text-center">Iniciar sesión</h2>
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <div style="margin-bottom: 20px;">
-      <%= f.label :email, style: "display: block; text-align: left; margin-bottom: 5px;" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "large-input" %>
-    </div>
-
-    <div style="margin-bottom: 20px;">
-      <%= f.label :password, style: "display: block; text-align: left; margin-bottom: 5px;" %>
-      <%= f.password_field :password, autocomplete: "current-password", class: "large-input" %>
-    </div>
-
-    <% if devise_mapping.rememberable? %>
-      <div style="margin-bottom: 20px; text-align: left; background-color: #f8f9fa; padding: 15px; border-radius: 8px;">
-        <%= f.check_box :remember_me %>
-        <%= f.label :remember_me, "Recordarme" %>
-      </div>
-    <% end %>
-
-    <div style="margin-bottom: 30px;">
-      <%= f.submit "INICIAR SESIÓN", class: "btn-create", style: "text-transform: uppercase;" %>
-    </div>
-  <% end %>
-
-  <div style="margin-bottom: 30px; border-top: 1px solid #ccc; padding-top: 20px;">
-    <p style="margin-bottom: 15px; font-weight: bold;">O inicia sesión con:</p>
-    <%= button_to user_github_omniauth_authorize_path, data: { turbo: false }, class: "github-login-btn", style: "background-color: #24292e; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; text-align: center; margin: 0 auto; width: 80%; border: none; cursor: pointer;" do %>
+  <div style="margin: 40px 0;">
+    <%= button_to(
+      user_github_omniauth_authorize_path,
+      method: :post,
+      data: { turbo: false },
+      class: "github-login-btn",
+      style: "background-color: #24292e; color: white; padding: 15px; text-decoration: none; border-radius: 5px; text-align: center; margin: 0 auto; width: 80%; border: none; cursor: pointer;"
+    ) do %>
       <i class="fa fa-github" style="margin-right: 10px;" aria-hidden="true"></i> Iniciar sesión con GitHub
     <% end %>
-  </div>
-
-  <div style="margin-top: 20px;">
-    <%= link_to "Registrarse", new_registration_path(resource_name), style: "display: block; margin-bottom: 10px; color: #0085A1;" %>
-    <%= link_to "¿Olvidaste tu contraseña?", new_password_path(resource_name), style: "display: block; color: #0085A1;" %>
   </div>
 </div>
