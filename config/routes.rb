@@ -7,31 +7,33 @@ devise_for :users
 #get '/issues/new', to: 'issues#new'
 #post '/issues', to: 'issues#create'
 
-resources :issues do
-    collection do
-      get 'bulk_new'
-      post 'bulk_create'
-      get 'toggle_filters'
-      post 'add_filter'
-      delete 'remove_filter'
-      delete 'clear_filters'
-    end
-  end
-resources :users
+# Rutas dedicadas para filtros con mayor prioridad
+post '/issues/add_filter', to: 'issues#add_filter', as: 'add_filter_issues'
+post '/issues/remove_filter', to: 'issues#remove_filter', as: 'remove_filter_issues'
+post '/issues/clear_filters', to: 'issues#clear_filters', as: 'clear_filters_issues'
+post '/issues/toggle_filters', to: 'issues#toggle_filters', as: 'toggle_filters_issues'
 
+# Un solo bloque de resources :issues con todas las rutas anidadas
 resources :issues do
   resources :comments, only: :create
+  
+  collection do
+    get 'bulk_new'
+    post 'bulk_create'
+  end
 end
 
- namespace :settings do
-    resources :statuses
-    resources :priorities
-    resources :issue_types
-    resources :severities
-  end
+resources :users
+
+namespace :settings do
+  resources :statuses
+  resources :priorities
+  resources :issue_types
+  resources :severities
+end
 
  # Ruta principal para la página de settings
-  get 'settings', to: 'settings#index'
+get 'settings', to: 'settings#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -892,22 +892,34 @@ nav a {
 
 /* Estilos para el panel de filtros */
 .filter-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 260px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 550px;
+  max-height: 80vh;
   background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  margin-top: 5px;
-  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  z-index: 1050;
+  overflow-y: auto;
+}
+
+/* Fondo oscuro detrás del modal */
+.filter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
 }
 
 /* Sección de filtros activos */
 .filter-section.active-filters {
   background-color: #f6f8e8;
-  padding: 15px;
+  padding: 20px;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -1019,10 +1031,285 @@ nav a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 15px;
+  padding: 15px 20px;
   cursor: pointer;
   background-color: #fff;
   transition: background-color 0.2s;
   text-decoration: none;
   color: #333;
+}
+
+/* Encabezado del modal de filtros */
+.filter-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.filter-modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+}
+
+.filter-modal-close {
+  color: #777;
+  font-size: 20px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.filter-modal-close:hover {
+  color: #0085A1;
+}
+
+/* Contenedor de categorías de filtro */
+.filter-categories-container {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0 5px;
+}
+
+/* Pie del modal de filtros */
+.filter-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 25px;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+/* Botón de aplicar filtros */
+.apply-filters-btn {
+  background-color: #0085A1;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  min-width: 150px;
+  text-align: center;
+  font-size: 14px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.apply-filters-btn:hover {
+  background-color: #006b80;
+  color: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Mejorar las categorías de filtro para el modal */
+.filter-category {
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s;
+}
+
+.filter-category:hover {
+  background-color: #f5f5f5;
+}
+
+.filter-category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  cursor: pointer;
+  background-color: transparent;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.filter-category-header:hover {
+  color: #0085A1;
+}
+
+.filter-category-content {
+  padding: 0 20px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-option {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 13px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-option:hover {
+  background-color: #0085A1;
+  color: white;
+}
+
+/* Variantes de color para severidad */
+.filter-option.wishlist { border-left: 3px solid #9E9E9E; }
+.filter-option.minor { border-left: 3px solid #8BC34A; }
+.filter-option.normal { border-left: 3px solid #3F51B5; }
+.filter-option.important { border-left: 3px solid #FF9800; }
+.filter-option.critical { border-left: 3px solid #F44336; }
+
+/* Título de la categoría con contador */
+.filter-category-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Contador pequeño de filtros */
+.filter-count-small {
+  font-size: 11px;
+  background-color: #0085A1;
+  color: white;
+  border-radius: 10px;
+  padding: 1px 6px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Estilos para opciones activas */
+.filter-option.active {
+  background-color: #e3f2fd;
+  border-left: 3px solid #0085A1;
+  font-weight: 500;
+}
+
+.filter-option.active i {
+  margin-left: 5px;
+  color: #0085A1;
+  font-size: 12px;
+}
+
+/* Formulario de opciones de filtro */
+.filter-option-form {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.filter-option-form button.filter-option {
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Formularios para filtros */
+.remove-filter-form,
+.clear-filters-form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.remove-filter-form button.remove-filter,
+.clear-filters-form button.clear-all-filters {
+  background: none;
+  border: none;
+  padding: 0 4px;
+  font-size: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+.remove-filter-form button.remove-filter {
+  color: #999;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.remove-filter-form button.remove-filter:hover {
+  color: #333;
+}
+
+.clear-filters-form button.clear-all-filters {
+  margin-top: 10px;
+  color: #0085A1;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 0;
+}
+
+.clear-filters-form button.clear-all-filters:hover {
+  text-decoration: underline;
+}
+
+/* Formularios para toggle-filters y apply-filters */
+.toggle-filters-form,
+.apply-filters-form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.toggle-filters-form button,
+.apply-filters-form button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.toggle-filters-form.close-form {
+  display: inline;
+}
+
+.toggle-filters-form button.filter-modal-close {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Formulario para expandir categoría */
+.expand-category-form {
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.expand-category-form button.filter-category-header {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  color: #333;
+  transition: color 0.2s;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.expand-category-form button.filter-category-header:hover {
+  color: #0085A1;
 }

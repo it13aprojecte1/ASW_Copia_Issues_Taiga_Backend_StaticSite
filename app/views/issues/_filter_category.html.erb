@@ -1,20 +1,42 @@
 <div class="filter-category <%= 'expanded' if expanded %>">
-  <%= link_to issues_path(request.parameters.except(:controller, :action).merge(expand_category: expanded ? nil : category)),
-        class: 'filter-category-header' do %>
-    <span><%= title %></span>
-    <i class="fas <%= expanded ? 'fa-chevron-down' : 'fa-chevron-right' %>"></i>
+  <%= form_with(url: issues_path, method: :get, class: "expand-category-form") do |f| %>
+    <% # Mantener todos los otros parámetros de la URL actual %>
+    <% request.query_parameters.except(:controller, :action, :expand_category).each do |key, value| %>
+      <%= f.hidden_field key, value: value %>
+    <% end %>
+    <%= f.hidden_field :expand_category, value: expanded ? nil : category %>
+    <%= f.button type: :submit, class: 'filter-category-header' do %>
+      <div class="filter-category-title">
+        <span><%= title %></span>
+        <% if session[:filters] && session[:filters][:include] && session[:filters][:include][category].present? %>
+          <span class="filter-count-small"><%= session[:filters][:include][category].size %></span>
+        <% end %>
+      </div>
+      <i class="fas <%= expanded ? 'fa-chevron-down' : 'fa-chevron-right' %>"></i>
+    <% end %>
   <% end %>
 
   <div class="filter-category-content" style="<%= expanded ? 'display: block;' : 'display: none;' %>">
     <% options.each do |option| %>
-      <%= link_to add_filter_issues_path(
-            filter_type: category,
-            filter_value: option.id,
-            filter_mode: params[:filter_mode] || 'include'
-          ),
-          method: :post,
-          class: "filter-option #{option.name.downcase if category == 'severity'}" do %>
-        <%= option.name %>
+      <% 
+        # Determinar si este filtro está activo
+        is_active = false
+        if session[:filters] && session[:filters][:include] && session[:filters][:include][category]
+          is_active = session[:filters][:include][category].include?(option.id.to_s)
+        end
+      %>
+      
+      <%= form_with(url: add_filter_issues_path, method: :post, class: "filter-option-form") do |f| %>
+        <%= f.hidden_field :filter_type, value: category %>
+        <%= f.hidden_field :filter_value, value: option.id %>
+        <%= f.hidden_field :filter_mode, value: params[:filter_mode] || 'include' %>
+        
+        <%= f.button type: :submit, class: "filter-option #{category == 'severity' ? option.name.downcase : ''} #{is_active ? 'active' : ''}" do %>
+          <%= category == 'assigned_to' || category == 'created_by' ? option.email : option.name %>
+          <% if is_active %>
+            <i class="fas fa-check"></i>
+          <% end %>
+        <% end %>
       <% end %>
     <% end %>
   </div>
