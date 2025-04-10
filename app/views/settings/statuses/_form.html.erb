@@ -1,37 +1,151 @@
-<%= form_with(model: [:settings, @status], local: true) do |form| %>
-  <% if @status.errors.any? %>
-    <div class="alert alert-danger">
-      <h4><%= pluralize(@status.errors.count, "error") %> al guardar:</h4>
-      <ul>
-        <% @status.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<style>
+  .form-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: #f9fafb;
+    color: #111827;
+    transition: border-color 0.2s;
+  }
+
+  .form-control:focus {
+    border-color: #3b82f6;
+    outline: none;
+    background-color: #fff;
+  }
+
+  .form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-check-input {
+    width: 18px;
+    height: 18px;
+  }
+
+  .form-check-label {
+    font-weight: 500;
+    color: #374151;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    margin-top: 2rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background-color: #3b82f6;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: #2563eb;
+  }
+
+  .btn-secondary {
+    background-color: #e5e7eb;
+    color: #111827;
+  }
+
+  .btn-secondary:hover {
+    background-color: #d1d5db;
+  }
+
+  .alert-danger {
+    background-color: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .alert-danger h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+
+  .alert-danger ul {
+    padding-left: 1.25rem;
+    margin: 0;
+  }
+</style>
+
+<div class="form-container">
+  <%= form_with(model: [:settings, @status], local: true) do |form| %>
+    <% if @status.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= pluralize(@status.errors.count, "error") %> al guardar:</h4>
+        <ul>
+          <% @status.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :name, 'Nombre' %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :color, 'Color' %>
+      <%= form.color_field :color, class: 'form-control', style: 'width: 40px; height: 40px; padding: 0; cursor: pointer;' %>
+    </div>
+
+    <div class="form-check">
+      <%= form.check_box :is_closed, class: 'form-check-input' %>
+      <%= form.label :is_closed, '¿Es estado cerrado?', class: 'form-check-label' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :position, 'Posición' %>
+      <%= form.number_field :position, class: 'form-control' %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit 'Guardar', class: 'btn btn-primary' %>
+      <%= link_to 'Cancelar', settings_statuses_path, class: 'btn btn-secondary' %>
     </div>
   <% end %>
-
-  <div class="form-group">
-    <%= form.label :name, 'Nombre' %>
-    <%= form.text_field :name, class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :color, 'Color' %>
-    <%= form.color_field :color, class: 'form-control' %>
-  </div>
-
-  <div class="form-check mb-3">
-    <%= form.check_box :is_closed, class: 'form-check-input' %>
-    <%= form.label :is_closed, '¿Es estado cerrado?', class: 'form-check-label' %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :position, 'Posición' %>
-    <%= form.number_field :position, class: 'form-control' %>
-  </div>
-
-  <div class="form-actions">
-    <%= form.submit 'Guardar', class: 'btn btn-primary' %>
-    <%= link_to 'Cancelar', settings_statuses_path, class: 'btn btn-secondary' %>
-  </div>
-<% end %>
+</div>

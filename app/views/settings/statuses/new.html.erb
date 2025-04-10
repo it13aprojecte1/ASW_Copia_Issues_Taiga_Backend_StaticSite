@@ -1,6 +1,34 @@
-<h1>Crear status nou</h1>
-<% content_for :title, "New status" %>
+<% content_for :title, "Nuevo estado" %>
 
-<%= render "form", status: @status %>
+<div class="page-header">
+  <h1>Crear nuevo estado</h1>
+  <p class="subtitle">Define un nuevo estado para tus issues.</p>
+</div>
 
-<br>
+<div class="form-wrapper">
+  <%= render "form", status: @status %>
+</div>
+<style>
+  .page-header {
+    max-width: 800px;
+    margin: 2rem auto 1rem auto;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: #1f2937;
+  }
+
+  .page-header .subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+  }
+
+  .form-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+</style>

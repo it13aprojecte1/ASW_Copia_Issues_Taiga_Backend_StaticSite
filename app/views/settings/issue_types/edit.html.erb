@@ -1,3 +1,110 @@
+<style>
+  .settings-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  .settings-header h1 {
+    font-size: 2rem;
+    margin: 0;
+    color: #333;
+  }
+
+  .btn-link {
+    color: #3b82f6;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .btn-link:hover {
+    text-decoration: underline;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1f2937;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background-color: #f3f4f6;
+  }
+
+  .form-control:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+
+  .form-check-input {
+    margin-right: 0.5rem;
+  }
+
+  /* Estilo para el campo de color */
+  input[type="color"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  input[type="color"]:focus {
+    border-color: #3b82f6;
+    outline: none;
+  }
+
+  .btn-primary {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+
+  .btn-primary:hover {
+    background-color: #2563eb;
+  }
+
+  .btn-link {
+    display: inline-block;
+    margin-top: 2rem;
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .btn-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
 <div class="settings-container">
   <div class="settings-header">
     <h1>Editar Tipo de Incidencia</h1>
@@ -7,7 +114,7 @@
   <%= form_with model: @issue_type, url: settings_issue_type_path(@issue_type), method: :put, local: true do |form| %>
     <div class="form-group">
       <%= form.label :name, 'Nombre del Tipo de Incidencia' %>
-      <%= form.text_field :name, class: 'form-control', value: @issue_type.name %>
+      <%= form.text_field :name, class: 'form-control', value: @issue_type.name, placeholder: 'Ingrese el nombre del tipo de incidencia' %>
     </div>
 
     <div class="form-group">
@@ -17,10 +124,11 @@
 
     <div class="form-group">
       <%= form.label :position, 'Posición' %>
-      <%= form.number_field :position, class: 'form-control', value: @issue_type.position %>
+      <%= form.number_field :position, class: 'form-control', value: @issue_type.position, placeholder: 'Ingrese la posición' %>
     </div>
 
-
-    <%= form.submit 'Guardar Cambios', class: 'btn btn-primary' %>
+    <div class="form-actions" style="display: flex; justify-content: flex-end;">
+      <%= form.submit 'Guardar Cambios', class: 'btn btn-primary' %>
+    </div>
   <% end %>
 </div>
