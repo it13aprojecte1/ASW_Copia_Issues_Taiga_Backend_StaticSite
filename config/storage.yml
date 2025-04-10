@@ -8,9 +8,9 @@ local:
 
 amazon:
   service: S3
-  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID']%> # Reemplaza si generaste nuevas credenciales
-  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY']%> # Reemplaza si generaste nuevas credenciales
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID']%>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY']%>
   session_token: <%= ENV['AWS_SESSION_TOKEN']%>
-  region: us-east-1 # Asegúrate que esta es la región correcta de tu bucket
-  bucket: '916196579549' # ¡¡IMPORTANTE: USA TU NOMBRE DE BUCKET REAL!!
+  region: us-east-1
+  bucket: francescperezvenegas
 
