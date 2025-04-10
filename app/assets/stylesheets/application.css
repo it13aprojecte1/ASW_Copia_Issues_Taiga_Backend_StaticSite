@@ -1,16 +1,13 @@
-/* Estilos base */
 body {
   font-family: 'Inter', sans-serif;
 }
 
-/* Contenedor principal de issues */
 .issue-form-container {
   max-width: 800px;
   margin: auto;
   padding: 60px 40px;
 }
 
-/* Títulos */
 h2.text-center {
   text-align: center;
   width: 100%;
@@ -19,7 +16,6 @@ h2.text-center {
   font-weight: 600;
 }
 
-/* Layout de formularios */
 .form-layout {
   display: flex;
   flex-direction: row;
@@ -42,7 +38,6 @@ h2.text-center {
   justify-content: flex-start;
 }
 
-/* Inputs y textareas */
 .large-input, .large-textarea {
   width: 100%;
   font-size: 16px;
@@ -56,7 +51,6 @@ h2.text-center {
   height: 220px;
 }
 
-/* Botones de cierre */
 .close-btn-container {
   position: absolute;
   top: 20px;
@@ -76,7 +70,6 @@ h2.text-center {
   color: #555;
 }
 
-/* Select boxes personalizados */
 .custom-select-box {
   display: flex;
   align-items: center;
@@ -117,7 +110,6 @@ h2.text-center {
   text-align: center;
 }
 
-/* Botones de iconos */
 .icon-container {
   display: flex;
   align-items: center;
@@ -146,7 +138,6 @@ h2.text-center {
   border-color: #888;
 }
 
-/* Date picker */
 .date-picker-container {
   position: relative;
 }
@@ -164,7 +155,6 @@ h2.text-center {
   z-index: 10;
 }
 
-/* Textarea bloqueado */
 .locked-textarea {
   display: none;
   margin-top: 10px;
@@ -178,7 +168,6 @@ h2.text-center {
   border-radius: 5px;
 }
 
-/* Botón crear */
 .btn-create {
   background-color: #98F5E1;
   color: black;
@@ -198,7 +187,6 @@ h2.text-center {
   color: white;
 }
 
-/* Botón de etiqueta */
 .add-tag {
   display: inline-block;
   color: #007bff;
@@ -215,7 +203,31 @@ h2.text-center {
   border-color: #aaa;
 }
 
-/* Barra de navegación */
+.custom-select-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  background: #f7f7f7;
+  height: 45px;
+}
+
+.btn-create {
+  background-color: #98F5E1;
+  color: black;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+
+/* Estilos para la barra de navegación */
+
 nav {
   background-color: #f8f9fa;
   padding: 15px 20px;
@@ -393,10 +405,9 @@ td:hover .issue-title {
   text-decoration: none;
 }
 
-/* Contenedor de botones personalizados */
 .custom-btn-container {
   display: flex;
-  gap: 10px;
+  gap: 10px; /* Separa los botones entre sí */
 }
 
 .custom-btn {
@@ -960,7 +971,7 @@ td:hover .issue-title {
   color: #333;
 }
 
-/ Styling for user profile page /
+/*Styling for user profile page*/
 .profile-header {
   padding: 20px 0;
 }
@@ -1011,4 +1022,269 @@ nav {
 .nav-right {
   display: flex;
   align-items: center;
+}
+
+.watchers-list {
+  padding: 5px 0;
+}
+
+.watcher-item {
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  padding: 3px 8px;
+  margin: 2px 0;
+  font-size: 0.9em;
+}
+
+.text-muted {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.custom-select[multiple] {
+  width: 100%;
+  max-width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  white-space: normal;
+  text-align: left;
+  text-align-last: left;
+}
+
+.custom-select[multiple] option:checked {
+  background-color: #e0e0e0;
+}
+
+/* Asegurar que el date picker tenga el mismo tamaño que los otros elementos */
+
+input[type="date"].large-input {
+  height: 45px;
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 0 12px;
+}
+
+/* Para que el contenedor del select de watchers sea consistente */
+
+.watchers-select-container {
+  margin-top: 20px;
+}
+
+/* Estilo para la nueva sección de ancho completo */
+
+.full-width-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Ajustar el input de fecha para que coincida con los otros selectores */
+
+/* Estilos mejorados para el selector múltiple de watchers */
+
+.custom-select[multiple] {
+  height: auto;
+  max-height: 150px;
+  overflow-y: auto;
+  overflow-x: hidden; /* Evita scroll horizontal */
+  padding: 5px;
+  text-align: left;
+  text-align-last: left;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  white-space: normal; /* Permite que el texto se envuelva */
+  word-wrap: break-word; /* Rompe palabras largas */
+}
+
+/* Mejorar el estilo de las opciones */
+
+.custom-select[multiple] option {
+  padding: 5px;
+  margin-bottom: 2px;
+  border-radius: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Añade puntos suspensivos al texto que excede */
+  white-space: nowrap; /* Mantiene el texto en una línea */
+  max-width: 100%; /* Limita el ancho al contenedor */
+}
+
+/* Estilo para opciones seleccionadas */
+
+/* Contenedor del select para watchers */
+
+.full-width-section .custom-select-box {
+  width: 100%;
+}
+
+/* Asegurar que el contenedor select esté bien configurado */
+
+.select-container {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping which can cause overflow */
+}
+
+.select-label {
+  flex: 0 0 auto; /* Don't allow it to grow or shrink */
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+/* Give more space to the select element */
+
+.custom-select {
+  flex: 1 1 auto; /* Allow it to grow and shrink */
+  min-width: 0; /* This is important to allow proper shrinking */
+}
+
+/* Make sure options don't overflow */
+
+.custom-select[multiple] option {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Set a specific max-height for the watchers select to control scrolling */
+
+.full-width-section .custom-select[multiple] {
+  max-height: 120px; /* Adjust as needed */
+}
+
+/* Ensure the container itself doesn't have scrolling */
+
+.custom-select-box {
+  overflow: visible;
+  width: 100%;
+}
+
+/* Fix the select container layout */
+
+.select-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Keep the label fixed (not scrolling) */
+
+.select-label {
+  flex: 0 0 auto;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+/* Apply scrolling only to the multi-select element */
+
+.custom-select {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Specific styles for the multi-select dropdown */
+
+.custom-select[multiple] {
+  max-height: 120px; /* Control the height of the scrollable area */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  text-align-last: left;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Ensure options are properly contained */
+
+.custom-select[multiple] option {
+  padding: 5px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 3px;
+}
+
+/* Make selected options more visible */
+
+.custom-select[multiple] option:checked {
+  background-color: #98F5E1;
+  color: black;
+}
+
+/* Customize scrollbar for better visibility */
+
+.custom-select[multiple]::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-select[multiple]::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.custom-select[multiple]::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.custom-select[multiple]::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Fix for the watchers multi-select dropdown */
+
+.custom-select-box {
+  height: auto; /* Remove fixed height to accommodate content */
+  min-height: 45px; /* Set minimum height instead */
+  overflow: visible; /* Allow content to be visible */
+}
+
+.custom-select[multiple] {
+  display: block;
+  height: auto;
+  max-height: 120px; /* Set a maximum height for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 5px;
+  border: none;
+  width: 100%;
+  text-align: left;
+  text-align-last: left;
+}
+
+/* Make the container properly sized */
+
+.select-container {
+  align-items: flex-start; /* Align to top instead of center */
+  padding: 5px 0;
+}
+
+/* Keep the label at the top */
+
+.select-label {
+  padding-top: 5px;
+}
+
+/* Style for the options in the multi-select */
+
+.custom-select[multiple] option {
+  padding: 5px;
+  margin-bottom: 2px;
+  border-radius: 3px;
+}
+
+/* Custom scrollbar for better visibility */
+
+.custom-select[multiple]::-webkit-scrollbar {
+  width: 6px;
+}
+
+.text-muted {
+  color: #6c757d;
+  font-style: italic;
+  margin-bottom: 20px;
 }

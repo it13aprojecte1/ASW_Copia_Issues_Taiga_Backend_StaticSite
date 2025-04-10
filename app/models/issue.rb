@@ -11,7 +11,7 @@ class Issue < ApplicationRecord
 
 
   validates :subject, presence: true, length: { minimum: 1 }
-  validates :deadline, presence: true
+  #validates :deadline, presence: true
 
   belongs_to :assignee, class_name: 'User', optional: true
   has_and_belongs_to_many :watchers, class_name: 'User', join_table: 'issue_watchers'
