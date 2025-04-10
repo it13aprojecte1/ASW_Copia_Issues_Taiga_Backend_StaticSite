@@ -12,5 +12,5 @@ amazon:
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY']%> # Reemplaza si generaste nuevas credenciales
   session_token: <%= ENV['AWS_SESSION_TOKEN']%>
   region: us-east-1 # Asegúrate que esta es la región correcta de tu bucket
-  bucket: the-name-of-my-bucket # ¡¡IMPORTANTE: USA TU NOMBRE DE BUCKET REAL!!
+  bucket: '916196579549' # ¡¡IMPORTANTE: USA TU NOMBRE DE BUCKET REAL!!
 

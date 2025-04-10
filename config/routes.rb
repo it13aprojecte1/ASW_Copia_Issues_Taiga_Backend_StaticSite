@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get "settings/index"
   get "comments/create"
-devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
  #equivalente a get '/issues', to: 'issues#index'
 #get '/issues/new', to: 'issues#new'
