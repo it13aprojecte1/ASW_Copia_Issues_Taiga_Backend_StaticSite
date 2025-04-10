@@ -18,7 +18,7 @@
     </div>
 
     <h3 class="username"><%= @user.name %></h3>
-    <p class="github-handle">@<%= @user.uid || @user.email.split('@').first %></p>
+    <p class="github-handle">@<%= @user.username || @user.email.split('@').first %></p>
 
     <div class="stats">
       <div class="stat-item">
