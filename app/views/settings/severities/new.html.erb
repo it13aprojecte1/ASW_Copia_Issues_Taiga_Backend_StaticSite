@@ -1,2 +1,26 @@
-<h1>Settings::Severities#new</h1>
-<p>Find me in app/views/settings/severities/new.html.erb</p>
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>Crear Nueva Severidad</h1>
+    <%= link_to 'Volver a la lista de Severidades', settings_severities_path, class: 'btn btn-link' %>
+  </div>
+
+  <%= form_with(model: [:settings, @severity], local: true) do |form| %>
+    <div class="form-group">
+      <%= form.label :name, 'Nombre de la Severidad' %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :color, 'Color de la Severidad' %>
+      <%= form.color_field :color, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :position, 'Posición' %>
+      <%= form.number_field :position, class: 'form-control' %>
+    </div>
+
+    <%= form.submit 'Guardar Severidad', class: 'btn btn-primary' %>
+  <% end %>
+</div>
+

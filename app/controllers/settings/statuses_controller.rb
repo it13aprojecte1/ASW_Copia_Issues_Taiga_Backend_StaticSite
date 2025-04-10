@@ -26,7 +26,7 @@ class Settings::StatusesController < ApplicationController
     if @status.update(status_params)
       redirect_to settings_statuses_path, notice: 'Status actualizado correctamente.'
     else
-      render :edit
+      render :edit, notice: 'Error'
     end
   end
 

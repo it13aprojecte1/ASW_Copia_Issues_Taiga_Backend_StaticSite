@@ -1,2 +1,36 @@
-<h1>Settings::IssueTypes#index</h1>
-<p>Find me in app/views/settings/issue_types/index.html.erb</p>
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>Tipos de Incidencia</h1>
+    <%= link_to 'Nuevo Tipo de Incidencia', new_settings_issue_type_path, class: 'btn btn-primary' %>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Color</th>
+        <th>Posición</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @issue_types.each do |issue_type| %>
+        <tr>
+          <td><%= issue_type.name %></td>
+           <td>
+            <!-- Mostrar un bloque de color con el valor del color -->
+            <span class="color-sample" style="background-color: <%= issue_type.color %>; width: 20px; height: 20px; display: inline-block;"></span>
+
+          </td>
+          <td><%= issue_type.position %></td>
+          <td>
+            <%= link_to 'Editar', edit_settings_issue_type_path(issue_type), class: 'btn btn-sm btn-secondary' %>
+            <%= link_to 'Eliminar', settings_issue_type_path(issue_type), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-sm btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'Volver a la lista de Configuración', settings_path, class: 'btn btn-link' %>
+</div>
