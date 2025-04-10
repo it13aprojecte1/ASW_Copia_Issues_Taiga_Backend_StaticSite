@@ -1,2 +1,35 @@
-<h1>Settings::Severities#index</h1>
-<p>Find me in app/views/settings/severities/index.html.erb</p>
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>Severidades</h1>
+    <%= link_to 'Nueva Severidad', new_settings_severity_path, class: 'btn btn-primary' %>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Color</th>
+        <th>Posición</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @severities.each do |severity| %>
+        <tr>
+          <td><%= severity.name %></td>
+          <td>
+            <span class="color-sample" style="background-color: <%= severity.color %>; width: 20px; height: 20px; display: inline-block;"></span>
+
+          </td>
+          <td><%= severity.position %></td>
+          <td>
+            <%= link_to 'Editar', edit_settings_severity_path(severity), class: 'btn btn-sm btn-secondary' %>
+            <%= link_to 'Eliminar', confirm_destroy_settings_severity_path(severity), class: 'btn btn-sm btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'Volver a Configuración', settings_path, class: 'btn btn-link' %>
+</div>

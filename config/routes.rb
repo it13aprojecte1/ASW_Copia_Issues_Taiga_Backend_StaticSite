@@ -25,10 +25,26 @@ resources :issues do
 end
 
  namespace :settings do
-    resources :statuses
-    resources :priorities
-    resources :issue_types
-    resources :severities
+    resources :statuses do
+      member do
+        get :confirm_destroy
+      end
+    end
+    resources :priorities do
+      member do
+        get :confirm_destroy
+      end
+    end
+    resources :issue_types do
+      member do
+        get :confirm_destroy
+      end
+    end
+    resources :severities do
+      member do
+        get :confirm_destroy
+      end
+    end
   end
 
  # Ruta principal para la página de settings

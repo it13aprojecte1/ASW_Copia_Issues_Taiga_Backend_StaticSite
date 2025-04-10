@@ -1,2 +1,26 @@
-<h1>Settings::Priorities#edit</h1>
-<p>Find me in app/views/settings/priorities/edit.html.erb</p>
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>Editar Prioridad</h1>
+    <%= link_to 'Volver a la lista de Prioridades', settings_priorities_path, class: 'btn btn-link' %>
+  </div>
+
+  <%= form_with model: @priority, url: settings_priority_path(@priority), method: :put, local: true do |form| %>
+    <div class="form-group">
+      <%= form.label :name, 'Nombre de la Prioridad' %>
+      <%= form.text_field :name, class: 'form-control', value: @priority.name %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :color, 'Color de la Prioridad' %>
+      <%= form.color_field :color, class: 'form-control', value: @priority.color %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :position, 'Posición' %>
+      <%= form.number_field :position, class: 'form-control', value: @priority.position %>
+    </div>
+
+    <%= form.submit 'Guardar Cambios', class: 'btn btn-primary' %>
+  <% end %>
+</div>
+

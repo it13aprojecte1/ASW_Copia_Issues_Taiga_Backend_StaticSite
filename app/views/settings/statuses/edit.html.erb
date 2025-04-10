@@ -1,2 +1,32 @@
-<h1>Settings::Statuses#edit</h1>
-<p>Find me in app/views/settings/statuses/edit.html.erb</p>
+
+
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>Editar Estado</h1>
+    <%= link_to 'Volver a la lista de Estados', settings_statuses_path, class: 'btn btn-link' %>
+  </div>
+
+  <%= form_with model: @status, url: settings_status_path(@status), method: :put, local: true do |form| %>
+    <div class="form-group">
+      <%= form.label :name, 'Nombre del Estado' %>
+      <%= form.text_field :name, class: 'form-control', value: @status.name %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :color, 'Color del Estado' %>
+      <%= form.color_field :color, class: 'form-control', value: @status.color %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :is_closed, '¿Está cerrado?' %>
+      <%= form.check_box :is_closed %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :position, 'Posición' %>
+      <%= form.number_field :position, class: 'form-control', value: @status.position %>
+    </div>
+
+    <%= form.submit 'Guardar Cambios', class: 'btn btn-primary' %>
+  <% end %>
+</div>

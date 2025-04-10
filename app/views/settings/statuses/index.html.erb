@@ -19,15 +19,13 @@
         <tr>
           <td><%= status.name %></td>
           <td>
-            <span class="color-sample" style="background-color: <%= status.color %>"></span>
-            <%= status.color %>
+            <span class="color-sample" style="background-color: <%= status.color %>; width: 20px; height: 20px; display: inline-block;"></span>
           </td>
           <td><%= status.is_closed ? 'Sí' : 'No' %></td>
           <td><%= status.position %></td>
           <td>
             <%= link_to 'Editar', edit_settings_status_path(status), class: 'btn btn-sm btn-secondary' %>
-            <%= link_to 'Eliminar', settings_status_path(status), method: :delete,
-                data: { confirm: '¿Estás seguro?' }, class: 'btn btn-sm btn-danger' %>
+            <%= link_to 'Eliminar', confirm_destroy_settings_status_path(status), class: 'btn btn-sm btn-danger' %>
           </td>
         </tr>
       <% end %>
