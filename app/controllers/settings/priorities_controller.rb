@@ -1,5 +1,5 @@
 class Settings::PrioritiesController < ApplicationController
-  before_action :set_priority, only: [:edit, :update, :destroy]
+  before_action :set_priority, only: [:edit, :update, :destroy, :confirm_destroy]
 
   def index
     @priorities = Priority.order(:position)
@@ -52,8 +52,23 @@ class Settings::PrioritiesController < ApplicationController
     end
   end
 
+  # Muestra la página de confirmación de eliminación con el desplegable para seleccionar prioridad destino
+  def confirm_destroy
+    # Obtener todas las prioridades excepto la actual para mostrarlas en el desplegable
+    @other_priorities = Priority.where.not(id: @priority.id).order(:position)
+
+    # Verificar si hay issues asociadas a esta prioridad
+    @has_issues = Issue.where(priority_id: @priority.id).exists?
+  end
+
   def destroy
     position = @priority.position
+
+    # Si se proporciona una prioridad de reemplazo, actualizar todas las issues asociadas
+    if params[:replacement_priority_id].present?
+      Issue.where(priority_id: @priority.id).update_all(priority_id: params[:replacement_priority_id])
+    end
+
     @priority.destroy
 
     # Reorder positions after deletion: move all higher positions down by 1
@@ -70,7 +85,7 @@ class Settings::PrioritiesController < ApplicationController
   end
 
   def priority_params
-    params.require(:priority).permit(:name, :color, :position)  # AquÃ­ no necesitamos `:is_closed`
+    params.require(:priority).permit(:name, :color, :position)  # Aquí no necesitamos `:is_closed`
   end
 
   # Shifts all items at or below the given position down by one

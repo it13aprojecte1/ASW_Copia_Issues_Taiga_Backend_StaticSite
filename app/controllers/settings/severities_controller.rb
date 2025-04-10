@@ -1,5 +1,5 @@
 class Settings::SeveritiesController < ApplicationController
-  before_action :set_severity, only: [:edit, :update, :destroy]
+  before_action :set_severity, only: [:edit, :update, :destroy, :confirm_destroy]
 
   def index
     @severities = Severity.order(:position)
@@ -52,8 +52,23 @@ class Settings::SeveritiesController < ApplicationController
     end
   end
 
+  # Muestra la página de confirmación de eliminación con el desplegable para seleccionar severidad destino
+  def confirm_destroy
+    # Obtener todas las severidades excepto la actual para mostrarlas en el desplegable
+    @other_severities = Severity.where.not(id: @severity.id).order(:position)
+
+    # Verificar si hay issues asociadas a esta severidad
+    @has_issues = Issue.where(severity_id: @severity.id).exists?
+  end
+
   def destroy
     position = @severity.position
+
+    # Si se proporciona una severidad de reemplazo, actualizar todas las issues asociadas
+    if params[:replacement_severity_id].present?
+      Issue.where(severity_id: @severity.id).update_all(severity_id: params[:replacement_severity_id])
+    end
+
     @severity.destroy
 
     # Reorder positions after deletion: move all higher positions down by 1
@@ -70,7 +85,7 @@ class Settings::SeveritiesController < ApplicationController
   end
 
   def severity_params
-    params.require(:severity).permit(:name, :color, :position)  # AquÃ­ no necesitamos `:is_closed`
+    params.require(:severity).permit(:name, :color, :position)  # Aquí no necesitamos `:is_closed`
   end
 
   # Shifts all items at or below the given position down by one

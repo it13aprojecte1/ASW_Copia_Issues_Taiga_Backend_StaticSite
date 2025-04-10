@@ -1,5 +1,5 @@
 class Settings::IssueTypesController < ApplicationController
-  before_action :set_issue_type, only: [:edit, :update, :destroy]
+  before_action :set_issue_type, only: [:edit, :update, :destroy, :confirm_destroy]
 
   def index
     @issue_types = IssueType.order(:position)
@@ -52,8 +52,23 @@ class Settings::IssueTypesController < ApplicationController
     end
   end
 
+  # Muestra la página de confirmación de eliminación con el desplegable para seleccionar tipo de incidencia destino
+  def confirm_destroy
+    # Obtener todos los tipos de incidencia excepto el actual para mostrarlos en el desplegable
+    @other_issue_types = IssueType.where.not(id: @issue_type.id).order(:position)
+
+    # Verificar si hay issues asociadas a este tipo de incidencia
+    @has_issues = Issue.where(issue_type_id: @issue_type.id).exists?
+  end
+
   def destroy
     position = @issue_type.position
+
+    # Si se proporciona un tipo de incidencia de reemplazo, actualizar todas las issues asociadas
+    if params[:replacement_issue_type_id].present?
+      Issue.where(issue_type_id: @issue_type.id).update_all(issue_type_id: params[:replacement_issue_type_id])
+    end
+
     @issue_type.destroy
 
     # Reorder positions after deletion: move all higher positions down by 1

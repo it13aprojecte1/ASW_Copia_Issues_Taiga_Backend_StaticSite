@@ -25,9 +25,7 @@
           <td><%= issue_type.position %></td>
           <td>
             <%= link_to 'Editar', edit_settings_issue_type_path(issue_type), class: 'btn btn-sm btn-secondary' %>
-           <%= form_with url: settings_issue_type_path(issue_type), method: :delete, class: 'd-inline' do %>
-              <%= submit_tag 'Eliminar', class: 'btn btn-sm btn-danger', data: { confirm: '¿Estás seguro?' } %>
-            <% end %>
+            <%= link_to 'Eliminar', confirm_destroy_settings_issue_type_path(issue_type), class: 'btn btn-sm btn-danger' %>
           </td>
         </tr>
       <% end %>

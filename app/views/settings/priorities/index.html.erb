@@ -23,9 +23,7 @@
           <td><%= priority.position %></td>
           <td>
             <%= link_to 'Editar', edit_settings_priority_path(priority), class: 'btn btn-sm btn-secondary' %>
-            <%= form_with url: settings_priority_path(priority), method: :delete, class: 'd-inline' do %>
-              <%= submit_tag 'Eliminar', class: 'btn btn-sm btn-danger', data: { confirm: '¿Estás seguro?' } %>
-            <% end %>
+            <%= link_to 'Eliminar', confirm_destroy_settings_priority_path(priority), class: 'btn btn-sm btn-danger' %>
           </td>
         </tr>
       <% end %>
@@ -34,4 +32,3 @@
 
   <%= link_to 'Volver a Configuración', settings_path, class: 'btn btn-link' %>
 </div>
-

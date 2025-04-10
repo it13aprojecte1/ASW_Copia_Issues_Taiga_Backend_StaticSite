@@ -1,5 +1,5 @@
 class Settings::StatusesController < ApplicationController
-  before_action :set_status, only: [:edit, :update, :destroy]
+  before_action :set_status, only: [:edit, :update, :destroy, :confirm_destroy]
 
   def index
     @statuses = Status.order(:position)
@@ -51,8 +51,23 @@ class Settings::StatusesController < ApplicationController
     end
   end
 
+  # Muestra la página de confirmación de eliminación con el desplegable para seleccionar status destino
+  def confirm_destroy
+    # Obtener todos los status excepto el actual para mostrarlos en el desplegable
+    @other_statuses = Status.where.not(id: @status.id).order(:position)
+
+    # Verificar si hay issues asociadas a este status
+    @has_issues = Issue.where(status_id: @status.id).exists?
+  end
+
   def destroy
     position = @status.position
+
+    # Si se proporciona un status de reemplazo, actualizar todas las issues asociadas
+    if params[:replacement_status_id].present?
+      Issue.where(status_id: @status.id).update_all(status_id: params[:replacement_status_id])
+    end
+
     @status.destroy
 
     # Reorder positions after deletion: move all higher positions down by 1
