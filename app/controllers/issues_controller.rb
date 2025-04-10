@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  before_action :set_issue, only: %i[ show edit update destroy ]
+  before_action :set_issue, only: %i[ show edit update destroy delete_attachment ]
   before_action :authenticate_user!
 
   #Action que oculta la barra de navegacion donde tenemos el cerrar sesion en el momento que estoy haciendo esto
@@ -49,8 +49,16 @@ end
   # PATCH/PUT /issues/1 or /issues/1.json
   def update
     respond_to do |format|
-      if @issue.update(issue_params)
-        format.html { redirect_to root_path, notice: "Issue was successfully updated." }
+      # Para adjuntar archivos nuevos sin eliminar los antiguos
+      if params[:issue][:attachments].present?
+        params[:issue][:attachments].each do |attachment|
+          @issue.attachments.attach(attachment)
+        end
+      end
+
+      # Actualizar otros atributos
+      if @issue.update(issue_params.except(:attachments))
+        format.html { redirect_to issue_path(@issue), notice: "Issue was successfully updated." }
         format.json { render :show, status: :ok, location: @issue }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -69,6 +77,16 @@ end
     end
   end
 
+  def delete_attachment
+    attachment = ActiveStorage::Attachment.find(params[:attachment_id])
+    if attachment.record_id == @issue.id
+      attachment.purge
+      redirect_to issue_path(@issue), notice: "Archivo eliminado."
+    else
+      redirect_to issue_path(@issue), alert: "No se puede eliminar este archivo."
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
   def set_issue
@@ -76,7 +94,7 @@ end
   end
     # Only allow a list of trusted parameters through.
   def issue_params
-  params.require(:issue).permit(:subject, :content, :status_id, :issue_type_id, :severity_id, :priority_id, :deadline)
+  params.require(:issue).permit(:subject, :content, :status_id, :issue_type_id, :severity_id, :priority_id, :deadline, attachments: [])
   end
 
     def hide_navbar

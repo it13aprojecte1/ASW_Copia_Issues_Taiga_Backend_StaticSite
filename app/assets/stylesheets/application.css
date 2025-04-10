@@ -1,13 +1,16 @@
+/* Estilos base */
 body {
   font-family: 'Inter', sans-serif;
 }
 
+/* Contenedor principal de issues */
 .issue-form-container {
   max-width: 800px;
   margin: auto;
   padding: 60px 40px;
 }
 
+/* Títulos */
 h2.text-center {
   text-align: center;
   width: 100%;
@@ -16,6 +19,7 @@ h2.text-center {
   font-weight: 600;
 }
 
+/* Layout de formularios */
 .form-layout {
   display: flex;
   flex-direction: row;
@@ -38,6 +42,7 @@ h2.text-center {
   justify-content: flex-start;
 }
 
+/* Inputs y textareas */
 .large-input, .large-textarea {
   width: 100%;
   font-size: 16px;
@@ -51,6 +56,7 @@ h2.text-center {
   height: 220px;
 }
 
+/* Botones de cierre */
 .close-btn-container {
   position: absolute;
   top: 20px;
@@ -70,6 +76,7 @@ h2.text-center {
   color: #555;
 }
 
+/* Select boxes personalizados */
 .custom-select-box {
   display: flex;
   align-items: center;
@@ -110,6 +117,7 @@ h2.text-center {
   text-align: center;
 }
 
+/* Botones de iconos */
 .icon-container {
   display: flex;
   align-items: center;
@@ -138,6 +146,7 @@ h2.text-center {
   border-color: #888;
 }
 
+/* Date picker */
 .date-picker-container {
   position: relative;
 }
@@ -155,6 +164,7 @@ h2.text-center {
   z-index: 10;
 }
 
+/* Textarea bloqueado */
 .locked-textarea {
   display: none;
   margin-top: 10px;
@@ -168,6 +178,7 @@ h2.text-center {
   border-radius: 5px;
 }
 
+/* Botón crear */
 .btn-create {
   background-color: #98F5E1;
   color: black;
@@ -187,6 +198,7 @@ h2.text-center {
   color: white;
 }
 
+/* Botón de etiqueta */
 .add-tag {
   display: inline-block;
   color: #007bff;
@@ -203,211 +215,7 @@ h2.text-center {
   border-color: #aaa;
 }
 
-body {
-  font-family: 'Inter', sans-serif;
-}
-
-.issue-form-container {
-  max-width: 800px;
-  margin: auto;
-  padding: 60px 40px;
-}
-
-h2.text-center {
-  text-align: center;
-  width: 100%;
-  font-size: 24px;
-  margin-bottom: 30px;
-  font-weight: 600;
-}
-
-.form-layout {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 40px;
-}
-
-.left-column {
-  flex: 70%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.right-column {
-  flex: 30%;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  justify-content: flex-start;
-}
-
-.large-input, .large-textarea {
-  width: 100%;
-  font-size: 16px;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-}
-
-.large-textarea {
-  height: 220px;
-}
-
-.close-btn-container {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
-.close-btn {
-  font-size: 28px;
-  font-weight: bold;
-  color: #888;
-  text-decoration: none;
-  background: none;
-  border: none;
-}
-
-.close-btn:hover {
-  color: #555;
-}
-
-.custom-select-box {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  background: #f7f7f7;
-  height: 45px;
-}
-
-.select-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.select-label {
-  font-weight: 500;
-  font-size: 14px;
-  flex: 1;
-  text-align: left;
-}
-
-.custom-select {
-  border: none;
-  flex: 1;
-  background: transparent;
-  outline: none;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: right;
-  text-align-last: right;
-  min-width: 120px;
-}
-
-.custom-select option {
-  text-align: center;
-}
-
-.icon-container {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-top: 10px;
-}
-
-.icon-btn {
-  background: #f7f7f7;
-  border: 2px solid #ccc;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 5px;
-  width: 45px;
-  height: 45px;
-  text-align: center;
-}
-
-.icon-btn:hover {
-  border-color: #aaa;
-}
-
-.icon-btn.active {
-  background: #ddd;
-  border-color: #888;
-}
-
-.date-picker-container {
-  position: relative;
-}
-
-.date-picker-popup {
-  display: none;
-  position: absolute;
-  top: 50px;
-  left: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-}
-
-.locked-textarea {
-  display: none;
-  margin-top: 10px;
-}
-
-.locked-textarea textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.btn-create {
-  background-color: #98F5E1;
-  color: black;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  width: 100%;
-  font-size: 14px;
-  text-transform: uppercase;
-  margin-top: 20px;
-}
-
-.btn-create:hover {
-  background-color: #0085A1;
-  color: white;
-}
-
-.add-tag {
-  display: inline-block;
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 14px;
-  border: 2px solid #ccc;
-  padding: 8px 12px;
-  border-radius: 5px;
-  background: #f7f7f7;
-}
-
-.add-tag:hover {
-  border-color: #aaa;
-}
-
-/* Estilos para la barra de navegación */
+/* Barra de navegación */
 nav {
   background-color: #f8f9fa;
   padding: 15px 20px;
@@ -443,118 +251,119 @@ nav button:hover, nav a:hover {
   color: white;
 }
 
-/* Para que los links tengan el mismo estilo que los botones */
 nav a {
   display: inline-block;
 }
 
-/* Alineación del contenedor derecho de la barra de navegación */
 .nav-right {
   display: flex;
   align-items: center;
   margin-left: auto;
 }
 
-  .table-container {
-    margin-right: 20px;
-    margin-left: 20px;
-    overflow-x: auto;
-  }
+/* Tabla de issues */
+.table-container {
+  margin-right: 20px;
+  margin-left: 20px;
+  overflow-x: auto;
+}
 
-  .table {
-    border-collapse: separate;
-    border-spacing: 0 15px;
-    width: 100%;
-  }
+.table {
+  border-collapse: separate;
+  border-spacing: 0 15px;
+  width: 100%;
+}
 
-  .table thead th {
-    text-transform: uppercase;
-    color: #4a4a4a;
-    font-family: Arial, sans-serif;
-    font-weight: normal;
-    font-size: 14px;
-  }
+.table thead th {
+  text-transform: uppercase;
+  color: #4a4a4a;
+  font-family: Arial, sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+}
 
-  .table thead th.issue-column {
-    text-align: left;
-  }
+.table thead th.issue-column {
+  text-align: left;
+}
 
-  .table tbody td {
-    font-family: Arial, sans-serif;
-    font-weight: normal;
-    text-align: left;
-  }
+.table tbody td {
+  font-family: Arial, sans-serif;
+  font-weight: normal;
+  text-align: left;
+}
 
-  .table tbody tr {
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-  }
+.table tbody tr {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+}
 
-  .table tbody tr td {
-    padding: 12px;
-    background-color: transparent;
-    vertical-align: middle;
-  }
+.table tbody tr td {
+  padding: 12px;
+  background-color: transparent;
+  vertical-align: middle;
+}
 
-  .table tbody tr td:first-child {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-  }
+.table tbody tr td:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
 
-  .table tbody tr td:last-child {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
+.table tbody tr td:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
 
-  .table thead th:nth-child(1),
-  .table tbody td:nth-child(1),
-  .table thead th:nth-child(2),
-  .table tbody td:nth-child(2),
-  .table thead th:nth-child(3),
-  .table tbody td:nth-child(3),
-  .table thead th:nth-child(5),
-  .table tbody td:nth-child(5) {
-    width: 12%;
-  }
+.table thead th:nth-child(1),
+.table tbody td:nth-child(1),
+.table thead th:nth-child(2),
+.table tbody td:nth-child(2),
+.table thead th:nth-child(3),
+.table tbody td:nth-child(3),
+.table thead th:nth-child(5),
+.table tbody td:nth-child(5) {
+  width: 12%;
+}
 
-  .table thead th:nth-child(4),
-  .table tbody td:nth-child(4) {
-    width: 50%;
-  }
+.table thead th:nth-child(4),
+.table tbody td:nth-child(4) {
+  width: 50%;
+}
 
-  .table thead th:nth-child(6),
-  .table tbody td:nth-child(6) {
-    width: 14%;
-  }
+.table thead th:nth-child(6),
+.table tbody td:nth-child(6) {
+  width: 14%;
+}
 
-  .table thead th:nth-child(7),
-  .table tbody td:nth-child(7) {
-    width: 16%;
-  }
+.table thead th:nth-child(7),
+.table tbody td:nth-child(7) {
+  width: 16%;
+}
 
-  .table tbody tr:hover {
-    background-color: #e0e0e0;
-    transition: background-color 0.3s ease;
-  }
+.table tbody tr:hover {
+  background-color: #e0e0e0;
+  transition: background-color 0.3s ease;
+}
 
-  .issue-id {
-    color: #0085A1;
-  }
+/* Enlaces en tablas */
+.issue-id {
+  color: #0085A1;
+}
 
-  .issue-title {
-    color: black;
-    text-decoration: none;
-  }
+.issue-title {
+  color: black;
+  text-decoration: none;
+}
 
-  td:hover .issue-id {
-    color: black;
-  }
+td:hover .issue-id {
+  color: black;
+}
 
-  td:hover .issue-title {
-    color: #0085A1;
-  }
+td:hover .issue-title {
+  color: #0085A1;
+}
 
-  .no-issues-container {
+/* Mensaje de no issues */
+.no-issues-container {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -580,59 +389,54 @@ nav a {
 }
 
 .no-issues-button:hover {
-  text-decoration: underline;
-}
-
-.no-issues-button:hover {
   color: #4a4a4a;
   text-decoration: none;
 }
 
+/* Contenedor de botones personalizados */
 .custom-btn-container {
   display: flex;
-  gap: 10px; /* Separa los botones entre sí */
+  gap: 10px;
 }
 
-  .custom-btn {
-    background-color: #98F5E1;
-    color: black;
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-weight: 530;
-    width: 120px;
-    text-align: center;
-    text-transform: none;
-    text-decoration: none;
-    font-family: Arial, sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    float: right;
-  }
+.custom-btn {
+  background-color: #98F5E1;
+  color: black;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: 530;
+  width: 120px;
+  text-align: center;
+  text-transform: none;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  float: right;
+}
 
-  .custom-btn:hover {
-    background-color: #0085A1;
-    color: white;
-  }
+.custom-btn:hover {
+  background-color: #0085A1;
+  color: white;
+}
 
-  .plus-sign {
-    font-size: 25px;
-    font-weight: 500;
-    margin-right: 5px;
-    display: inline-block;
-    position: relative;
-    top: 1px;
-    display: inline-block;
-  }
+/* Signos e iconos */
+.plus-sign, .gear-sign {
+  font-weight: 500;
+  margin-right: 5px;
+  display: inline-block;
+  position: relative;
+  top: 1px;
+}
 
-  .gear-sign {
-    font-size: 20px;
-    font-weight: 500;
-    margin-right: 5px;
-    display: inline-block;
-    position: relative;
-    top: 1px;
-    display: inline-block;
-  }
+.plus-sign {
+  font-size: 25px;
+}
 
+.gear-sign {
+  font-size: 20px;
+}
+
+/* Cabecera de issues */
 .issues-header {
   display: flex;
   align-items: center;
@@ -651,7 +455,7 @@ nav a {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #DCE3EB; /* Color del botón */
+  background-color: #DCE3EB;
   width: 41px;
   height: 41px;
   border-radius: 12px;
@@ -661,18 +465,19 @@ nav a {
 
 .issues-menu-button i {
   font-size: 12px;
-  color: #374151; /* Color del icono */
+  color: #374151;
   margin: 2px;
 }
 
 .issues-menu-button:hover {
-  background-color: #0085A1; /* Cambia a turquesa al pasar el ratón */
+  background-color: #0085A1;
 }
 
 .issues-menu-button:hover i {
-  color: white; /* Cambia los iconos a blanco al hacer hover */
+  color: white;
 }
 
+/* Botón de filtro */
 .filter-btn {
   background-color: #f8f9fa;
   color: #0085A1;
@@ -698,12 +503,13 @@ nav a {
 }
 
 .filter-btn i {
-  margin-right: 8px; /* Espaciado entre el icono y el texto */
+  margin-right: 8px;
 }
 
+/* Barra de búsqueda */
 .search-container {
-  flex-grow: 1; /* Hace que la barra ocupe todo el espacio disponible */
-  max-width: 1000px; /* Puedes ajustar el ancho máximo según prefieras */
+  flex-grow: 1;
+  max-width: 1000px;
   display: flex;
   align-items: center;
   position: relative;
@@ -715,31 +521,31 @@ nav a {
   border: 2px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
-  width: 100%; /* Hace que ocupe el espacio disponible */
+  width: 100%;
   transition: border-color 0.3s ease-in-out;
 }
 
 .search-icon {
   position: absolute;
-  right: 10px; /* Ajusta la posición de la lupa */
+  right: 10px;
   font-size: 14px;
   color: #0085A1;
 }
 
 .search-bar:focus {
-  border-color: #0085A1; /* Color turquesa */
-  outline: none; /* Elimina el contorno negro predeterminado */
+  border-color: #0085A1;
+  outline: none;
 }
 
 .top-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Distribuye los elementos equitativamente */
+  justify-content: space-between;
   width: 100%;
   padding: 0 20px;
 }
 
-/* Estilos básicos para el calendario */
+/* Calendario */
 .calendar-container {
   position: absolute;
   background-color: white;
@@ -774,4 +580,368 @@ nav a {
 .selected-day {
   background-color: #007bff;
   color: white;
+}
+
+/* Sección de adjuntos */
+.attachments-section {
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.attachments-header {
+  margin-bottom: 15px;
+}
+
+.attachments-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.attachment-list {
+  margin-bottom: 20px;
+}
+
+.attachment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.attachment-info {
+  display: flex;
+  align-items: center;
+}
+
+.attachment-name {
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.attachment-size {
+  color: #6c757d;
+  font-size: 0.85em;
+}
+
+.attachment-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.download-link {
+  color: #0085A1;
+  text-decoration: none;
+}
+
+.trash-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #dc3545;
+}
+
+.trash-icon, .download-icon {
+  font-size: 18px;
+}
+
+.no-attachments {
+  color: #6c757d;
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+/* Input personalizado para archivos */
+.custom-file-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.custom-file-label {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.custom-file-label:hover {
+  background-color: #e9ecef;
+}
+
+.add-attachment-btn {
+  position: relative;
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: #98F5E1;
+  color: black;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background-color: #0085A1;
+  color: white;
+}
+
+.inline-form {
+  display: inline;
+}
+
+.file-input {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Botones de acción */
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+  padding: 15px;
+  border-top: 1px solid #ddd;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.action-button i {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.edit-button {
+  background-color: #f8f9fa;
+  color: #0085A1;
+  border: 1px solid #ddd;
+}
+
+.edit-button:hover {
+  background-color: #0085A1;
+  color: white;
+}
+
+.back-button {
+  background-color: #98F5E1;
+  color: black;
+}
+
+.back-button:hover {
+  background-color: #0085A1;
+  color: white;
+}
+
+.delete-button {
+  background-color: #f8f9fa;
+  color: #dc3545;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+}
+
+.delete-button:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.edit-icon, .back-icon, .trash-icon {
+  display: inline-block;
+  line-height: 1;
+}
+/* Estilos para los nuevos botones de acción minimalistas */
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+  padding: 15px 0;
+}
+
+.action-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #f0f7fa;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.action-icon:hover {
+  background-color: #d0edf5;
+}
+
+.action-icon svg {
+  transition: transform 0.2s;
+}
+
+.action-icon:hover svg {
+  transform: scale(1.1);
+}
+
+.delete-container {
+  margin-top: 15px;
+}
+
+.delete-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  background-color: #f0f7fa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.delete-icon-btn:hover {
+  background-color: #ffebee;
+}
+
+.delete-icon-btn svg {
+  transition: transform 0.2s;
+}
+
+.delete-icon-btn:hover svg {
+  transform: scale(1.1);
+  stroke: #dc3545;
+}
+/* Contenedor para los botones de acción en la columna derecha */
+.action-icons-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  background-color: #f0f7fa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.edit-icon:hover {
+  background-color: #d0edf5;
+}
+
+.delete-icon:hover {
+  background-color: #ffebee;
+}
+
+.delete-icon:hover svg {
+  stroke: #dc3545;
+}
+
+.action-icon svg {
+  transition: transform 0.2s;
+}
+
+.action-icon:hover svg {
+  transform: scale(1.1);
+}
+
+/* Botón de volver a issues */
+.navigation-buttons {
+  margin: 20px 0;
+  padding: 15px 0;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #98F5E1;
+  color: black;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #0085A1;
+  color: white;
+}
+
+.back-button svg {
+  margin-right: 8px;
+}
+
+.back-button span {
+  font-size: 14px;
+}
+.action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  background-color: #f0f7fa;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+}
+
+.action-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.edit-icon:hover {
+  background-color: #d0edf5;
+}
+
+.delete-icon:hover {
+  background-color: #ffebee;
+}
+
+.delete-icon:hover svg {
+  stroke: #dc3545;
 }

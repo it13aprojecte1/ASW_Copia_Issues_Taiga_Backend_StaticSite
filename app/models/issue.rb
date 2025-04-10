@@ -7,6 +7,9 @@ class Issue < ApplicationRecord
 
   has_many :comments, dependent: :destroy
 
+  has_many_attached :attachments, service: :amazon
+
+
   validates :subject, presence: true, length: { minimum: 1 }
   validates :deadline, presence: true
 

@@ -12,6 +12,7 @@ resources :users
 
 resources :issues do
   resources :comments, only: :create
+  delete :attachment, action: :delete_attachment, on: :member
 end
 
  namespace :settings do
