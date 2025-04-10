@@ -68,10 +68,15 @@
         </div>
 
         <!-- Fecha límite (Date Picker) -->
-        <div class="mb-3">
-          <%= form.date_field :deadline, class: "form-control large-input", placeholder: "Select deadline", id: "deadline" %>
+        <div class="custom-select-box" style="margin-bottom: 20px;">
+          <div class="select-container">
+            <span class="select-label">Deadline (optional)</span>
+            <%= form.date_field :deadline,
+                class: "form-control large-input",
+                placeholder: "Select deadline (optional)",
+                id: "deadline" %>
+          </div>
         </div>
-      </div>
     </div>
 
     <div class="text-center mt-4">

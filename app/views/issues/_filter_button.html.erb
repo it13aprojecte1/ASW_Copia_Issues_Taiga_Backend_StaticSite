@@ -1,0 +1,77 @@
+<% button_text = session[:show_filters] ? "Hide filters" : "Filters" %>
+<% button_class = session[:show_filters] ? "filter-btn active" : "filter-btn" %>
+
+<%= link_to toggle_filters_issues_path(request.parameters.except(:action, :controller)), class: button_class do %>
+  <i class="fas fa-sliders-h"></i> <%= button_text %>
+  <% if @active_filters_count > 0 %>
+    <span class="filter-count"><%= @active_filters_count %></span>
+  <% end %>
+<% end %>
+
+<% if session[:show_filters] %>
+  <div class="filter-dropdown">
+    <!-- Sección de filtros activos -->
+    <div class="filter-section active-filters">
+      <h3>Filtered by:</h3>
+      <div class="applied-filters">
+        <% if session[:filters] && session[:filters][:include].present? %>
+          <% session[:filters][:include].each do |filter_type, values| %>
+            <% values.each do |value| %>
+              <div class="filter-tag <%= value.downcase if filter_type == 'severity' %>">
+                <span>
+                  <%= get_display_name(filter_type, value) %>
+                </span>
+                <%= link_to "×", remove_filter_issues_path(
+                  filter_type: filter_type,
+                  filter_value: value,
+                  filter_mode: 'include'
+                ), method: :delete, class: 'remove-filter' %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% if @active_filters_count > 0 %>
+          <%= link_to "Clear all", clear_filters_issues_path, method: :delete, class: 'clear-all-filters' %>
+        <% end %>
+      </div>
+    </div>
+
+      <!-- Categorías de filtro -->
+      <%= render 'filter_category',
+        title: 'Type',
+        category: 'type',
+        options: @type_options,
+        expanded: false %>
+
+      <%= render 'filter_category',
+        title: 'Severity',
+        category: 'severity',
+        options: @severity_options,
+        expanded: params[:expand_category] == 'severity' %>
+
+      <%= render 'filter_category',
+        title: 'Priority',
+        category: 'priority',
+        options: @priority_options,
+        expanded: false %>
+
+      <%= render 'filter_category',
+        title: 'Status',
+        category: 'status',
+        options: @status_options,
+        expanded: false %>
+
+      <%= render 'filter_category',
+        title: 'Assigned to',
+        category: 'assigned_to',
+        options: @user_options,
+        expanded: false %>
+
+      <%= render 'filter_category',
+        title: 'Created by',
+        category: 'created_by',
+        options: @user_options,
+        expanded: false %>
+  </div>
+<% end %>

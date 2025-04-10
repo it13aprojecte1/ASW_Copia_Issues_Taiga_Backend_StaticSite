@@ -7,7 +7,16 @@ devise_for :users
 #get '/issues/new', to: 'issues#new'
 #post '/issues', to: 'issues#create'
 
-resources :issues
+resources :issues do
+    collection do
+      get 'bulk_new'
+      post 'bulk_create'
+      get 'toggle_filters'
+      post 'add_filter'
+      delete 'remove_filter'
+      delete 'clear_filters'
+    end
+  end
 resources :users
 
 resources :issues do

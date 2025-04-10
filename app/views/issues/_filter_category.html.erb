@@ -1,0 +1,21 @@
+<div class="filter-category <%= 'expanded' if expanded %>">
+  <%= link_to issues_path(request.parameters.except(:controller, :action).merge(expand_category: expanded ? nil : category)),
+        class: 'filter-category-header' do %>
+    <span><%= title %></span>
+    <i class="fas <%= expanded ? 'fa-chevron-down' : 'fa-chevron-right' %>"></i>
+  <% end %>
+
+  <div class="filter-category-content" style="<%= expanded ? 'display: block;' : 'display: none;' %>">
+    <% options.each do |option| %>
+      <%= link_to add_filter_issues_path(
+            filter_type: category,
+            filter_value: option.id,
+            filter_mode: params[:filter_mode] || 'include'
+          ),
+          method: :post,
+          class: "filter-option #{option.name.downcase if category == 'severity'}" do %>
+        <%= option.name %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

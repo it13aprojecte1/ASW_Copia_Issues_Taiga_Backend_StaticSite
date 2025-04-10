@@ -463,7 +463,7 @@ nav a {
 
   .table {
     border-collapse: separate;
-    border-spacing: 0 15px;
+    border-spacing: 0 18px;
     width: 100%;
   }
 
@@ -473,6 +473,12 @@ nav a {
     font-family: Arial, sans-serif;
     font-weight: normal;
     font-size: 14px;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .table thead th:hover {
+    color: #0085A1;
   }
 
   .table thead th.issue-column {
@@ -491,7 +497,7 @@ nav a {
   }
 
   .table tbody tr td {
-    padding: 12px;
+    padding: 18px;
     background-color: transparent;
     vertical-align: middle;
   }
@@ -519,17 +525,17 @@ nav a {
 
   .table thead th:nth-child(4),
   .table tbody td:nth-child(4) {
-    width: 50%;
+    width: 40%;
   }
 
   .table thead th:nth-child(6),
   .table tbody td:nth-child(6) {
-    width: 14%;
+    width: 25%;
   }
 
   .table thead th:nth-child(7),
   .table tbody td:nth-child(7) {
-    width: 16%;
+    width: 15%;
   }
 
   .table tbody tr:hover {
@@ -647,7 +653,7 @@ nav a {
   margin: 0;
 }
 
-.issues-menu-button {
+.bulk-issues {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -659,17 +665,17 @@ nav a {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.issues-menu-button i {
+.bulk-issues i {
   font-size: 12px;
   color: #374151; /* Color del icono */
   margin: 2px;
 }
 
-.issues-menu-button:hover {
+.bulk-issues:hover {
   background-color: #0085A1; /* Cambia a turquesa al pasar el ratón */
 }
 
-.issues-menu-button:hover i {
+.bulk-issues:hover i {
   color: white; /* Cambia los iconos a blanco al hacer hover */
 }
 
@@ -692,7 +698,8 @@ nav a {
   border: none;
 }
 
-.filter-btn:hover {
+.filter-btn:hover,
+.filter-btn.active {
   background-color: #e0e0e0;
   color: #0085A1;
 }
@@ -707,6 +714,10 @@ nav a {
   display: flex;
   align-items: center;
   position: relative;
+}
+
+.search-form {
+  width: 96%; /* El formulario ocupa todo el ancho del contenedor */
 }
 
 .search-bar {
@@ -776,7 +787,242 @@ nav a {
   color: white;
 }
 
+.sort-header {
+  color: #4a4a4a;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}
+
+.sort-header:hover {
+  color: #0085A1;
+}
+
 .sort-icon {
-  font-size: 16px;
+  font-size: 16px; /*14????*/
+  margin-left: 0 1px;
+  display: inline-block;
   color: #DCE3EB;
+}
+
+.sort-active {
+  color: #0085A1;
+}
+
+.sort-inactive {
+  color: #DCE3EB;
+}
+
+.bulk-textarea {
+  width: 80%;
+  max-width: 800px;
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.bulk-textarea:focus {
+  border-color: #0085A1;
+  outline: none;
+}
+
+.form-group {
+  width: 100%;
+}
+
+.form-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-cancel {
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-btn {
+  padding: 8px 16px;
+  background-color: #98F5E1;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #0085A1;
+  color: white;
+}
+
+.bulk-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.filter-count {
+  background-color: #0085A1;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+/* Estilos para el panel de filtros */
+.filter-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 260px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  margin-top: 5px;
+  overflow: hidden;
+}
+
+/* Sección de filtros activos */
+.filter-section.active-filters {
+  background-color: #f6f8e8;
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-section h3 {
+  font-size: 14px;
+  color: #777;
+  margin: 0 0 10px 0;
+  font-weight: normal;
+}
+
+.applied-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-tag {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 13px;
+  border-left: 3px solid #999;
+}
+
+/* Colores de etiquetas por severidad */
+.filter-tag.wishlist {
+  border-left-color: #7A9CC0;
+}
+
+.filter-tag.minor {
+  border-left-color: #5BB974;
+}
+
+.filter-tag.important {
+  border-left-color: #F9AB00;
+}
+
+.filter-tag.critical {
+  border-left-color: #D93025;
+}
+
+/* Etiquetas de filtros de exclusión */
+.filter-tag.exclude {
+  background-color: #fff1f0;
+  border-left-color: #D93025;
+}
+
+.remove-filter {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 5px;
+  padding: 0 4px;
+  text-decoration: none;
+}
+
+.remove-filter:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.clear-all-filters {
+  margin-top: 10px;
+  color: #0085A1;
+  text-decoration: none;
+  font-size: 13px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.clear-all-filters:hover {
+  text-decoration: underline;
+}
+
+/* Selector de tipo de filtro */
+.filter-type-selector {
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  gap: 20px;
+}
+
+.filter-type-selector label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+}
+
+.filter-mode-form {
+  display: flex;
+  gap: 20px;
+}
+
+/* Categorías de filtro */
+.filter-category {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  cursor: pointer;
+  background-color: #fff;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  color: #333;
 }
