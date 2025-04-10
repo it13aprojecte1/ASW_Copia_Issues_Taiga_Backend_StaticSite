@@ -89,35 +89,9 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET /users/1/profile
-  def profile
-    @assigned_issues = @user.assigned_issues
-    @watched_issues = @user.watched_issues
-    @comments = @user.comments.includes(:issue).order(created_at: :desc)
-    @active_tab = params[:tab] || 'assigned_issues'
-  end
 
-  # PATCH /users/1/update_avatar
-  def update_avatar
-    respond_to do |format|
-      if @user.update(params.require(:user).permit(:avatar))
-        format.html { redirect_to profile_user_path(@user), notice: "Avatar was successfully updated." }
-      else
-        format.html { redirect_to profile_user_path(@user), alert: "Failed to update avatar." }
-      end
-    end
-  end
 
-  # PATCH /users/1/update_bio
-  def update_bio
-    respond_to do |format|
-      if @user.update(params.require(:user).permit(:bio))
-        format.html { redirect_to profile_user_path(@user), notice: "Bio was successfully updated." }
-      else
-        format.html { redirect_to profile_user_path(@user), alert: "Failed to update bio." }
-      end
-    end
-  end
+
 
  private
     # Use callbacks to share common setup or constraints between actions.

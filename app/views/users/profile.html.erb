@@ -56,9 +56,23 @@
         <% if @active_tab == 'assigned_issues' %>
           <% if @assigned_issues.any? %>
             <% @assigned_issues.each do |issue| %>
-              <div class="issue-item">
-                <h5>#<%= issue.id %> <%= issue.title if issue.respond_to?(:title) %></h5>
-                <p><%= issue.status.name if issue.respond_to?(:status) && issue.status %></p>
+              <div class="issue-row">
+                <div class="issue-dots">
+                  <span class="issue-dot" style="background-color: <%= issue.issue_type&.color || '#ccc' %>;"></span>
+                  <span class="issue-dot" style="background-color: <%= issue.severity&.color || '#ccc' %>;"></span>
+                  <span class="issue-dot" style="background-color: <%= issue.priority&.color || '#ccc' %>;"></span>
+                </div>
+                <div class="issue-title">
+                  <%= link_to issue_path(issue), class: "issue-link" do %>
+                    #<%= issue.id %> <%= issue.subject %>
+                  <% end %>
+                </div>
+                <div class="issue-status">
+                  <span class="status-label"><%= issue.status&.name || 'New' %></span>
+                  <div class="issue-date">
+                    <%= issue.updated_at.strftime("%d %b %Y") %>
+                  </div>
+                </div>
               </div>
             <% end %>
           <% else %>
@@ -69,9 +83,23 @@
         <% if @active_tab == 'watched_issues' %>
           <% if @watched_issues.any? %>
             <% @watched_issues.each do |issue| %>
-              <div class="issue-item">
-                <h5>#<%= issue.id %> <%= issue.title if issue.respond_to?(:title) %></h5>
-                <p><%= issue.status.name if issue.respond_to?(:status) && issue.status %></p>
+              <div class="issue-row">
+                <div class="issue-dots">
+                  <span class="issue-dot" style="background-color: <%= issue.issue_type&.color || '#ccc' %>;"></span>
+                  <span class="issue-dot" style="background-color: <%= issue.severity&.color || '#ccc' %>;"></span>
+                  <span class="issue-dot" style="background-color: <%= issue.priority&.color || '#ccc' %>;"></span>
+                </div>
+                <div class="issue-title">
+                  <%= link_to issue_path(issue), class: "issue-link" do %>
+                    #<%= issue.id %> <%= issue.subject %>
+                  <% end %>
+                </div>
+                <div class="issue-status">
+                  <span class="status-label"><%= issue.status&.name || 'New' %></span>
+                  <div class="issue-date">
+                    <%= issue.updated_at.strftime("%d %b %Y") %>
+                  </div>
+                </div>
               </div>
             <% end %>
           <% else %>
@@ -86,7 +114,7 @@
                 <% if comment.issue.present? %>
                   <h5>
                     <%= link_to issue_path(comment.issue), class: "issue-link" do %>
-                    #<%= comment.issue.id %> <%= comment.issue.subject %>
+                      #<%= comment.issue.id %> <%= comment.issue.subject %>
                     <% end %>
                   </h5>
                 <% else %>
@@ -235,10 +263,48 @@
     margin-bottom: -1px;
   }
 
-  .issue-item, .comment-item {
-    margin-bottom: 15px;
-    padding-bottom: 15px;
+  .issue-row {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
     border-bottom: 1px solid #eee;
+  }
+
+  .issue-dots {
+    display: flex;
+    margin-right: 15px;
+  }
+
+  .issue-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+    display: inline-block;
+  }
+
+  .issue-title {
+    flex-grow: 1;
+  }
+
+  .issue-status {
+    text-align: right;
+    min-width: 120px;
+  }
+
+  .status-label {
+    padding: 3px 8px;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    color: #333;
+    font-size: 14px;
+    display: inline-block;
+  }
+
+  .issue-date {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
   }
 
   .bio-edit-form {
