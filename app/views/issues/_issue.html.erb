@@ -7,14 +7,18 @@
         <div class="large-textarea"><%= issue.content %></div>
       </p>
       <h2>Comentarios</h2>
-      <ul>
-        <% issue.comments.each do |comment| %>
-          <li>
-            <strong><%= comment.user.email %>:</strong>
-            <%= comment.content %>
-          </li>
+        <% if issue.comments.any? %>
+          <ul>
+            <% issue.comments.each do |comment| %>
+              <li>
+                <strong><%= comment.user.email %>:</strong>
+                <%= comment.content %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted">No hay comentarios.</p>
         <% end %>
-      </ul>
       <h2>Añadir Comentario</h2>
       <%= form_with(model: [issue, Comment.new]) do |form| %>
         <%= form.text_area :content, class: 'large-textarea' %>
@@ -52,15 +56,16 @@
           <span class="custom-select"><%= issue.user.email %></span>
         </div>
       </div>
-      <% if issue.assignee.present? %>
-        <div class="custom-select-box">
-          <div class="select-container">
-            <span class="select-label">Assigned to:</span>
+      <div class="custom-select-box">
+        <div class="select-container">
+          <span class="select-label">Assigned to:</span>
+          <% if issue.assignee.present? %>
             <span class="custom-select"><%= issue.assignee.email %></span>
-          </div>
+          <% else %>
+            <span class="text-muted">No assignee</span>
+          <% end %>
         </div>
-      <% end %>
-
+      </div>
       <!-- Aquí comienza la sección de watchers -->
       <div class="custom-select-box">
         <div class="select-container">
@@ -77,10 +82,18 @@
         </div>
       </div>
       <!-- Fin de la sección de watchers -->
-
       <p>
         <strong>Created At:</strong><br>
         <%= issue.created_at.strftime("%A, %y-%m-%d %H:%M") %>
+      </p>
+      <!-- Campo de Deadline siempre visible -->
+      <p>
+        <strong>Deadline:</strong><br>
+        <% if issue.deadline.present? %>
+          <%= issue.deadline.strftime("%A, %y-%m-%d %H:%M") %>
+        <% else %>
+          <span class="text-muted">No deadline</span>
+        <% end %>
       </p>
       <a href="#" class="add-tag">Add tag +</a>
     </div>

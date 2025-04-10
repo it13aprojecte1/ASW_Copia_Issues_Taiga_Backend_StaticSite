@@ -78,6 +78,8 @@ h2.text-center {
   padding: 10px;
   background: #f7f7f7;
   height: 45px;
+  overflow: hidden;
+  width:100%;
 }
 
 .select-container {
@@ -794,18 +796,14 @@ nav a {
 }
 
 .custom-select[multiple] {
-  height: auto;
-  max-height: 150px;
+  width: 100%;
+  max-width: 100%;
   overflow-y: auto;
-  padding: 5px;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  white-space: normal;
   text-align: left;
   text-align-last: left;
-}
-
-.custom-select[multiple] option {
-  padding: 5px;
-  margin-bottom: 2px;
-  border-radius: 3px;
 }
 
 .custom-select[multiple] option:checked {
@@ -831,22 +829,6 @@ input[type="date"].large-input {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-/* Ajustar el selector múltiple de watchers */
-.custom-select[multiple] {
-  height: auto;
-  max-height: 150px;
-  overflow-y: auto;
-  padding: 5px;
-  text-align: left;
-  text-align-last: left;
-}
-
-.custom-select[multiple] option {
-  padding: 5px;
-  margin-bottom: 2px;
-  border-radius: 3px;
 }
 
 .custom-select[multiple] option:checked {
@@ -899,5 +881,174 @@ input[type="date"].large-input {
 /* Asegurar que el contenedor select esté bien configurado */
 .select-container {
   width: 100%;
-  overflow: hidden; /* Evita desbordamiento */
+  overflow: hidden;
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping which can cause overflow */
+}
+
+.select-label {
+  flex: 0 0 auto; /* Don't allow it to grow or shrink */
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+/* Give more space to the select element */
+.custom-select {
+  flex: 1 1 auto; /* Allow it to grow and shrink */
+  min-width: 0; /* This is important to allow proper shrinking */
+}
+
+/* Make sure options don't overflow */
+.custom-select[multiple] option {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Set a specific max-height for the watchers select to control scrolling */
+.full-width-section .custom-select[multiple] {
+  max-height: 120px; /* Adjust as needed */
+}
+
+/* Ensure the container itself doesn't have scrolling */
+.custom-select-box {
+  overflow: visible;
+  width: 100%;
+}
+
+/* Fix the select container layout */
+.select-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Keep the label fixed (not scrolling) */
+.select-label {
+  flex: 0 0 auto;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+/* Apply scrolling only to the multi-select element */
+.custom-select {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Specific styles for the multi-select dropdown */
+.custom-select[multiple] {
+  max-height: 120px; /* Control the height of the scrollable area */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  text-align-last: left;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Ensure options are properly contained */
+.custom-select[multiple] option {
+  padding: 5px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 3px;
+}
+
+/* Make selected options more visible */
+.custom-select[multiple] option:checked {
+  background-color: #98F5E1;
+  color: black;
+}
+
+/* Customize scrollbar for better visibility */
+.custom-select[multiple]::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-select[multiple]::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.custom-select[multiple]::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.custom-select[multiple]::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Fix for the watchers multi-select dropdown */
+.custom-select-box {
+  height: auto; /* Remove fixed height to accommodate content */
+  min-height: 45px; /* Set minimum height instead */
+  overflow: visible; /* Allow content to be visible */
+}
+
+.custom-select[multiple] {
+  display: block;
+  height: auto;
+  max-height: 120px; /* Set a maximum height for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 5px;
+  border: none;
+  width: 100%;
+  text-align: left;
+  text-align-last: left;
+}
+
+/* Make the container properly sized */
+.select-container {
+  align-items: flex-start; /* Align to top instead of center */
+  padding: 5px 0;
+}
+
+/* Keep the label at the top */
+.select-label {
+  padding-top: 5px;
+}
+
+/* Style for the options in the multi-select */
+.custom-select[multiple] option {
+  padding: 5px;
+  margin-bottom: 2px;
+  border-radius: 3px;
+}
+
+/* Make selected options more visible */
+.custom-select[multiple] option:checked {
+  background-color: #98F5E1;
+  color: black;
+}
+
+/* Custom scrollbar for better visibility */
+.custom-select[multiple]::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-select[multiple]::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.custom-select[multiple]::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.custom-select[multiple]::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.text-muted {
+  color: #6c757d;
+  font-style: italic;
+  margin-bottom: 20px;
 }
