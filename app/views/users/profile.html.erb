@@ -6,12 +6,30 @@
   <div class="profile-left">
     <div class="avatar-section">
       <% if @user.avatar.attached? %>
-        <%= image_tag url_for(@user.avatar), class: 'profile-avatar' %>
+        <% if current_user == @user %>
+          <div class="avatar-container" style="position: relative; display: inline-block;">
+            <%= image_tag url_for(@user.avatar), class: 'profile-avatar', style: "cursor: pointer;" %>
+            <div class="avatar-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); color: white; display: none; align-items: center; justify-content: center; cursor: pointer; border-radius: 50%;">
+              <span>Cambiar foto</span>
+            </div>
+            <%= form_with(model: @user, url: update_avatar_user_path(@user), method: :patch, multipart: true, html: { id: 'avatar-form', style: 'display: none;' }) do |form| %>
+              <%= form.file_field :avatar, accept: 'image/png,image/jpeg,image/jpg', id: 'avatar-upload', onchange: 'this.form.submit();', style: 'display: none;' %>
+            <% end %>
+          </div>
+        <% else %>
+          <%= image_tag url_for(@user.avatar), class: 'profile-avatar' %>
+        <% end %>
       <% else %>
         <div class="no-avatar">
-          <%= form_with(model: @user, url: update_avatar_user_path(@user), method: :patch, multipart: true) do |form| %>
-            <%= form.file_field :avatar, accept: 'image/png,image/jpeg,image/jpg' %>
-            <%= form.submit "Upload Image", class: 'upload-btn' %>
+          <% if current_user == @user %>
+            <%= form_with(model: @user, url: update_avatar_user_path(@user), method: :patch, multipart: true) do |form| %>
+              <%= form.file_field :avatar, accept: 'image/png,image/jpeg,image/jpg' %>
+              <%= form.submit "Upload Image", class: 'upload-btn' %>
+            <% end %>
+          <% else %>
+            <div class="avatar-placeholder" style="width: 200px; height: 200px; background-color: #83EEDE; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 72px;">
+              <%= (@user.name || @user.email).first.upcase %>
+            </div>
           <% end %>
         </div>
       <% end %>
@@ -40,7 +58,9 @@
     <div class="bio-section">
       <h4>Bio</h4>
       <p><%= @user.bio || "No bio provided yet." %></p>
-      <button type="button" id="edit-bio-btn" class="edit-bio-btn">Edit Bio</button>
+      <% if current_user == @user %>
+        <button type="button" id="edit-bio-btn" class="edit-bio-btn">Edit Bio</button>
+      <% end %>
     </div>
   </div>
 
@@ -133,18 +153,24 @@
   </div>
 </div>
 
-<div id="bio-edit-form" class="bio-edit-form" style="display: none;">
-  <h4>Edit Biography</h4>
-  <%= form_with(model: @user, url: update_bio_user_path(@user), method: :patch) do |form| %>
-    <%= form.text_area :bio, placeholder: 'Enter your bio here...' %>
-    <div class="bio-btn-container">
-      <button type="button" id="close-bio-btn" class="close-btn">Close</button>
-      <%= form.submit "Save changes", class: 'save-btn' %>
-    </div>
+<% if current_user == @user %>
+  <div id="bio-edit-form" class="bio-edit-form" style="display: none;">
+    <h4>Edit Biography</h4>
+    <%= form_with(model: @user, url: update_bio_user_path(@user), method: :patch) do |form| %>
+      <%= form.text_area :bio, placeholder: 'Enter your bio here...' %>
+      <div class="bio-btn-container">
+        <button type="button" id="close-bio-btn" class="close-btn">Close</button>
+        <%= form.submit "Save changes", class: 'save-btn' %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<div class="back-button" style="display: flex; flex-direction: row; justify-content: center; gap: 10px; margin: 20px auto;">
+  <%= link_to "Back to Issues", issues_path, class: "back-to-issues-btn", style: "padding: 8px 15px; background-color: #f2f2f2; color: #333; text-decoration: none; border: 1px solid #ddd; border-radius: 4px;" %>
+
+  <% if current_user == @user %>
+    <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, class: "logout-btn", style: "background-color: #FF5252; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;" %>
   <% end %>
-</div>
-<div class="back-button">
-  <%= link_to "Back to Issues", issues_path, class: "back-to-issues-btn" %>
 </div>
 
 <script>
@@ -160,6 +186,27 @@
 
       closeBioBtn.addEventListener('click', function() {
         bioEditForm.style.display = 'none';
+      });
+    }
+
+    // Funcionalidad para cambiar imagen de perfil
+    var avatarImg = document.querySelector('.profile-avatar');
+    var avatarOverlay = document.querySelector('.avatar-overlay');
+    var avatarUpload = document.getElementById('avatar-upload');
+
+    if (avatarImg && avatarOverlay && avatarUpload) {
+      // Mostrar overlay al pasar el mouse
+      avatarImg.addEventListener('mouseover', function() {
+        avatarOverlay.style.display = 'flex';
+      });
+
+      avatarOverlay.addEventListener('mouseout', function() {
+        avatarOverlay.style.display = 'none';
+      });
+
+      // Activar selector de archivos al hacer clic
+      avatarOverlay.addEventListener('click', function() {
+        avatarUpload.click();
       });
     }
   });

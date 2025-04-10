@@ -34,7 +34,7 @@ end
 
   end
 
-  # POST /issues or /issues.json crea el issue i li assigna el user sino no en té cap d'assignat
+  # POST /issues or /issues.json crea el issue i li assigna el user sino no en tÃ© cap d'assignat
 def create
   @issue = current_user.issues.build(issue_params)
   logger.debug "PARAMS: #{params.inspect}"
@@ -94,7 +94,7 @@ end
   end
     # Only allow a list of trusted parameters through.
   def issue_params
-  params.require(:issue).permit(:subject, :content, :status_id, :issue_type_id, :severity_id, :priority_id, attachments: [])
+    params.require(:issue).permit(:subject, :content, :status_id, :issue_type_id, :severity_id, :priority_id, :assignee_id, :deadline, { watcher_ids: [] }, attachments: [])
   end
 
     def hide_navbar

@@ -33,15 +33,14 @@
     <div class="nav-right">
         <% if user_signed_in? %>
           <% if current_user.avatar.attached? %>
-            <%= link_to profile_user_path(current_user) do %>
-              <%= image_tag url_for(current_user.avatar), class: 'nav-avatar' %>
+            <%= link_to profile_user_path(current_user), style: "background: none; border: none;" do %>
+              <%= image_tag url_for(current_user.avatar), class: 'nav-avatar', style: "border-radius: 50%;" %>
             <% end %>
           <% else %>
-            <%= link_to profile_user_path(current_user), class: 'nav-profile-link' do %>
+            <%= link_to profile_user_path(current_user), class: 'nav-profile-link', style: "background: none; border: none;" do %>
               <i class="fas fa-user-circle fa-2x"></i>
             <% end %>
           <% end %>
-          <%= button_to 'Cerrar sesión', destroy_user_session_path, method: :delete %>
         <% end %>
       </div>
     </nav>

@@ -17,6 +17,11 @@ class UsersController < ApplicationController
 
     # PATCH /users/1/update_avatar
     def update_avatar
+      # Verificar que el usuario actual solo pueda actualizar su propio avatar
+      unless current_user == @user
+        return redirect_to profile_user_path(@user), alert: "No tienes permiso para modificar este perfil."
+      end
+
       respond_to do |format|
         if @user.update(params.require(:user).permit(:avatar))
           format.html { redirect_to profile_user_path(@user), notice: "Avatar was successfully updated." }
@@ -28,6 +33,11 @@ class UsersController < ApplicationController
 
     # PATCH /users/1/update_bio
     def update_bio
+      # Verificar que el usuario actual solo pueda actualizar su propia bio
+      unless current_user == @user
+        return redirect_to profile_user_path(@user), alert: "No tienes permiso para modificar este perfil."
+      end
+
       respond_to do |format|
         if @user.update(params.require(:user).permit(:bio))
           format.html { redirect_to profile_user_path(@user), notice: "Bio was successfully updated." }
