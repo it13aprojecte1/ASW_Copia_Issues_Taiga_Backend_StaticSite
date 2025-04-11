@@ -357,7 +357,6 @@ def create
         end
       end
     end
-end
+
     @hide_navbar = true
   end
-end
