@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # Rutas básicas
   get "settings/index"
   get "comments/create"
 
@@ -12,38 +13,55 @@ Rails.application.routes.draw do
     get '/auth/github/callback', to: 'users/omniauth_callbacks#github'
   end
 
- #equivalente a get '/issues', to: 'issues#index'
-#get '/issues/new', to: 'issues#new'
-#post '/issues', to: 'issues#create'
+  # API REST - Definido antes que las rutas web para tener prioridad
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :issues do
+        resources :comments, only: :create
+        delete :attachment, action: :delete_attachment, on: :member
+        collection do
+          post 'bulk_create'
+        end
+      end
 
-resources :issues
-resources :users do
-  member do
-    get :profile
-    patch :update_avatar
-    patch :update_bio
-  end
-end
-# Rutas dedicadas para filtros con mayor prioridad
-post '/issues/add_filter', to: 'issues#add_filter', as: 'add_filter_issues'
-post '/issues/remove_filter', to: 'issues#remove_filter', as: 'remove_filter_issues'
-post '/issues/clear_filters', to: 'issues#clear_filters', as: 'clear_filters_issues'
-post '/issues/toggle_filters', to: 'issues#toggle_filters', as: 'toggle_filters_issues'
-
-# Un solo bloque de resources :issues con todas las rutas anidadas
-resources :issues do
-  resources :comments, only: :create
-  delete :attachment, action: :delete_attachment, on: :member
-  collection do
-    get 'bulk_new'
-    post 'bulk_create'
+      resources :users, only: [:index, :show]
+      resources :issue_types, only: [:index]
+      resources :priorities, only: [:index]
+      resources :severities, only: [:index]
+      resources :statuses, only: [:index]
+    end
   end
 
-end
+  # Rutas para la interfaz web
+  scope :web, as: 'web' do
+    # Rutas dedicadas para filtros con mayor prioridad
+    post '/issues/add_filter', to: 'issues#add_filter', as: 'add_filter_issues'
+    post '/issues/remove_filter', to: 'issues#remove_filter', as: 'remove_filter_issues'
+    post '/issues/clear_filters', to: 'issues#clear_filters', as: 'clear_filters_issues'
+    post '/issues/toggle_filters', to: 'issues#toggle_filters', as: 'toggle_filters_issues'
+  end
 
-resources :users
+  # Recursos principales para la web
+  resources :issues do
+    resources :comments, only: :create
+    delete :attachment, action: :delete_attachment, on: :member
+    collection do
+      get 'bulk_new'
+      post 'bulk_create'
+    end
+  end
 
- namespace :settings do
+  resources :users do
+    member do
+      get :profile
+      patch :update_avatar
+      patch :update_bio
+    end
+  end
+
+  resources :users
+
+  namespace :settings do
     resources :statuses do
       member do
         get :confirm_destroy

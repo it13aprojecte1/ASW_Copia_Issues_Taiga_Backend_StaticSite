@@ -14,15 +14,18 @@ class IssuesController < ApplicationController
     @issues = Issue.all.includes(:issue_type, :severity, :priority, :status, :user)
     Rails.logger.info "LOADED ALL ISSUES: #{@issues.count}"
 
-    # Aplicar búsqueda si existe
-    if params[:search].present?
-      @issues = @issues.where("subject LIKE ?", "%#{params[:search]}%")
-      Rails.logger.info "FILTERED BY SEARCH: #{@issues.count} issues after search filter"
-    end
+    # Aplicar filtros usando scopes
+    @issues = @issues.filtrar_por_titulo(params[:search]) if params[:search].present?
+    @issues = @issues.filtrar_por_titulo(params[:titulo]) if params[:titulo].present?
+    @issues = @issues.filtrar_por_descripcion(params[:descripcion]) if params[:descripcion].present?
+    @issues = @issues.por_tipo(params[:issue_type_id]) if params[:issue_type_id].present?
+    @issues = @issues.por_severidad(params[:severity_id]) if params[:severity_id].present?
+    @issues = @issues.por_prioridad(params[:priority_id]) if params[:priority_id].present?
+    @issues = @issues.por_estado(params[:status_id]) if params[:status_id].present?
+    @issues = @issues.por_creador(params[:user_id]) if params[:user_id].present?
+    @issues = @issues.por_asignado(params[:assignee_id]) if params[:assignee_id].present?
 
-    # Aplicar filtros almacenados en la sesión
-    apply_filters
-    Rails.logger.info "AFTER APPLY_FILTERS: #{@issues.count} issues"
+    Rails.logger.info "AFTER FILTERS: #{@issues.count} issues"
 
     # Aplicar ordenación
     sort_column = params[:sort] || session[:issues_sort] || "updated_at"
@@ -296,66 +299,6 @@ def create
       @type_options = IssueType.all
       @status_options = Status.all
       @user_options = User.all
-
-      # Inicializar la estructura completa de filtros
-      session[:filters] ||= {}
-      session[:filters][:include] ||= {}
-
-      # Conteo de filtros activos para mostrar en el botón
-      @active_filters_count = 0
-
-      if session[:filters]
-        session[:filters].each do |mode, filters|
-          if filters.is_a?(Hash)
-            filters.each do |type, values|
-              if values.is_a?(Array)
-                @active_filters_count += values.size
-              end
-            end
-          end
-        end
-      end
-    end
-
-    def apply_filters
-      # Verificar si hay filtros en la sesión
-      if !session[:filters]
-        return
-      end
-
-      # Verificar si existe el modo include
-      if !session[:filters][:include].is_a?(Hash)
-        return
-      end
-
-      # Verificar si hay algún filtro en include
-      if session[:filters][:include].empty?
-        return
-      end
-
-      # Aplicar filtros de inclusión
-      session[:filters][:include].each do |filter_type, values|
-        # Verificar que values es un array y no está vacío
-        if !values.is_a?(Array) || values.empty?
-          next
-        end
-
-        # Aplicar el filtro según el tipo
-        case filter_type
-        when "type"
-          @issues = @issues.where("issue_type_id IN (?)", values)
-        when "severity"
-          @issues = @issues.where("severity_id IN (?)", values)
-        when "priority"
-          @issues = @issues.where("priority_id IN (?)", values)
-        when "status"
-          @issues = @issues.where("status_id IN (?)", values)
-        when "assigned_to"
-          @issues = @issues.where("assignee_id IN (?)", values)
-        when "created_by"
-          @issues = @issues.where("user_id IN (?)", values)
-        end
-      end
     end
 
     @hide_navbar = true
