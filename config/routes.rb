@@ -3,12 +3,11 @@ Rails.application.routes.draw do
   get "settings/index"
   get "comments/create"
 
-  # Configure Devise routes with OmniAuth but skip registrations
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }, skip: [:registrations]
+  # Configure Devise routes with OmniAuth and allow registrations
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  # Redirect registration to sign-in and add specific routes for GitHub auth
+  # Add specific routes for GitHub auth
   devise_scope :user do
-    get '/users/sign_up', to: redirect('/users/sign_in')
     get '/users/auth/github/callback', to: 'users/omniauth_callbacks#github'
     get '/auth/github/callback', to: 'users/omniauth_callbacks#github'
   end
