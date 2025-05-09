@@ -17,7 +17,11 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :issues do
         resources :comments, only: :create
-        delete :attachment, action: :delete_attachment, on: :member
+        member do
+          get 'attachments', to: 'issues#attachments'
+          post 'attachments', to: 'issues#add_attachment'
+          delete 'attachments/:attachment_id', to: 'issues#delete_attachment', as: 'delete_attachment'
+        end
         collection do
           post 'bulk_create'
         end

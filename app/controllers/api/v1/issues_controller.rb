@@ -3,7 +3,8 @@ module Api
     class IssuesController < ApplicationController
       # Omitir verificación CSRF para API
       skip_before_action :verify_authenticity_token
-      before_action :set_issue, only: [:show, :update, :destroy]
+      # Incluir todas las acciones que necesitan el callback set_issue
+      before_action :set_issue, only: [:show, :update, :destroy, :attachments, :add_attachment, :delete_attachment]
 
       # GET /api/v1/issues
       def index
@@ -73,6 +74,53 @@ module Api
 
       def issue_params
         params.require(:issue).permit(:subject, :content, :status_id, :issue_type_id, :severity_id, :priority_id, :assignee_id, { watcher_ids: [] })
+      end
+
+      # GET /api/v1/issues/:id/attachments
+      def attachments
+        attachments_with_urls = @issue.attachments.map do |attachment|
+          {
+            id: attachment.id,
+            filename: attachment.filename.to_s,
+            content_type: attachment.content_type,
+            created_at: attachment.created_at,
+            url: Rails.application.routes.url_helpers.rails_blob_path(attachment, only_path: true)
+          }
+        end
+
+        render json: attachments_with_urls
+      end
+
+      # POST /api/v1/issues/:id/attachments
+      def add_attachment
+        if params[:attachment].present?
+          @issue.attachments.attach(params[:attachment])
+          attachment = @issue.attachments.last
+
+          render json: {
+            id: attachment.id,
+            filename: attachment.filename.to_s,
+            content_type: attachment.content_type,
+            created_at: attachment.created_at,
+            url: Rails.application.routes.url_helpers.rails_blob_path(attachment, only_path: true)
+          }, status: :created
+        else
+          render json: { error: "No attachment provided" }, status: :unprocessable_entity
+        end
+      end
+
+      # DELETE /api/v1/issues/:id/attachments/:attachment_id
+      def delete_attachment
+        attachment = ActiveStorage::Attachment.find_by(id: params[:attachment_id])
+
+        if attachment.nil?
+          render json: { error: "Attachment not found" }, status: :not_found
+        elsif attachment.record_id != @issue.id
+          render json: { error: "Attachment does not belong to this issue" }, status: :forbidden
+        else
+          attachment.purge
+          head :no_content
+        end
       end
     end
   end
