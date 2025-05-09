@@ -17,11 +17,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :issues do
         resources :comments, only: :create
-        member do
-          get 'attachments', to: 'issues#attachments'
-          post 'attachments', to: 'issues#add_attachment'
-          delete 'attachments/:attachment_id', to: 'issues#delete_attachment', as: 'delete_attachment'
-        end
+        resources :attachments, only: [:index, :create, :destroy], controller: 'attachments'
         collection do
           post 'bulk_create'
         end
