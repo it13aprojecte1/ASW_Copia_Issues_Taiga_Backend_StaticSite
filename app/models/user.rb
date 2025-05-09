@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :rememberable, :validatable,
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:github]
 
   validates :email, presence: true, uniqueness: true
@@ -22,8 +22,9 @@ class User < ApplicationRecord
     end
   end
 
-  # Override password required method since we're only using GitHub
+  # Override password required method to make it optional only for GitHub users
   def password_required?
-    false
+    # No requiere contraseña si el usuario se autenticó con GitHub
+    provider.present? && uid.present? ? false : super
   end
 end
