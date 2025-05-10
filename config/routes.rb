@@ -23,7 +23,14 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :users, only: [:index, :show]
+      resources :users, only: [:index, :show] do
+        member do
+          get 'issues/assigned', to: 'users#assigned_issues'
+          get 'issues/watched', to: 'users#watched_issues'
+          get 'comments', to: 'users#comments'
+          get 'issues', to: 'users#issues'
+        end
+      end
       resources :issue_types, only: [:index]
       resources :priorities, only: [:index]
       resources :severities, only: [:index]
