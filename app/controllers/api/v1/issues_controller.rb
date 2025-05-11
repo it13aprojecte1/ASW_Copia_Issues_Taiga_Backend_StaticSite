@@ -40,7 +40,16 @@ module Api
       # POST /api/v1/issues
       def create
         @issue = Issue.new(issue_params)
-        @issue.user_id = current_user.id if current_user
+
+        # Asignar usuario: primero intentar con current_user, luego con params[:user_id], y finalmente usar el primer usuario disponible
+        if current_user
+          @issue.user_id = current_user.id
+        elsif params[:user_id].present?
+          @issue.user_id = params[:user_id]
+        else
+          # Usar el primer usuario disponible como fallback
+          @issue.user_id = User.first&.id || 1 # Usar ID 1 como último recurso
+        end
 
         if @issue.save
           render json: @issue, status: :created
@@ -51,10 +60,25 @@ module Api
 
       # PATCH/PUT /api/v1/issues/:id
       def update
-        if @issue.update(issue_params)
-          render json: @issue
-        else
-          render json: { errors: @issue.errors }, status: :unprocessable_entity
+        begin
+          # Sanear los parámetros para evitar errores
+          update_params = issue_params
+
+          # Asegurarse de que watcher_ids sea un array si está presente
+          if update_params[:watcher_ids].present? && !update_params[:watcher_ids].is_a?(Array)
+            update_params[:watcher_ids] = [update_params[:watcher_ids]].flatten.compact
+          end
+
+          # Intentar actualizar el issue
+          if @issue.update(update_params)
+            render json: @issue.as_json(include: [:issue_type, :severity, :priority, :status, :user])
+          else
+            render json: { errors: @issue.errors }, status: :unprocessable_entity
+          end
+        rescue => e
+          # Capturar cualquier excepción y devolver un mensaje de error claro
+          Rails.logger.error("Error al actualizar issue: #{e.message}\n#{e.backtrace.join("\n")}")
+          render json: { error: "Error al actualizar el issue: #{e.message}" }, status: :internal_server_error
         end
       end
 
