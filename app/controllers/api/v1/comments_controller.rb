@@ -3,7 +3,7 @@ module Api
   module V1
     class CommentsController < ApplicationController
       skip_before_action :verify_authenticity_token
-      before_action :set_issue, only: [:show, :update, :destroy]
+      before_action :set_issue, only: [:index, :create]
 
       # GET /api/v1/issues/:issue_id/comments
       def index
@@ -13,11 +13,11 @@ module Api
 
       # POST /api/v1/issues/:issue_id/comments
       def create
-        @comment = Comment.new(comment_params)
-        @comment.user_id = current_user.id if current_user
+        @comment = @issue.comments.new(comment_params)
+        @comment.user_id = 3
 
         if @comment.save
-          render json: @comment, status: created
+          render json: @comment, status: :created
         else
           render json: { errors: @comment.errors}, status: :unprocessable_entity
         end
