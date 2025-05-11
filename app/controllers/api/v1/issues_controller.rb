@@ -50,7 +50,9 @@ module Api
 
       # PATCH/PUT /api/v1/issues/:id
       def update
-        if @issue.update(issue_params)
+        if issue_params.emtpy?
+          render json: {error: "No se proporcionan atributos para actualizar"}, status: :bad_request
+        elsif @issue.update(issue_params)
           render json: @issue
         else
           render json: { errors: @issue.errors }, status: :unprocessable_entity

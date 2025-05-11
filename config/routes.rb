@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :issues do
-        resources :comments, only: :create
+        resources :comments, only: [:create,:index]
         delete :attachment, action: :delete_attachment, on: :member
         collection do
           post 'bulk_create'
