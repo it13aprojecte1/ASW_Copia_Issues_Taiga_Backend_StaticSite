@@ -26,9 +26,9 @@ Rails.application.routes.draw do
       end
 
       resources :users, only: [:index, :show]
-      resources :issue_types, only: [:index]
-      resources :priorities, only: [:index]
-      resources :severities, only: [:index]
+      resources :issue_types, only: [:index, :create, :update]
+      resources :priorities, only: [:index, :create, :update]
+      resources :severities, only: [:index, :create, :update]
       resources :statuses, only: [:index]
     end
   end
