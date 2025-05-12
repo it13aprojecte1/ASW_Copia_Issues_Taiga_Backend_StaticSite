@@ -42,3 +42,5 @@ module Api
         params.require(:status).permit(:name, :description)
       end
     end
+  end
+end
