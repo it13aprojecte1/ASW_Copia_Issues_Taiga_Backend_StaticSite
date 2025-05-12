@@ -62,6 +62,15 @@
         <button type="button" id="edit-bio-btn" class="edit-bio-btn">Edit Bio</button>
       <% end %>
     </div>
+
+    <% if current_user == @user %>
+    <div class="api-key-section" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+      <h4>API-KEY:</h4>
+      <div style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; margin-top: 5px; word-break: break-all; font-family: monospace;">
+        <%= @user.get_api_key %>
+      </div>
+    </div>
+    <% end %>
   </div>
 
   <div class="profile-right">
