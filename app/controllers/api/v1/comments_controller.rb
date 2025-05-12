@@ -8,7 +8,7 @@ module Api
       # GET /api/v1/issues/:issue_id/comments
       def index
         @comments = @issue.comments.includes(:user).order(created_at: :desc)
-        render json: @comments.as_json(include: :user)
+        render json: @comments.as_json(include: { user: { except: [:api_key, :password] } })
       end
 
       # POST /api/v1/issues/:issue_id/comments
