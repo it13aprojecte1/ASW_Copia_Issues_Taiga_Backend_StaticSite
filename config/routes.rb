@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       resources :issue_types, only: [:index, :create, :update]
       resources :priorities, only: [:index, :create, :update]
       resources :severities, only: [:index, :create, :update]
-      resources :statuses, only: [:index]
+      resources :statuses, only: [:index, :create, :update]
     end
   end
 
