@@ -1,0 +1,615 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: OnTime API
+  description: "API REST para la aplicación OnTime, un clon de Taiga. Esta API proporciona acceso a todas las funcionalidades implementadas en la aplicación web."
+servers:
+  - url: 'http://3.233.217.10:8080/api/v1'
+    description: 'Servidor de desarrollo local'
+paths:
+  /issues:
+    get:
+      tags:
+      - issues
+      summary: Obtiene todos los issues
+      operationId: getIssues
+      parameters:
+      - name: titulo
+        in: query
+        description: Filtrar por título
+        schema:
+          type: string
+      - name: descripcion
+        in: query
+        description: Filtrar por descripción
+        schema:
+          type: string
+      - name: issue_type_id
+        in: query
+        description: Filtrar por tipo de issue
+        schema:
+          type: integer
+      - name: severity_id
+        in: query
+        description: Filtrar por severidad
+        schema:
+          type: integer
+      - name: priority_id
+        in: query
+        description: Filtrar por prioridad
+        schema:
+          type: integer
+      - name: status_id
+        in: query
+        description: Filtrar por estado
+        schema:
+          type: integer
+      - name: user_id
+        in: query
+        description: Filtrar por creador
+        schema:
+          type: integer
+      - name: assignee_id
+        in: query
+        description: Filtrar por asignado
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Lista de issues
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+    post:
+      tags:
+      - issues
+      summary: Crea un nuevo issue
+      operationId: createIssue
+      requestBody:
+        description: Datos del nuevo issue
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueInput'
+        required: true
+      responses:
+        201:
+          description: Issue creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /issues/{id}:
+    get:
+      tags:
+      - issues
+      summary: Obtiene un issue por su ID
+      operationId: getIssueById
+      parameters:
+      - name: id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Issue encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        404:
+          description: Issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - issues
+      summary: Actualiza un issue
+      operationId: updateIssue
+      parameters:
+      - name: id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Datos del issue a actualizar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueInput'
+        required: true
+      responses:
+        200:
+          description: Issue actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        404:
+          description: Issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - issues
+      summary: Elimina un issue
+      operationId: deleteIssue
+      parameters:
+      - name: id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      responses:
+        204:
+          description: Issue eliminado
+        404:
+          description: Issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /issues/{issue_id}/attachments:
+    get:
+      tags:
+      - attachments
+      summary: Obtiene todos los archivos adjuntos de un issue
+      operationId: getIssueAttachments
+      parameters:
+      - name: issue_id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Lista de archivos adjuntos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Attachment'
+        404:
+          description: Issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+      - attachments
+      summary: Añade un archivo adjunto a un issue
+      operationId: addIssueAttachment
+      parameters:
+      - name: issue_id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                attachment:
+                  type: string
+                  format: binary
+              required:
+                - attachment
+      responses:
+        201:
+          description: Archivo adjunto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+        404:
+          description: Issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /issues/{issue_id}/attachments/{id}:
+    delete:
+      tags:
+      - attachments
+      summary: Elimina un archivo adjunto de un issue
+      operationId: deleteIssueAttachment
+      parameters:
+      - name: issue_id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        description: ID del archivo adjunto
+        required: true
+        schema:
+          type: integer
+      responses:
+        204:
+          description: Archivo adjunto eliminado
+        404:
+          description: Archivo adjunto no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: Archivo adjunto no pertenece a este issue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /issues/{issue_id}/comments:
+    get:
+      tags:
+      - comments
+      summary: Obtiene todos los comentarios de un issue
+      operationId: getIssueComments
+      parameters:
+      - name: issue_id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Lista de comentarios del issue
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        404:
+          description: Issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+      - comments
+      summary: Crea un nuevo comentario en un issue
+      operationId: createIssueComment
+      parameters:
+      - name: issue_id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Datos del nuevo comentario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentInput'
+        required: true
+      responses:
+        201:
+          description: Comentario creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        404:
+          description: Issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /issues/{issue_id}/comments/{id}:
+    get:
+      tags:
+      - comments
+      summary: Obtiene un comentario específico de un issue
+      operationId: getIssueCommentById
+      parameters:
+      - name: issue_id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        description: ID del comentario
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Comentario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        404:
+          description: Comentario o issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: Comentario no pertenece a este issue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - comments
+      summary: Actualiza un comentario de un issue
+      operationId: updateIssueComment
+      parameters:
+      - name: issue_id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        description: ID del comentario
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Datos del comentario a actualizar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentInput'
+        required: true
+      responses:
+        200:
+          description: Comentario actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        404:
+          description: Comentario o issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: Comentario no pertenece a este issue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - comments
+      summary: Elimina un comentario de un issue
+      operationId: deleteIssueComment
+      parameters:
+      - name: issue_id
+        in: path
+        description: ID del issue
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        description: ID del comentario
+        required: true
+        schema:
+          type: integer
+      responses:
+        204:
+          description: Comentario eliminado
+        404:
+          description: Comentario o issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: Comentario no pertenece a este issue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Issue:
+      type: object
+      properties:
+        id:
+          type: integer
+        subject:
+          type: string
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/User'
+        assignee:
+          $ref: '#/components/schemas/User'
+        issue_type:
+          $ref: '#/components/schemas/IssueType'
+        severity:
+          $ref: '#/components/schemas/Severity'
+        priority:
+          $ref: '#/components/schemas/Priority'
+        status:
+          $ref: '#/components/schemas/Status'
+    IssueInput:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Título o asunto del issue (requerido)
+        content:
+          type: string
+          description: Descripción o contenido del issue
+        issue_type_id:
+          type: integer
+          description: ID del tipo de issue (Bug, Feature, etc.)
+        severity_id:
+          type: integer
+          description: ID de la severidad (Normal, Alta, etc.)
+        priority_id:
+          type: integer
+          description: ID de la prioridad (Normal, Alta, etc.)
+        status_id:
+          type: integer
+          description: ID del estado (New, In Progress, etc.)
+        assignee_id:
+          type: integer
+          description: ID del usuario asignado al issue (opcional)
+        user_id:
+          type: integer
+          description: ID del usuario creador del issue (opcional, se asignará automáticamente si no se proporciona)
+        watcher_ids:
+          type: array
+          description: Lista de IDs de usuarios que observan el issue
+          items:
+            type: integer
+      required:
+        - subject
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+    IssueType:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Severity:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Priority:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Status:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Attachment:
+      type: object
+      properties:
+        id:
+          type: integer
+        filename:
+          type: string
+        content_type:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        url_directa:
+          type: string
+          description: URL directa al archivo en Amazon S3 (expira en 1 hora)
+        url_redireccion:
+          type: string
+          description: URL de redirección a través de Rails
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        user:
+          $ref: '#/components/schemas/User'
+        issue:
+          $ref: '#/components/schemas/Issue'
+    CommentInput:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Contenido del comentario (requerido)
+        user_id:
+          type: integer
+          description: ID del usuario que crea el comentario (opcional, se asignará automáticamente si no se proporciona)
+      required:
+        - content
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
