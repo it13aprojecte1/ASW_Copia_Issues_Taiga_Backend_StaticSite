@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       resources :issues do
         resources :comments, only: :create
         resources :attachments, only: [:index, :create, :destroy], controller: 'attachments'
+        resources :comments, only: [:create,:index]
+        delete :attachment, action: :delete_attachment, on: :member
         collection do
           post 'bulk_create'
         end
