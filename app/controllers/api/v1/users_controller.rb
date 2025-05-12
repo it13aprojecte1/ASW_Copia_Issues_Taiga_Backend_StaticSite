@@ -2,7 +2,23 @@ module Api
   module V1
     class UsersController < ApplicationController
       before_action :set_user, only: [:show, :assigned_issues, :watched_issues, :comments, :issues]
-      before_action :authenticate_user!
+      before_action :authenticate_user!, except: [:index]
+
+      def index
+        @users = User.all
+        render json: @users.map { |user|
+          {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            username: user.username || user.email.split('@').first,
+            bio: user.bio,
+            avatar_url: user.avatar.attached? ? user.avatar.url : nil,
+            created_at: user.created_at,
+            updated_at: user.updated_at
+          }
+        }
+      end
 
       def show
         render json: {
@@ -11,7 +27,7 @@ module Api
           name: @user.name,
           username: @user.username || @user.email.split('@').first,
           bio: @user.bio,
-          avatar_url: @user.avatar.attached? ? rails_blob_url(@user.avatar) : nil,
+          avatar_url: @user.avatar.attached? ? @user.avatar.url : nil,
           created_at: @user.created_at,
           updated_at: @user.updated_at,
           stats: {
