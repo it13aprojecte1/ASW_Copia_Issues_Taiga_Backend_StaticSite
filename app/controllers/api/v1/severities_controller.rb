@@ -39,7 +39,7 @@ module Api
       end
 
       def severity_params
-        params.require(:severity).permit(:name, :description)
+        params.require(:severity).permit(:name, :color, :position)
       end
     end
   end

@@ -39,7 +39,7 @@ module Api
       end
 
       def priority_params
-        params.require(:priority).permit(:name, :description)
+        params.require(:priority).permit(:name, :color, :position)
       end
     end
   end

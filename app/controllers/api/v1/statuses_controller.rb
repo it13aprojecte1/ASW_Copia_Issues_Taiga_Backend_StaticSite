@@ -39,7 +39,7 @@ module Api
       end
 
       def status_params
-        params.require(:status).permit(:name, :description)
+        params.require(:status).permit(:name, :color, :is_closed, :position)
       end
     end
   end

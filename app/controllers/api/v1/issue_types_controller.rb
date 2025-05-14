@@ -39,7 +39,7 @@ module Api
       end
 
       def issue_type_params
-        params.require(:issue_type).permit(:name, :description)
+        params.require(:issue_type).permit(:name, :color, :position)
       end
     end
   end
