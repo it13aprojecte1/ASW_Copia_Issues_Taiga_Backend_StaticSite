@@ -8,7 +8,12 @@ module Api
 
       # GET /api/v1/issues
       def index
-        @issues = Issue.all.includes(:issue_type, :severity, :priority, :status, :user)
+        @issues = Issue.all.includes(:issue_type, :severity, :priority, :status, :user, :assignee)
+
+        # Validar parámetros de ordenación
+        if params[:order_by].present? ^ params[:order_direction].present?
+          return render json: { error: "Para ordenar los issues, debes especificar tanto 'order_by' como 'order_direction'" }, status: :bad_request
+        end
 
         # Aplicar filtros usando scopes
         # Filtros por texto
@@ -29,7 +34,14 @@ module Api
         @issues = @issues.por_prioridad_nombre(params[:priority]) if params[:priority].present?
         @issues = @issues.por_estado_nombre(params[:status]) if params[:status].present?
 
-        render json: @issues.as_json(include: [:issue_type, :severity, :priority, :status, :user])
+        # Aplicar ordenación personalizada si se especifican ambos parámetros, sino ordenar por fecha de actualización
+        if params[:order_by].present? && params[:order_direction].present?
+          @issues = apply_order(@issues)
+        else
+          @issues = @issues.order(updated_at: :desc)
+        end
+
+        render json: @issues.as_json(include: [:issue_type, :severity, :priority, :status, :user, :assignee])
       end
 
       # GET /api/v1/issues/:id
@@ -98,6 +110,34 @@ module Api
 
       def issue_params
         params.require(:issue).permit(:subject, :content, :status_id, :issue_type_id, :severity_id, :priority_id, :assignee_id, { watcher_ids: [] })
+      end
+
+      def apply_order(issues)
+        order_by = params[:order_by].to_s.downcase
+        direction = (params[:order_direction]&.downcase == 'desc') ? 'desc' : 'asc'
+
+        case order_by
+        when 'type'
+          issues.joins(:issue_type).order("issue_types.name #{direction}")
+        when 'severity'
+          issues.joins(:severity).order("severities.name #{direction}")
+        when 'priority'
+          issues.joins(:priority).order("priorities.name #{direction}")
+        when 'status'
+          issues.joins(:status).order("statuses.name #{direction}")
+        when 'modified'
+          issues.order(updated_at: direction)
+        when 'assign_to'
+          issues.joins(:assignee).order("users.username #{direction}")
+        when 'issue'
+          issues.order(id: direction)
+        when ''
+          # Si no hay order_by, ordenar por fecha de modificación descendente
+          issues.order(updated_at: :desc)
+        else
+          # Para cualquier otro valor no reconocido, ordenar por fecha de modificación descendente
+          issues.order(updated_at: :desc)
+        end
       end
 
       # GET /api/v1/issues/:id/attachments
