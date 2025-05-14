@@ -45,12 +45,20 @@ module Api
       end
 
       def assigned_issues
+        return unless validate_order_params if params[:order_by].present? || params[:order_direction].present?
+
         # Get all assigned issues that are not closed
         open_status_ids = Status.where.not(name: ['Closed', 'Resolved']).pluck(:id)
         @issues = @user.assigned_issues
                       .where(status_id: open_status_ids)
-                      .includes(:status, :priority, :severity, :issue_type)
-                      .order(updated_at: :desc)
+                      .includes(:status, :priority, :severity, :issue_type, :user, :assignee)
+
+        # Aplicar ordenación personalizada si se especifican ambos parámetros, sino ordenar por fecha de actualización
+        @issues = if params[:order_by].present? && params[:order_direction].present?
+                   apply_order(@issues)
+                 else
+                   @issues.order(updated_at: :desc)
+                 end
 
         render json: @issues.map { |issue|
           {
@@ -87,9 +95,17 @@ module Api
       end
 
       def watched_issues
+        return unless validate_order_params if params[:order_by].present? || params[:order_direction].present?
+
         @issues = @user.watched_issues
                       .includes(:status, :priority, :severity, :issue_type, :user, :assignee)
-                      .order(updated_at: :desc)
+
+        # Aplicar ordenación personalizada si se especifican ambos parámetros, sino ordenar por fecha de actualización
+        @issues = if params[:order_by].present? && params[:order_direction].present?
+                   apply_order(@issues)
+                 else
+                   @issues.order(updated_at: :desc)
+                 end
 
         render json: @issues.map { |issue|
           {
@@ -153,9 +169,17 @@ module Api
       end
 
       def issues
+        return unless validate_order_params if params[:order_by].present? || params[:order_direction].present?
+
         @issues = @user.issues
                       .includes(:status, :priority, :severity, :issue_type, :assignee)
-                      .order(updated_at: :desc)
+
+        # Aplicar ordenación personalizada si se especifican ambos parámetros, sino ordenar por fecha de actualización
+        @issues = if params[:order_by].present? && params[:order_direction].present?
+                   apply_order(@issues)
+                 else
+                   @issues.order(updated_at: :desc)
+                 end
 
         render json: @issues.map { |issue|
           {
@@ -265,10 +289,42 @@ module Api
 
       private
 
+      def validate_order_params
+        if params[:order_by].present? ^ params[:order_direction].present?
+          render json: { error: "Para ordenar los issues, debes especificar tanto 'order_by' como 'order_direction'" }, status: :bad_request
+          return false
+        end
+        true
+      end
+
+      def apply_order(issues)
+        order_by = params[:order_by].to_s.downcase
+        direction = (params[:order_direction]&.downcase == 'desc') ? 'desc' : 'asc'
+
+        case order_by
+        when 'type'
+          issues.joins(:issue_type).order("issue_types.name #{direction}")
+        when 'severity'
+          issues.joins(:severity).order("severities.name #{direction}")
+        when 'priority'
+          issues.joins(:priority).order("priorities.name #{direction}")
+        when 'status'
+          issues.joins(:status).order("statuses.name #{direction}")
+        when 'modified'
+          issues.order(updated_at: direction)
+        when 'assign_to'
+          issues.joins(:assignee).order("users.username #{direction}")
+        when 'issue'
+          issues.order(id: direction)
+        else
+          issues.order(updated_at: :desc)
+        end
+      end
+
       def set_user
         @user = User.find(params[:id])
       rescue ActiveRecord::RecordNotFound
-        render json: { error: 'User not found' }, status: :not_found
+        render json: { error: "User not found" }, status: :not_found
       end
     end
   end

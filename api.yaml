@@ -54,6 +54,19 @@ paths:
         description: Filtrar por asignado
         schema:
           type: integer
+      - name: order_by
+        in: query
+        description: Campo por el cual ordenar (type, severity, priority, issue, status, modified, assign_to)
+        schema:
+          type: string
+          enum: [type, severity, priority, issue, status, modified, assign_to]
+      - name: order_direction
+        in: query
+        description: Dirección del ordenamiento
+        schema:
+          type: string
+          enum: [asc, desc]
+          default: asc
       responses:
         200:
           description: Lista de issues
@@ -464,6 +477,331 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /users:
+    get:
+      tags:
+      - users
+      summary: Obtiene todos los usuarios
+      operationId: getUsers
+      responses:
+        200:
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDetail'
+  /users/{id}:
+    get:
+      tags:
+      - users
+      summary: Obtiene un usuario por su ID
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        description: ID del usuario
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetail'
+        404:
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/issues/assigned:
+    get:
+      tags:
+      - users
+      summary: Obtiene los issues asignados a un usuario
+      operationId: getUserAssignedIssues
+      parameters:
+      - name: id
+        in: path
+        description: ID del usuario
+        required: true
+        schema:
+          type: integer
+      - name: order_by
+        in: query
+        description: Campo por el cual ordenar (type, severity, priority, issue, status, modified, assign_to)
+        schema:
+          type: string
+          enum: [type, severity, priority, issue, status, modified, assign_to]
+      - name: order_direction
+        in: query
+        description: Dirección del ordenamiento
+        schema:
+          type: string
+          enum: [asc, desc]
+          default: asc
+      responses:
+        200:
+          description: Lista de issues asignados al usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+        400:
+          description: Error en los parámetros de ordenación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/issues/watched:
+    get:
+      tags:
+      - users
+      summary: Obtiene los issues que un usuario está observando
+      operationId: getUserWatchedIssues
+      parameters:
+      - name: id
+        in: path
+        description: ID del usuario
+        required: true
+        schema:
+          type: integer
+      - name: order_by
+        in: query
+        description: Campo por el cual ordenar (type, severity, priority, issue, status, modified, assign_to)
+        schema:
+          type: string
+          enum: [type, severity, priority, issue, status, modified, assign_to]
+      - name: order_direction
+        in: query
+        description: Dirección del ordenamiento
+        schema:
+          type: string
+          enum: [asc, desc]
+          default: asc
+      responses:
+        200:
+          description: Lista de issues que el usuario está observando
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+        400:
+          description: Error en los parámetros de ordenación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/issues:
+    get:
+      tags:
+      - users
+      summary: Obtiene los issues creados por un usuario
+      operationId: getUserIssues
+      parameters:
+      - name: id
+        in: path
+        description: ID del usuario
+        required: true
+        schema:
+          type: integer
+      - name: order_by
+        in: query
+        description: Campo por el cual ordenar (type, severity, priority, issue, status, modified, assign_to)
+        schema:
+          type: string
+          enum: [type, severity, priority, issue, status, modified, assign_to]
+      - name: order_direction
+        in: query
+        description: Dirección del ordenamiento
+        schema:
+          type: string
+          enum: [asc, desc]
+          default: asc
+      responses:
+        200:
+          description: Lista de issues creados por el usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+        400:
+          description: Error en los parámetros de ordenación
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/comments:
+    get:
+      tags:
+      - users
+      summary: Obtiene los comentarios realizados por un usuario
+      operationId: getUserComments
+      parameters:
+      - name: id
+        in: path
+        description: ID del usuario
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Lista de comentarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        404:
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Lista de issues creados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+        404:
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/profile_pic_edit:
+    put:
+      tags:
+      - users
+      summary: Actualiza la foto de perfil de un usuario
+      operationId: updateUserProfilePic
+      parameters:
+      - name: id
+        in: path
+        description: ID del usuario
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+                  description: Imagen para el avatar del usuario
+              required:
+                - avatar
+      responses:
+        200:
+          description: Foto de perfil actualizada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  avatar_url:
+                    type: string
+        404:
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Datos invu00e1lidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /users/{id}/bio_edit:
+    put:
+      tags:
+      - users
+      summary: Actualiza la biografu00eda de un usuario
+      operationId: updateUserBio
+      parameters:
+      - name: id
+        in: path
+        description: ID del usuario
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bio:
+                  type: string
+                  description: Nueva biografu00eda del usuario
+              required:
+                - bio
+      responses:
+        200:
+          description: Biografu00eda actualizada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  bio:
+                    type: string
+        404:
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Datos invu00e1lidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Issue:
@@ -608,6 +946,38 @@ components:
           description: ID del usuario que crea el comentario (opcional, se asignará automáticamente si no se proporciona)
       required:
         - content
+    UserDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        name:
+          type: string
+        username:
+          type: string
+        bio:
+          type: string
+        avatar_url:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        stats:
+          type: object
+          properties:
+            issues_count:
+              type: integer
+            assigned_issues_count:
+              type: integer
+            watched_issues_count:
+              type: integer
+            comments_count:
+              type: integer
     Error:
       type: object
       properties:
