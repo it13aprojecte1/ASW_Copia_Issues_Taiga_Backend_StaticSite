@@ -3,7 +3,7 @@ module Api
     class IssueTypesController < ApplicationController
       # Omitir verificación CSRF para API
       skip_before_action :verify_authenticity_token
-      before_action :set_issue_type, only: [:update]
+      before_action :set_issue_type, only: [:update, :destroy]
 
       # GET /api/v1/issue_types
       def index
@@ -30,16 +30,28 @@ module Api
         end
       end
 
+    # DELETE /api/v1/issue_types/:id
+      def destroy
+        if @issue_type.destroy
+          render json: { message: "Issue type deleted successfully" }, status: :ok
+        else
+          render json: { errors: @issue_type.errors }, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def set_issue_type
         @issue_type = IssueType.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         render json: { error: "Issue type not found" }, status: :not_found
+        return
       end
 
+
+
       def issue_type_params
-        params.require(:issue_type).permit(:name, :description)
+        params.require(:issue_type).permit(:name, :color, :position)
       end
     end
   end
