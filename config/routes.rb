@@ -35,10 +35,10 @@ Rails.application.routes.draw do
           put 'bio_edit', to: 'users#bio_edit'
         end
       end
-      resources :issue_types, only: [:index, :create, :update]
-      resources :priorities, only: [:index, :create, :update]
-      resources :severities, only: [:index, :create, :update]
-      resources :statuses, only: [:index, :create, :update]
+      resources :issue_types, only: [:index, :create, :update, :destroy]
+      resources :priorities, only: [:index, :create, :update, :destroy]
+      resources :severities, only: [:index, :create, :update, :destroy]
+      resources :statuses, only: [:index, :create, :update, :destroy]
     end
   end
 

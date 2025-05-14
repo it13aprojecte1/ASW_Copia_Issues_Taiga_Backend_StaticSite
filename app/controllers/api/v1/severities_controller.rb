@@ -3,7 +3,7 @@ module Api
     class SeveritiesController < ApplicationController
       # Omitir verificación CSRF para API
       skip_before_action :verify_authenticity_token
-      before_action :set_severity, only: [:update]
+      before_action :set_severity, only: [:update, :destroy]
 
       # GET /api/v1/severities
       def index
@@ -25,6 +25,14 @@ module Api
       def update
         if @severity.update(severity_params)
           render json: @severity
+        else
+          render json: { errors: @severity.errors }, status: :unprocessable_entity
+        end
+      end
+          # DELETE /api/v1/severities/:id
+      def destroy
+        if @severity.destroy
+          render json: { message: "Severity deleted successfully" }, status: :ok
         else
           render json: { errors: @severity.errors }, status: :unprocessable_entity
         end

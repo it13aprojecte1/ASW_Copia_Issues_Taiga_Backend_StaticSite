@@ -3,7 +3,7 @@ module Api
     class StatusesController < ApplicationController
       # Omitir verificación CSRF para API
       skip_before_action :verify_authenticity_token
-      before_action :set_status, only: [:update]
+      before_action :set_status, only: [:update, :destroy]
 
       # GET /api/v1/statuses
       def index
@@ -25,6 +25,14 @@ module Api
       def update
         if @status.update(status_params)
           render json: @status
+        else
+          render json: { errors: @status.errors }, status: :unprocessable_entity
+        end
+      end
+          # DELETE /api/v1/statuses/:id
+      def destroy
+        if @status.destroy
+          render json: { message: "Status deleted successfully" }, status: :ok
         else
           render json: { errors: @status.errors }, status: :unprocessable_entity
         end

@@ -3,7 +3,7 @@ module Api
     class PrioritiesController < ApplicationController
       # Omitir verificación CSRF para API
       skip_before_action :verify_authenticity_token
-      before_action :set_priority, only: [:update]
+      before_action :set_priority, only: [:update, :destroy]
 
       # GET /api/v1/priorities
       def index
@@ -25,6 +25,14 @@ module Api
       def update
         if @priority.update(priority_params)
           render json: @priority
+        else
+          render json: { errors: @priority.errors }, status: :unprocessable_entity
+        end
+      end
+          # DELETE /api/v1/priorities/:id
+      def destroy
+        if @priority.destroy
+          render json: { message: "Priority deleted successfully" }, status: :ok
         else
           render json: { errors: @priority.errors }, status: :unprocessable_entity
         end
