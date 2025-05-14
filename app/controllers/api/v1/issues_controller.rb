@@ -105,7 +105,9 @@ module Api
               unless User.where(id: watcher_ids).count == watcher_ids.length
                 return render json: { error: "Algunos IDs de watchers no son válidos" }, status: :unprocessable_entity
               end
-              update_params[:watcher_ids] = watcher_ids
+              # Asignar directamente los watchers al issue en lugar de confiar en update
+              @issue.watcher_ids = watcher_ids
+              update_params.delete(:watcher_ids) # Quitar de los parámetros para evitar conflictos
             end
           end
 
