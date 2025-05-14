@@ -31,6 +31,8 @@ Rails.application.routes.draw do
           get 'issues/watched', to: 'users#watched_issues'
           get 'comments', to: 'users#comments'
           get 'issues', to: 'users#issues'
+          put 'profile_pic_edit', to: 'users#profile_pic_edit'
+          put 'bio_edit', to: 'users#bio_edit'
         end
       end
       resources :issue_types, only: [:index, :create, :update]

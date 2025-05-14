@@ -1,8 +1,13 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :set_user, only: [:show, :assigned_issues, :watched_issues, :comments, :issues]
-      before_action :authenticate_user!, except: [:index]
+      # Omitir verificación CSRF para API
+      skip_before_action :verify_authenticity_token
+      # Omitir comprobación de autenticación del ApplicationController
+      skip_before_action :check_user_auth
+      before_action :set_user, only: [:show, :assigned_issues, :watched_issues, :comments, :issues, :profile_pic_edit, :bio_edit]
+      # Todos los endpoints son públicos, sin autenticación
+      # before_action :authenticate_user!, except: [:index]
 
       def index
         @users = User.all
@@ -186,6 +191,76 @@ module Api
             watchers_count: issue.watchers.count
           }
         }
+      end
+
+      # PUT /api/v1/users/:id/profile_pic_edit
+      def profile_pic_edit
+        # Imprimir todos los parámetros para depuración
+        Rails.logger.info("Params: #{params.inspect}")
+
+        # Verificar que se ha proporcionado una imagen
+        if params[:avatar].present?
+          begin
+            # Eliminar el avatar anterior si existe
+            @user.avatar.purge if @user.avatar.attached?
+
+            # Adjuntar el nuevo avatar
+            @user.avatar.attach(params[:avatar])
+
+            # Esperar a que se complete la adjunción
+            sleep(0.5) unless Rails.env.test?
+
+            # Generar URL para el avatar
+            avatar_url = nil
+            if @user.avatar.attached?
+              begin
+                avatar_url = url_for(@user.avatar)
+              rescue => url_error
+                Rails.logger.error("Error generating avatar URL: #{url_error.message}")
+                avatar_url = "Error generating URL"
+              end
+            end
+
+            render json: {
+              message: "Avatar updated successfully",
+              avatar_url: avatar_url
+            }, status: :ok
+          rescue => e
+            Rails.logger.error("Error updating avatar: #{e.message}")
+            render json: { error: "Error updating avatar: #{e.message}" }, status: :unprocessable_entity
+          end
+        else
+          render json: { error: "No avatar provided" }, status: :unprocessable_entity
+        end
+      end
+
+      # PUT /api/v1/users/:id/bio_edit
+      def bio_edit
+        # Imprimir todos los parámetros para depuración
+        Rails.logger.info("Bio edit params: #{params.inspect}")
+
+        # Verificar que se ha proporcionado una bio
+        if params[:bio].present?
+          begin
+            Rails.logger.info("Updating bio to: #{params[:bio]}")
+
+            if @user.update(bio: params[:bio])
+              render json: {
+                message: "Bio updated successfully",
+                bio: @user.bio
+              }, status: :ok
+            else
+              Rails.logger.error("Bio update failed with errors: #{@user.errors.full_messages}")
+              render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
+            end
+          rescue => e
+            Rails.logger.error("Error updating bio: #{e.message}")
+            render json: { error: "Error updating bio: #{e.message}" }, status: :unprocessable_entity
+          end
+        else
+          Rails.logger.warn("No bio provided in params: #{params.keys}")
+          render json: { error: "No bio provided" }, status: :unprocessable_entity
+        end
       end
 
       private
