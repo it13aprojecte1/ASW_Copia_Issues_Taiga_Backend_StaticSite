@@ -73,20 +73,50 @@ module Api
       # PATCH/PUT /api/v1/issues/:id
       def update
         begin
+          return render json: { error: "Debe proporcionar al menos un campo para actualizar" }, status: :unprocessable_entity if params[:issue].blank?
+
           # Sanear los parámetros para evitar errores
           update_params = issue_params
 
-          # Asegurarse de que watcher_ids sea un array si está presente
-          if update_params[:watcher_ids].present? && !update_params[:watcher_ids].is_a?(Array)
-            update_params[:watcher_ids] = [update_params[:watcher_ids]].flatten.compact
+          # Manejar el campo deadline
+          if update_params.key?(:deadline)
+            if update_params[:deadline].blank?
+              # Si deadline está vacío, establecerlo a nil
+              update_params[:deadline] = nil
+            else
+              # Validar que la fecha sea posterior a hoy
+              deadline_date = Date.parse(update_params[:deadline])
+              if deadline_date <= Date.today
+                return render json: { error: "La fecha límite debe ser posterior a hoy" }, status: :unprocessable_entity
+              end
+            end
           end
 
-          # Intentar actualizar el issue
+          # Manejar watchers
+          if update_params.key?(:watcher_ids)
+            # Si es nil o vacío, eliminar todos los watchers
+            if update_params[:watcher_ids].nil? || update_params[:watcher_ids].empty?
+              @issue.watchers.clear
+              update_params.delete(:watcher_ids)
+            else
+              # Convertir a array y asegurar que son números
+              watcher_ids = Array(update_params[:watcher_ids]).map(&:to_i).compact
+              # Verificar que los usuarios existen
+              unless User.where(id: watcher_ids).count == watcher_ids.length
+                return render json: { error: "Algunos IDs de watchers no son válidos" }, status: :unprocessable_entity
+              end
+              update_params[:watcher_ids] = watcher_ids
+            end
+          end
+
+          # Intentar actualizar el issue solo con los campos proporcionados
           if @issue.update(update_params)
-            render json: @issue.as_json(include: [:issue_type, :severity, :priority, :status, :user])
+            render json: @issue.as_json(include: [:issue_type, :severity, :priority, :status, :user, :watchers])
           else
             render json: { errors: @issue.errors }, status: :unprocessable_entity
           end
+        rescue Date::Error
+          render json: { error: "Formato de fecha inválido. Use el formato YYYY-MM-DD" }, status: :unprocessable_entity
         rescue => e
           # Capturar cualquier excepción y devolver un mensaje de error claro
           Rails.logger.error("Error al actualizar issue: #{e.message}\n#{e.backtrace.join("\n")}")
@@ -104,12 +134,10 @@ module Api
 
       def set_issue
         @issue = Issue.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        render json: { error: "Issue not found" }, status: :not_found
       end
 
       def issue_params
-        params.require(:issue).permit(:subject, :content, :status_id, :issue_type_id, :severity_id, :priority_id, :assignee_id, { watcher_ids: [] })
+        params.require(:issue).permit(:subject, :content, :issue_type_id, :severity_id, :priority_id, :status_id, :assignee_id, :user_id, :deadline, watcher_ids: [])
       end
 
       def apply_order(issues)
