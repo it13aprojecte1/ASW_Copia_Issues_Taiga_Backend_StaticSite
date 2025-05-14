@@ -100,6 +100,43 @@ module Api
         head :no_content
       end
 
+      # POST /api/v1/issues/bulk
+      def bulk
+        begin
+          # Obtener el array del body de la petición
+          names = request.body.read
+          names = JSON.parse(names)
+
+          return render json: { error: "Debe proporcionar un array de nombres" }, status: :unprocessable_entity if !names.is_a?(Array)
+
+          created_issues = []
+          failed_issues = []
+
+          names.each do |name|
+            issue = Issue.new(
+              subject: name,
+              user_id: (current_user&.id || User.first&.id || 1),
+              issue_type_id: IssueType.first&.id,
+              severity_id: Severity.first&.id,
+              priority_id: Priority.first&.id,
+              status_id: Status.first&.id
+            )
+
+            if issue.save
+              created_issues << issue.id
+            else
+              failed_issues << name
+            end
+          end
+
+          render json: created_issues, status: :created
+        rescue JSON::ParserError
+          render json: { error: "El formato del JSON es inválido" }, status: :unprocessable_entity
+        rescue => e
+          render json: [], status: :internal_server_error
+        end
+      end
+
       private
 
       def set_issue

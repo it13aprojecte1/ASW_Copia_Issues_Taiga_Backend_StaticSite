@@ -21,7 +21,7 @@ Rails.application.routes.draw do
         resources :comments, only: [:create,:index]
         delete :attachment, action: :delete_attachment, on: :member
         collection do
-          post 'bulk_create'
+          post 'bulk'
         end
       end
 
