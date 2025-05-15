@@ -40,13 +40,13 @@ module Api
         else
           @issues = @issues.order(updated_at: :desc)
         end
-        render json: @issue.as_json(include: [:issue_type, :severity, :priority, :status, :user, :comments], include_attachments: true)
 
+        render json: @issues.as_json(include: [:issue_type, :severity, :priority, :status, :user, :assignee])
       end
 
       # GET /api/v1/issues/:id
       def show
-        render json: @issue.as_json(include: [:issue_type, :severity, :priority, :status, :user, :comments], include_attachments: true)
+        render json: @issue.as_json(include: [:issue_type, :severity, :priority, :status, :user, :comments])
       end
 
       # POST /api/v1/issues
