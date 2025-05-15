@@ -9,6 +9,35 @@ class Issue < ApplicationRecord
 
   has_many_attached :attachments, service: :amazon
 
+    # Sobrescribir el método as_json para controlar qué se serializa
+  def as_json(options = {})
+    # Llamar al método original para obtener la serialización base
+    json = super(options)
+
+    # Si se solicitan los adjuntos, serializarlos de forma segura
+    if options[:include_attachments]
+      json['attachments'] = attachments.map do |attachment|
+        {
+          id: attachment.id,
+          filename: attachment.filename.to_s,
+          content_type: attachment.content_type,
+          created_at: attachment.created_at,
+          url: Rails.application.routes.url_helpers.rails_blob_path(attachment, only_path: true)
+        }
+      end
+    elsif options[:attachments_count]
+      # Solo incluir el contador de adjuntos
+      json['attachments_count'] = attachments.count
+    end
+
+    # Eliminar cualquier información sensible que pueda haberse incluido
+    json.delete('access_key_id') if json.key?('access_key_id')
+    json.delete('secret_access_key') if json.key?('secret_access_key')
+    json.delete('session_token') if json.key?('session_token')
+
+    json
+  end
+
   validates :subject, presence: true, length: { minimum: 1 }
   #validates :deadline, presence: true
 

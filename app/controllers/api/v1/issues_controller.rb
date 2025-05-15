@@ -1,7 +1,8 @@
 module Api
   module V1
-    class IssuesController < BaseController
-      # Ya no es necesario omitir verificación CSRF, se maneja en BaseController
+    class IssuesController < ApplicationController
+      # Omitir verificación CSRF para API
+      skip_before_action :verify_authenticity_token
       # Incluir todas las acciones que necesitan el callback set_issue
       before_action :set_issue, only: [:show, :update, :destroy, :attachments, :add_attachment, :delete_attachment]
 
@@ -39,13 +40,13 @@ module Api
         else
           @issues = @issues.order(updated_at: :desc)
         end
+        render json: @issue.as_json(include: [:issue_type, :severity, :priority, :status, :user, :comments], include_attachments: true)
 
-        render json: @issues.as_json(include: [:issue_type, :severity, :priority, :status, :user, :assignee])
       end
 
       # GET /api/v1/issues/:id
       def show
-        render json: @issue.as_json(include: [:issue_type, :severity, :priority, :status, :user, :comments])
+        render json: @issue.as_json(include: [:issue_type, :severity, :priority, :status, :user, :comments], include_attachments: true)
       end
 
       # POST /api/v1/issues
@@ -72,41 +73,10 @@ module Api
       # PATCH/PUT /api/v1/issues/:id
       def update
         begin
-          # Comprobar si hay parámetros, ya sea directos o dentro de "issue"
-          has_params = params.keys.any? { |k| [:subject, :content, :issue_type_id, :severity_id, :priority_id, :status_id, :assignee_id, :user_id, :deadline, :watcher_ids].include?(k.to_sym) } || params[:issue].present?
+          return render json: { error: "Debe proporcionar al menos un campo para actualizar" }, status: :unprocessable_entity if params[:issue].blank?
 
-          return render json: { error: "Debe proporcionar al menos un campo para actualizar" }, status: :unprocessable_entity unless has_params
-
-          # Si los parámetros vienen directamente en el body
-          if params[:watcher_ids].present? || params[:subject].present? || params[:content].present? || params[:issue_type_id].present? ||
-             params[:severity_id].present? || params[:priority_id].present? || params[:status_id].present? ||
-             params[:assignee_id].present? || params[:user_id].present? || params[:deadline].present?
-
-            update_params = {}
-
-            # Copiar los parámetros directos al hash de actualización
-            [:subject, :content, :issue_type_id, :severity_id, :priority_id, :status_id, :assignee_id, :user_id, :deadline].each do |param|
-              update_params[param] = params[param] if params[param].present?
-            end
-
-            # Manejar watcher_ids si viene directamente en el body
-            if params[:watcher_ids].present?
-              watcher_ids = process_watcher_ids(params[:watcher_ids])
-              return render json: { error: "Algunos IDs de watchers no son válidos" }, status: :unprocessable_entity unless watcher_ids
-              @issue.watcher_ids = watcher_ids
-            end
-          else
-            # Sanear los parámetros si vienen en el wrapper issue
-            update_params = issue_params
-
-            # Manejar watchers
-            if update_params.key?(:watcher_ids)
-              watcher_ids = process_watcher_ids(update_params[:watcher_ids])
-              return render json: { error: "Algunos IDs de watchers no son válidos" }, status: :unprocessable_entity unless watcher_ids
-              @issue.watcher_ids = watcher_ids
-              update_params.delete(:watcher_ids) # Quitar de los parámetros para evitar conflictos
-            end
-          end
+          # Sanear los parámetros para evitar errores
+          update_params = issue_params
 
           # Manejar el campo deadline
           if update_params.key?(:deadline)
@@ -119,6 +89,23 @@ module Api
               if deadline_date <= Date.today
                 return render json: { error: "La fecha límite debe ser posterior a hoy" }, status: :unprocessable_entity
               end
+            end
+          end
+
+          # Manejar watchers
+          if update_params.key?(:watcher_ids)
+            # Si es nil o vacío, eliminar todos los watchers
+            if update_params[:watcher_ids].nil? || update_params[:watcher_ids].empty?
+              @issue.watchers.clear
+              update_params.delete(:watcher_ids)
+            else
+              # Convertir a array y asegurar que son números
+              watcher_ids = Array(update_params[:watcher_ids]).map(&:to_i).compact
+              # Verificar que los usuarios existen
+              unless User.where(id: watcher_ids).count == watcher_ids.length
+                return render json: { error: "Algunos IDs de watchers no son válidos" }, status: :unprocessable_entity
+              end
+              update_params[:watcher_ids] = watcher_ids
             end
           end
 
@@ -141,43 +128,6 @@ module Api
       def destroy
         @issue.destroy
         head :no_content
-      end
-
-      # POST /api/v1/issues/bulk
-      def bulk
-        begin
-          # Obtener el array del body de la petición
-          names = request.body.read
-          names = JSON.parse(names)
-
-          return render json: { error: "Debe proporcionar un array de nombres" }, status: :unprocessable_entity if !names.is_a?(Array)
-
-          created_issues = []
-          failed_issues = []
-
-          names.each do |name|
-            issue = Issue.new(
-              subject: name,
-              user_id: (current_user&.id || User.first&.id || 1),
-              issue_type_id: IssueType.first&.id,
-              severity_id: Severity.first&.id,
-              priority_id: Priority.first&.id,
-              status_id: Status.first&.id
-            )
-
-            if issue.save
-              created_issues << issue.id
-            else
-              failed_issues << name
-            end
-          end
-
-          render json: created_issues, status: :created
-        rescue JSON::ParserError
-          render json: { error: "El formato del JSON es inválido" }, status: :unprocessable_entity
-        rescue => e
-          render json: [], status: :internal_server_error
-        end
       end
 
       private
@@ -262,33 +212,6 @@ module Api
         else
           attachment.purge
           head :no_content
-        end
-      end
-
-      # Método para procesar watcher_ids independientemente de cómo vengan
-      def process_watcher_ids(watcher_ids_param)
-        # Si es nil o vacío, eliminar todos los watchers
-        if watcher_ids_param.nil? || (watcher_ids_param.respond_to?(:empty?) && watcher_ids_param.empty?)
-          @issue.watchers.clear
-          return []
-        else
-          # Convertir a array y asegurar que son números
-          watcher_ids = if watcher_ids_param.is_a?(Array)
-                          watcher_ids_param.map(&:to_i).compact
-                        else
-                          # Si viene como string, intentar parsear JSON
-                          begin
-                            JSON.parse(watcher_ids_param.to_s).map(&:to_i).compact
-                          rescue JSON::ParserError
-                            # Si no es JSON, asumir que es un único ID
-                            [watcher_ids_param.to_i]
-                          end
-                        end
-
-          # Verificar que los usuarios existen
-          return nil unless User.where(id: watcher_ids).count == watcher_ids.length
-
-          return watcher_ids
         end
       end
     end
