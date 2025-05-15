@@ -140,12 +140,16 @@ paths:
         schema:
           type: integer
       requestBody:
-        description: Datos del issue a actualizar
+        description: Datos del issue a actualizar. Se pueden enviar directamente las propiedades sin necesidad de wrapper issue.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/IssueInput'
-        required: true
+              oneOf:
+              - $ref: '#/components/schemas/IssueInput'
+              - type: object
+                properties:
+                  issue:
+                    $ref: '#/components/schemas/IssueInput'
       responses:
         200:
           description: Issue actualizado
@@ -659,7 +663,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /users/{id}/comments: # Esta es la definición que se conserva (la primera y correcta)
+  /users/{id}/comments:
     get:
       tags:
       - users
@@ -687,7 +691,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  # El BLOQUE DUPLICADO de /users/{id}/comments que estaba aquí HA SIDO ELIMINADO.
   /users/{id}/profile_pic_edit:
     put:
       tags:
@@ -732,7 +735,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         422:
-          description: Datos invu00e1lidos
+          description: Datos inválidos
           content:
             application/json:
               schema:
@@ -741,7 +744,7 @@ paths:
     put:
       tags:
       - users
-      summary: Actualiza la biografu00eda de un usuario
+      summary: Actualiza la biografía de un usuario
       operationId: updateUserBio
       parameters:
       - name: id
@@ -758,12 +761,12 @@ paths:
               properties:
                 bio:
                   type: string
-                  description: Nueva biografu00eda del usuario
+                  description: Nueva biografía del usuario
               required:
               - bio
       responses:
         200:
-          description: Biografu00eda actualizada
+          description: Biografía actualizada
           content:
             application/json:
               schema:
@@ -780,7 +783,483 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         422:
-          description: Datos invu00e1lidos
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /issue_types:
+    get:
+      tags:
+      - issue_types
+      summary: Obtiene todos los tipos de issues
+      operationId: getIssueTypes
+      responses:
+        200:
+          description: Lista de tipos de issues
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IssueType'
+    post:
+      tags:
+      - issue_types
+      summary: Crea un nuevo tipo de issue
+      operationId: createIssueType
+      requestBody:
+        description: Datos del nuevo tipo de issue
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueTypeInput'
+        required: true
+      responses:
+        201:
+          description: Tipo de issue creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssueType'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /issue_types/{id}:
+    put:
+      tags:
+      - issue_types
+      summary: Actualiza un tipo de issue
+      operationId: updateIssueType
+      parameters:
+      - name: id
+        in: path
+        description: ID del tipo de issue
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Datos del tipo de issue a actualizar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueTypeInput'
+        required: true
+      responses:
+        200:
+          description: Tipo de issue actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssueType'
+        404:
+          description: Tipo de issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - issue_types
+      summary: Elimina un tipo de issue
+      operationId: deleteIssueType
+      parameters:
+      - name: id
+        in: path
+        description: ID del tipo de issue
+        required: true
+        schema:
+          type: integer
+      - name: issues_go_to_id
+        in: query
+        description: ID del tipo de issue al que migrar las issues asociadas si existen
+        required: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Tipo de issue eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        404:
+          description: Tipo de issue no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Error al eliminar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /severities:
+    get:
+      tags:
+      - severities
+      summary: Obtiene todas las severidades
+      operationId: getSeverities
+      responses:
+        200:
+          description: Lista de severidades
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Severity'
+    post:
+      tags:
+      - severities
+      summary: Crea una nueva severidad
+      operationId: createSeverity
+      requestBody:
+        description: Datos de la nueva severidad
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeverityInput'
+        required: true
+      responses:
+        201:
+          description: Severidad creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Severity'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /severities/{id}:
+    put:
+      tags:
+      - severities
+      summary: Actualiza una severidad
+      operationId: updateSeverity
+      parameters:
+      - name: id
+        in: path
+        description: ID de la severidad
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Datos de la severidad a actualizar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeverityInput'
+        required: true
+      responses:
+        200:
+          description: Severidad actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Severity'
+        404:
+          description: Severidad no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - severities
+      summary: Elimina una severidad
+      operationId: deleteSeverity
+      parameters:
+      - name: id
+        in: path
+        description: ID de la severidad
+        required: true
+        schema:
+          type: integer
+      - name: issues_go_to_id
+        in: query
+        description: ID de la severidad a la que migrar las issues asociadas si existen
+        required: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Severidad eliminada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        404:
+          description: Severidad no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Error al eliminar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /priorities:
+    get:
+      tags:
+      - priorities
+      summary: Obtiene todas las prioridades
+      operationId: getPriorities
+      responses:
+        200:
+          description: Lista de prioridades
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Priority'
+    post:
+      tags:
+      - priorities
+      summary: Crea una nueva prioridad
+      operationId: createPriority
+      requestBody:
+        description: Datos de la nueva prioridad
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriorityInput'
+        required: true
+      responses:
+        201:
+          description: Prioridad creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Priority'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /priorities/{id}:
+    put:
+      tags:
+      - priorities
+      summary: Actualiza una prioridad
+      operationId: updatePriority
+      parameters:
+      - name: id
+        in: path
+        description: ID de la prioridad
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Datos de la prioridad a actualizar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriorityInput'
+        required: true
+      responses:
+        200:
+          description: Prioridad actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Priority'
+        404:
+          description: Prioridad no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - priorities
+      summary: Elimina una prioridad
+      operationId: deletePriority
+      parameters:
+      - name: id
+        in: path
+        description: ID de la prioridad
+        required: true
+        schema:
+          type: integer
+      - name: issues_go_to_id
+        in: query
+        description: ID de la prioridad a la que migrar las issues asociadas si existen
+        required: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Prioridad eliminada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        404:
+          description: Prioridad no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Error al eliminar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /statuses:
+    get:
+      tags:
+      - statuses
+      summary: Obtiene todos los estados
+      operationId: getStatuses
+      responses:
+        200:
+          description: Lista de estados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Status'
+    post:
+      tags:
+      - statuses
+      summary: Crea un nuevo estado
+      operationId: createStatus
+      requestBody:
+        description: Datos del nuevo estado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatusInput'
+        required: true
+      responses:
+        201:
+          description: Estado creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /statuses/{id}:
+    put:
+      tags:
+      - statuses
+      summary: Actualiza un estado
+      operationId: updateStatus
+      parameters:
+      - name: id
+        in: path
+        description: ID del estado
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Datos del estado a actualizar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatusInput'
+        required: true
+      responses:
+        200:
+          description: Estado actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        404:
+          description: Estado no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - statuses
+      summary: Elimina un estado
+      operationId: deleteStatus
+      parameters:
+      - name: id
+        in: path
+        description: ID del estado
+        required: true
+        schema:
+          type: integer
+      - name: issues_go_to_id
+        in: query
+        description: ID del estado al que migrar las issues asociadas si existen
+        required: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Estado eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        404:
+          description: Estado no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        422:
+          description: Error al eliminar
           content:
             application/json:
               schema:
@@ -966,3 +1445,62 @@ components:
       properties:
         error:
           type: string
+    IssueTypeInput:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nombre del tipo de issue
+        color:
+          type: string
+          description: Color en formato hexadecimal (#RRGGBB)
+        position:
+          type: integer
+          description: Posición para ordenar
+      required:
+        - name
+    SeverityInput:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nombre de la severidad
+        color:
+          type: string
+          description: Color en formato hexadecimal (#RRGGBB)
+        position:
+          type: integer
+          description: Posición para ordenar
+      required:
+        - name
+    PriorityInput:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nombre de la prioridad
+        color:
+          type: string
+          description: Color en formato hexadecimal (#RRGGBB)
+        position:
+          type: integer
+          description: Posición para ordenar
+      required:
+        - name
+    StatusInput:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nombre del estado
+        color:
+          type: string
+          description: Color en formato hexadecimal (#RRGGBB)
+        is_closed:
+          type: boolean
+          description: Indica si el estado representa que el issue está cerrado
+        position:
+          type: integer
+          description: Posición para ordenar
+      required:
+        - name

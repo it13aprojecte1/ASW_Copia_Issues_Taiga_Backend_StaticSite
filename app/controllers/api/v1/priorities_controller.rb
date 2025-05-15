@@ -31,8 +31,53 @@ module Api
       end
           # DELETE /api/v1/priorities/:id
       def destroy
+        # Comprobar si la prioridad tiene issues asociadas
+        issues_count = Issue.where(priority_id: @priority.id).count
+
+        if issues_count > 0
+          # Si tiene issues asociadas, verificar que hay otras prioridades disponibles
+          other_priorities_count = Priority.where.not(id: @priority.id).count
+
+          if other_priorities_count == 0
+            return render json: {
+              error: "No se puede eliminar la última prioridad disponible mientras tenga issues asociadas"
+            }, status: :unprocessable_entity
+          end
+
+#Verificar si se proporcionó un ID de destino
+          unless params[:issues_go_to_id].present?
+            return render json: {
+              error: "Esta prioridad tiene #{issues_count} issues asociadas. Debe proporcionar issues_go_to_id para migrarlas."
+            }, status: :unprocessable_entity
+          end
+
+#Verificar que la prioridad de destino existe
+          destination_priority = Priority.find_by(id: params[:issues_go_to_id])
+
+          unless destination_priority
+            return render json: {
+              error: "La prioridad de destino con ID #{params[:issues_go_to_id]} no existe"
+            }, status: :unprocessable_entity
+          end
+
+#Verificar que no estamos intentando migrar a la misma prioridad
+          if destination_priority.id == @priority.id
+            return render json: {
+              error: "No puede migrar issues a la misma prioridad que está intentando eliminar"
+            }, status: :unprocessable_entity
+          end
+
+#Migrar las issues a la nueva prioridad
+          Issue.where(priority_id: @priority.id).update_all(priority_id: destination_priority.id)
+        end
+
+#Eliminar la prioridad
         if @priority.destroy
-          render json: { message: "Priority deleted successfully" }, status: :ok
+          render json: {
+            message: issues_count > 0 ?
+              "Prioridad eliminada correctamente. #{issues_count} issues migradas a la prioridad '#{Priority.find(params[:issues_go_to_id]).name}'" :
+              "Prioridad eliminada correctamente"
+          }, status: :ok
         else
           render json: { errors: @priority.errors }, status: :unprocessable_entity
         end

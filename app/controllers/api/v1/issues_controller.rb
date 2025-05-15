@@ -73,10 +73,41 @@ module Api
       # PATCH/PUT /api/v1/issues/:id
       def update
         begin
-          return render json: { error: "Debe proporcionar al menos un campo para actualizar" }, status: :unprocessable_entity if params[:issue].blank?
+          # Comprobar si hay parámetros, ya sea directos o dentro de "issue"
+          has_params = params.keys.any? { |k| [:subject, :content, :issue_type_id, :severity_id, :priority_id, :status_id, :assignee_id, :user_id, :deadline, :watcher_ids].include?(k.to_sym) } || params[:issue].present?
 
-          # Sanear los parámetros para evitar errores
-          update_params = issue_params
+          return render json: { error: "Debe proporcionar al menos un campo para actualizar" }, status: :unprocessable_entity unless has_params
+
+          # Si los parámetros vienen directamente en el body
+          if params[:watcher_ids].present? || params[:subject].present? || params[:content].present? || params[:issue_type_id].present? ||
+             params[:severity_id].present? || params[:priority_id].present? || params[:status_id].present? ||
+             params[:assignee_id].present? || params[:user_id].present? || params[:deadline].present?
+
+            update_params = {}
+
+            # Copiar los parámetros directos al hash de actualización
+            [:subject, :content, :issue_type_id, :severity_id, :priority_id, :status_id, :assignee_id, :user_id, :deadline].each do |param|
+              update_params[param] = params[param] if params[param].present?
+            end
+
+            # Manejar watcher_ids si viene directamente en el body
+            if params[:watcher_ids].present?
+              watcher_ids = process_watcher_ids(params[:watcher_ids])
+              return render json: { error: "Algunos IDs de watchers no son válidos" }, status: :unprocessable_entity unless watcher_ids
+              @issue.watcher_ids = watcher_ids
+            end
+          else
+            # Sanear los parámetros si vienen en el wrapper issue
+            update_params = issue_params
+
+            # Manejar watchers
+            if update_params.key?(:watcher_ids)
+              watcher_ids = process_watcher_ids(update_params[:watcher_ids])
+              return render json: { error: "Algunos IDs de watchers no son válidos" }, status: :unprocessable_entity unless watcher_ids
+              @issue.watcher_ids = watcher_ids
+              update_params.delete(:watcher_ids) # Quitar de los parámetros para evitar conflictos
+            end
+          end
 
           # Manejar el campo deadline
           if update_params.key?(:deadline)
@@ -89,25 +120,6 @@ module Api
               if deadline_date <= Date.today
                 return render json: { error: "La fecha límite debe ser posterior a hoy" }, status: :unprocessable_entity
               end
-            end
-          end
-
-          # Manejar watchers
-          if update_params.key?(:watcher_ids)
-            # Si es nil o vacío, eliminar todos los watchers
-            if update_params[:watcher_ids].nil? || update_params[:watcher_ids].empty?
-              @issue.watchers.clear
-              update_params.delete(:watcher_ids)
-            else
-              # Convertir a array y asegurar que son números
-              watcher_ids = Array(update_params[:watcher_ids]).map(&:to_i).compact
-              # Verificar que los usuarios existen
-              unless User.where(id: watcher_ids).count == watcher_ids.length
-                return render json: { error: "Algunos IDs de watchers no son válidos" }, status: :unprocessable_entity
-              end
-              # Asignar directamente los watchers al issue en lugar de confiar en update
-              @issue.watcher_ids = watcher_ids
-              update_params.delete(:watcher_ids) # Quitar de los parámetros para evitar conflictos
             end
           end
 
@@ -251,6 +263,33 @@ module Api
         else
           attachment.purge
           head :no_content
+        end
+      end
+
+      # Método para procesar watcher_ids independientemente de cómo vengan
+      def process_watcher_ids(watcher_ids_param)
+        # Si es nil o vacío, eliminar todos los watchers
+        if watcher_ids_param.nil? || (watcher_ids_param.respond_to?(:empty?) && watcher_ids_param.empty?)
+          @issue.watchers.clear
+          return []
+        else
+          # Convertir a array y asegurar que son números
+          watcher_ids = if watcher_ids_param.is_a?(Array)
+                          watcher_ids_param.map(&:to_i).compact
+                        else
+                          # Si viene como string, intentar parsear JSON
+                          begin
+                            JSON.parse(watcher_ids_param.to_s).map(&:to_i).compact
+                          rescue JSON::ParserError
+                            # Si no es JSON, asumir que es un único ID
+                            [watcher_ids_param.to_i]
+                          end
+                        end
+
+          # Verificar que los usuarios existen
+          return nil unless User.where(id: watcher_ids).count == watcher_ids.length
+
+          return watcher_ids
         end
       end
     end
