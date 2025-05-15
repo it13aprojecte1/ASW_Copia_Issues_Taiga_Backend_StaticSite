@@ -1,8 +1,7 @@
 module Api
   module V1
-    class StatusesController < ApplicationController
-      # Omitir verificación CSRF para API
-      skip_before_action :verify_authenticity_token
+    class StatusesController < BaseController
+      # Ya no es necesario omitir verificación CSRF, se maneja en BaseController
       before_action :set_status, only: [:update, :destroy]
 
       # GET /api/v1/statuses

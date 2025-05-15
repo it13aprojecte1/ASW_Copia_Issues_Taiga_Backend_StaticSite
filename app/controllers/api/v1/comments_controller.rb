@@ -1,8 +1,8 @@
   # app/controllers/api/v1/comments_controller.rb
   module Api
     module V1
-      class CommentsController < ApplicationController
-        skip_before_action :verify_authenticity_token
+      class CommentsController < BaseController
+        # Ya no es necesario omitir verificación CSRF, se maneja en BaseController
         before_action :set_issue, only: [:index, :create]
 
         # GET /api/v1/issues/:issue_id/comments

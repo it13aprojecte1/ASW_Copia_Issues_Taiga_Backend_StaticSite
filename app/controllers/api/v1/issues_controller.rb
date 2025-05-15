@@ -1,8 +1,7 @@
 module Api
   module V1
-    class IssuesController < ApplicationController
-      # Omitir verificación CSRF para API
-      skip_before_action :verify_authenticity_token
+    class IssuesController < BaseController
+      # Ya no es necesario omitir verificación CSRF, se maneja en BaseController
       # Incluir todas las acciones que necesitan el callback set_issue
       before_action :set_issue, only: [:show, :update, :destroy, :attachments, :add_attachment, :delete_attachment]
 

@@ -1,8 +1,7 @@
 module Api
   module V1
-    class SeveritiesController < ApplicationController
-      # Omitir verificación CSRF para API
-      skip_before_action :verify_authenticity_token
+    class SeveritiesController < BaseController
+      # Ya no es necesario omitir verificación CSRF, se maneja en BaseController
       before_action :set_severity, only: [:update, :destroy]
 
       # GET /api/v1/severities

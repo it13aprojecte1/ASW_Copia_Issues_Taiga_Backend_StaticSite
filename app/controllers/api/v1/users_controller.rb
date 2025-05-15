@@ -1,13 +1,12 @@
 module Api
   module V1
-    class UsersController < ApplicationController
-      # Omitir verificación CSRF para API
-      skip_before_action :verify_authenticity_token
-      # Omitir comprobación de autenticación del ApplicationController
-      skip_before_action :check_user_auth
+    class UsersController < BaseController
+      # Ya no es necesario omitir verificación CSRF, se maneja en BaseController
+      # Omitir comprobación de autenticación del ApplicationController si existe
+      skip_before_action :check_user_auth, raise: false
       before_action :set_user, only: [:show, :assigned_issues, :watched_issues, :comments, :issues, :profile_pic_edit, :bio_edit]
-      # Todos los endpoints son públicos, sin autenticación
-      # before_action :authenticate_user!, except: [:index]
+      # Añadir verificación de autorización para editar bio y foto de perfil
+      before_action -> { authorize_user_resource(params[:id]) }, only: [:profile_pic_edit, :bio_edit]
 
       def index
         @users = User.all
@@ -222,6 +221,7 @@ module Api
         # Imprimir todos los parámetros para depuración
         Rails.logger.info("Params: #{params.inspect}")
 
+        # La autorización ya se verifica en el before_action
         # Verificar que se ha proporcionado una imagen
         if params[:avatar].present?
           begin
@@ -263,6 +263,7 @@ module Api
         # Imprimir todos los parámetros para depuración
         Rails.logger.info("Bio edit params: #{params.inspect}")
 
+        # La autorización ya se verifica en el before_action
         # Verificar que se ha proporcionado una bio
         if params[:bio].present?
           begin

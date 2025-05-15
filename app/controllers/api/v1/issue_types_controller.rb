@@ -1,8 +1,7 @@
 module Api
   module V1
-    class IssueTypesController < ApplicationController
-      # Omitir verificación CSRF para API
-      skip_before_action :verify_authenticity_token
+    class IssueTypesController < BaseController
+      # Ya no es necesario omitir verificación CSRF, se maneja en BaseController
       before_action :set_issue_type, only: [:update, :destroy]
 
       # GET /api/v1/issue_types
