@@ -96,6 +96,22 @@
         <% else %>
           <p class="no-attachments" style="text-align: center; padding: 15px; background-color: white; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); color: #999; font-style: italic;">No hay archivos adjuntos.</p>
         <% end %>
+
+        <!-- Botones para subir archivos -->
+        <%= form_with(model: issue, multipart: true, html: { id: "upload-attachment-form" }, method: :patch) do |form| %>
+          <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <label class="btn" style="background-color: #808080; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 500; display: flex; align-items: center; justify-content: center;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              Seleccionar archivos
+              <%= form.file_field :attachments, multiple: true, style: "display: none;", onchange: "document.getElementById('upload-btn').disabled = false;" %>
+            </label>
+            <%= form.submit "Subir archivos", id: "upload-btn", disabled: true, class: "btn", style: "background-color: #83EEDE; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 500;" %>
+          </div>
+        <% end %>
       </div>
     </div>
 

@@ -1,49 +1,77 @@
 Rails.application.routes.draw do
+  # Rutas básicas
   get "settings/index"
   get "comments/create"
 
-  # Configure Devise routes with OmniAuth but skip registrations
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }, skip: [:registrations]
+  # Configure Devise routes with OmniAuth and allow registrations
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  # Redirect registration to sign-in and add specific routes for GitHub auth
+  # Add specific routes for GitHub auth
   devise_scope :user do
-    get '/users/sign_up', to: redirect('/users/sign_in')
     get '/users/auth/github/callback', to: 'users/omniauth_callbacks#github'
     get '/auth/github/callback', to: 'users/omniauth_callbacks#github'
   end
 
- #equivalente a get '/issues', to: 'issues#index'
-#get '/issues/new', to: 'issues#new'
-#post '/issues', to: 'issues#create'
+  # API REST - Definido antes que las rutas web para tener prioridad
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :issues do
+        resources :comments, only: :create
+        resources :attachments, only: [:index, :create, :destroy], controller: 'attachments'
+        resources :comments, only: [:create,:index]
+        delete :attachment, action: :delete_attachment, on: :member
+        collection do
+          post 'bulk'
+        end
+      end
 
-resources :issues
-resources :users do
-  member do
-    get :profile
-    patch :update_avatar
-    patch :update_bio
+      resources :users, only: [:index, :show] do
+        member do
+          get 'issues/assigned', to: 'users#assigned_issues'
+          get 'issues/watched', to: 'users#watched_issues'
+          get 'comments', to: 'users#comments'
+          get 'issues', to: 'users#issues'
+          put 'profile_pic_edit', to: 'users#profile_pic_edit'
+          put 'bio_edit', to: 'users#bio_edit'
+        end
+      end
+      resources :issue_types, only: [:index, :create, :update, :destroy]
+      resources :priorities, only: [:index, :create, :update, :destroy]
+      resources :severities, only: [:index, :create, :update, :destroy]
+      resources :statuses, only: [:index, :create, :update, :destroy]
+    end
   end
-end
-# Rutas dedicadas para filtros con mayor prioridad
-post '/issues/add_filter', to: 'issues#add_filter', as: 'add_filter_issues'
-post '/issues/remove_filter', to: 'issues#remove_filter', as: 'remove_filter_issues'
-post '/issues/clear_filters', to: 'issues#clear_filters', as: 'clear_filters_issues'
-post '/issues/toggle_filters', to: 'issues#toggle_filters', as: 'toggle_filters_issues'
 
-# Un solo bloque de resources :issues con todas las rutas anidadas
-resources :issues do
-  resources :comments, only: :create
-  delete :attachment, action: :delete_attachment, on: :member
-  collection do
-    get 'bulk_new'
-    post 'bulk_create'
+  # Rutas para la interfaz web
+  scope :web, as: 'web' do
+    # Rutas dedicadas para filtros con mayor prioridad
+    post '/issues/add_filter', to: 'issues#add_filter', as: 'add_filter_issues'
+    post '/issues/remove_filter', to: 'issues#remove_filter', as: 'remove_filter_issues'
+    post '/issues/clear_filters', to: 'issues#clear_filters', as: 'clear_filters_issues'
+    post '/issues/toggle_filters', to: 'issues#toggle_filters', as: 'toggle_filters_issues'
   end
 
-end
+  # Recursos principales para la web
+  resources :issues do
+    resources :comments, only: :create
+    delete :attachment, action: :delete_attachment, on: :member
+    collection do
+      get 'bulk_new'
+      post 'bulk_create'
+    end
+  end
 
-resources :users
+  resources :users do
+    member do
+      get :profile
+      patch :update_avatar
+      patch :update_bio
+    end
+  end
 
- namespace :settings do
+  resources :users
+
+  namespace :settings do
     resources :statuses do
       member do
         get :confirm_destroy
