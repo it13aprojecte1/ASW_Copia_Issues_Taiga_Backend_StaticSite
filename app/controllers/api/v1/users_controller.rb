@@ -4,7 +4,7 @@ module Api
       # Ya no es necesario omitir verificación CSRF, se maneja en BaseController
       # Omitir comprobación de autenticación del ApplicationController si existe
       skip_before_action :check_user_auth, raise: false
-      before_action :set_user, only: [:show, :assigned_issues, :watched_issues, :comments, :issues, :profile_pic_edit, :bio_edit]
+      before_action :set_user, only: [:index,:show, :assigned_issues, :watched_issues, :comments, :issues, :profile_pic_edit, :bio_edit]
       # Añadir verificación de autorización para editar bio y foto de perfil
       before_action -> { authorize_user_resource(params[:id]) }, only: [:profile_pic_edit, :bio_edit]
 
