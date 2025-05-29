@@ -11,4 +11,6 @@ Students:
 * Francesc Pérez
 
 
-Link Render: https://waslab04-5b3h.onrender.com/
+Link Render: https://waslab04-p1hk.onrender.com
+
+Link Taiga: https://tree.taiga.io/project/jansanbas-it13a_project/timeline

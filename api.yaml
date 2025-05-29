@@ -103,6 +103,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /issues/bulk:
+    post:
+      tags:
+      - issues
+      summary: Crea múltiples issues a partir de una lista de nombres.
+      operationId: createBulkIssues
+      requestBody:
+        description: Array de nombres (strings) para crear nuevos issues.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        201:
+          description: Issues creados correctamente. Retorna los IDs de los issues creados.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+        422:
+          description: Datos inválidos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Error interno del servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /issues/{id}:
     get:
       tags:
