@@ -13,6 +13,7 @@ module Api
       # POST /api/v1/priorities
       def create
         @priority = Priority.new(priority_params)
+        shift_positions_up(@priority.position) if Priority.exists?(position: @priority.position)
         if @priority.save
           render json: @priority, status: :created
         else
@@ -22,6 +23,17 @@ module Api
 
       # PUT /api/v1/priorities/:id
       def update
+        old_position = @priority.position
+        new_position = priority_params[:position].to_i
+        if old_position != new_position
+          if new_position < old_position
+            Priority.where(position: new_position...old_position).update_all("position = position + 1")
+          else 
+            Priority.where(position: (old_position + 1)..new_position).update_all("position = position - 1")
+          end
+          @priority.update_column(:position, new_position)
+        end
+        
         if @priority.update(priority_params)
           render json: @priority
         else
@@ -71,6 +83,7 @@ module Api
         end
 
 #Eliminar la prioridad
+        shift_positions_down(@priority.position) if Priority.exists?(position: @priority.position)
         if @priority.destroy
           render json: {
             message: issues_count > 0 ?
@@ -92,6 +105,15 @@ module Api
 
       def priority_params
         params.require(:priority).permit(:name, :color, :position)
+      end
+
+      def shift_positions_up(position)
+        # Mover todas las prioridades con una posición mayor a la especificada hacia arriba
+        Priority.where("position >= ?", position).update_all("position = position + 1")
+      end
+      def shift_positions_down(position)
+        # Mover todas las prioridades con una posición menor a la especificada hacia abajo
+        Priority.where("position > ?", position).update_all("position = position - 1")
       end
     end
   end
