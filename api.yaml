@@ -1,7 +1,7 @@
 openapi: 3.0.2
 info:
   version: 1.0.0
-  title: NIKE ft. ADIDAS API
+  title: Api RoR Taiga issue tracker copy
   description: "API REST de la web, un clon de Taiga. Esta API proporciona acceso a todas las funcionalidades implementadas en la aplicación web."
 servers:
   - url: 'https://waslab04-p1hk.onrender.com/api/v1'
