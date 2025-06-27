@@ -13,6 +13,7 @@ module Api
       # POST /api/v1/severities
       def create
         @severity = Severity.new(severity_params)
+        shift_positions_up(@severity.position) if Severity.exists?(position: @severity.position)
         if @severity.save
           render json: @severity, status: :created
         else
@@ -22,6 +23,18 @@ module Api
 
       # PUT /api/v1/severities/:id
       def update
+        old_position = @severity.position
+        new_position = severity_params[:position].to_i
+
+        if old_position != new_position
+          if new_position < old_position
+            Severity.where(position: new_position...old_position).update_all("position = position + 1")
+          else 
+            Severity.where(position: (old_position + 1)..new_position).update_all("position = position - 1")
+          end
+          @severity.update_column(:position, new_position)
+        end
+
         if @severity.update(severity_params)
           render json: @severity
         else
@@ -71,6 +84,7 @@ module Api
         end
 
         # Eliminar la severidad
+        shift_positions_down(@severity.position) if Severity.exists?(position: @severity.position)
         if @severity.destroy
           render json: {
             message: issues_count > 0 ?
@@ -92,6 +106,16 @@ module Api
 
       def severity_params
         params.require(:severity).permit(:name, :color, :position)
+      end
+
+      def shift_positions_up(position)
+        # Mueve las posiciones hacia arriba a partir de la posición especificada
+        Severity.where("position >= ?", position).update_all("position = position + 1")
+      end
+
+      def shift_positions_down(position)
+        # Mueve las posiciones hacia abajo a partir de la posición especificada
+        Severity.where("position > ?", position).update_all("position = position - 1")
       end
     end
   end
