@@ -14,7 +14,7 @@
         # POST /api/v1/issues/:issue_id/comments
         def create
           @comment = @issue.comments.new(comment_params)
-          @comment.user_id = 3
+          @comment.user_id = current_user.id
 
           if @comment.save
             render json: @comment, status: :created

@@ -3,6 +3,7 @@ module Api
     class UsersController < BaseController
       # Ya no es necesario omitir verificación CSRF, se maneja en BaseController
       # Omitir comprobación de autenticación del ApplicationController si existe
+      include Rails.application.routes.url_helpers
       skip_before_action :check_user_auth, raise: false
       before_action :set_user, only: [:show, :assigned_issues, :watched_issues, :comments, :issues, :profile_pic_edit, :bio_edit]
       # Añadir verificación de autorización para editar bio y foto de perfil
@@ -17,7 +18,7 @@ module Api
             name: user.name,
             username: user.username || user.email.split('@').first,
             bio: user.bio,
-            avatar_url: user.avatar.attached? ? user.avatar.url : nil,
+            avatar_url: user.avatar.attached? ? url_for(user.avatar) : nil,
             created_at: user.created_at,
             updated_at: user.updated_at
           }

@@ -13,6 +13,7 @@ module Api
       # POST /api/v1/statuses
       def create
         @status = Status.new(status_params)
+        shift_positions_up(@status.position) if Status.exists?(position: @status.position)
         if @status.save
           render json: @status, status: :created
         else
@@ -22,6 +23,17 @@ module Api
 
       # PUT /api/v1/statuses/:id
       def update
+        old_position = @status.position
+        new_position = status_params[:position].to_i
+        if old_position != new_position
+          if new_position < old_position
+            Status.where(position: new_position...old_position).update_all("position = position + 1")
+          else
+            Status.where(position: (old_position + 1)..new_position).update_all("position = position - 1")
+          end
+          @status.update_column(:position, new_position)
+        end
+
         if @status.update(status_params)
           render json: @status
         else
@@ -71,6 +83,7 @@ module Api
         end
 
 #Eliminar el estado
+        shift_positions_down(@status.position) if Status.exists?(position: @status.position)
         if @status.destroy
           render json: {
             message: issues_count > 0 ?
@@ -92,6 +105,16 @@ module Api
 
       def status_params
         params.require(:status).permit(:name, :color, :is_closed, :position)
+      end
+
+      def shift_positions_up(position)
+        # Mover todas las posiciones mayores a la posición eliminada hacia arriba
+        Status.where("position >= ?", position).update_all("position = position + 1")
+      end
+
+      def shift_positions_down(position)
+        # Mover todas las posiciones menores a la posición eliminada hacia abajo
+        Status.where("position > ?", position).update_all("position = position - 1")
       end
     end
   end

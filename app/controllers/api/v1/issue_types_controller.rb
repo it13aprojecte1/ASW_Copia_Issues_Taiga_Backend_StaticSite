@@ -13,6 +13,7 @@ module Api
       # POST /api/v1/issue_types
       def create
         @issue_type = IssueType.new(issue_type_params)
+        shift_positions_up(@issue_type.position) if IssueType.exists?(position: @issue_type.position)
         if @issue_type.save
           render json: @issue_type, status: :created
         else
@@ -22,6 +23,18 @@ module Api
 
       # PUT /api/v1/issue_types/:id
       def update
+        old_position = @issue_type.position
+        new_position = issue_type_params[:position].to_i
+
+        if old_position != new_position
+          if new_position < old_position
+            IssueType.where(position: new_position...old_position).update_all("position = position + 1")
+          else
+            IssueType.where(position: (old_position + 1)..new_position).update_all("position = position - 1")
+          end
+          @issue_type.update_column(:position, new_position)
+        end
+
         if @issue_type.update(issue_type_params)
           render json: @issue_type
         else
@@ -72,6 +85,7 @@ module Api
         end
 
 #Eliminar el tipo
+        shift_positions_down(@issue_type.position) if IssueType.exists?(position: @issue_type.position)
         if @issue_type.destroy
           render json: {
             message: issues_count > 0 ?
@@ -94,6 +108,15 @@ module Api
 
       def issue_type_params
         params.require(:issue_type).permit(:name, :color, :position)
+      end
+
+      def shift_positions_up(position) 
+        # Mueve todas las posiciones mayores a la posición especificada hacia arriba
+        IssueType.where("position >= ?", position).update_all("position = position + 1")
+      end
+      def shift_positions_down(position)
+        # Mueve todas las posiciones menores a la posición especificada hacia abajo
+        IssueType.where("position > ?", position).update_all("position = position - 1")
       end
     end
   end
