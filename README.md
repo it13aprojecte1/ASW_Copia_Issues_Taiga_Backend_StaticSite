@@ -21,30 +21,109 @@ The project is hosted in Render:
 
 To test the API calls using the Swagger Editor and the api.yaml file located in the project, you will need an authentication key. This key can be obtained by accessing your profile through the site's views, where a unique API key is generated for every user on the platform. Without it, you will receive a 401/403 error.
 
+https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/image1.png
+https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/iamge2.png
+https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/iamge3.png
+
 
 ## User Manual
 
 ### How to test it 
-* There are 2 ways of testing it, first one is to use this link where the page is aleready deployed in render ( take into account that render may take 1-2 minutes to open) "https://waslab04-p1hk.onrender.com"
+There are two ways to test this project:
 
-The second one is to host it yourself in your machine, to do that you need to follow the next steps(windows):
+### ✅ Option 1: Use the deployed version on Render
 
-* Download the last version of ruby if you don't have it already installed (https://www.ruby-lang.org/en/downloads/) and also download 
-* Download from "https://sqlite.org/download.html" From the "Precompiled Binaries for Windows", donwload "sqlite-dll-win-x64-3500100.zip" (current version when writing this), we use sqlite in the development environment.
-* Paste the sqlite3.dll and sqlite3.def into the "C:\Windows\System32" folder
-* Clone the repo in your machine
-* "bundle config set --local without 'production'"
-* Install dependencies with "Bundle Install"
-* Install rails "gem install rails -v 8.0.1"
-* Create the development DataBase with "rails db:create", "rails db:migrate" and optionaly "rails db:seed" to add default values to the database.
- 
-### How to make changes
-* Clone the repo and make the changes with the unity editor version 6.0 or above.
+You can directly test the app using this link (please note that Render may take 1–2 minutes to load initially):  
+🔗 [https://waslab04-p1hk.onrender.com](https://waslab04-p1hk.onrender.com)
 
+---
+
+### 🖥️ Option 2: Run it locally on your machine (Linux instructions)
+
+#### 1. Install Ruby 3.3.6
+
+```bash
+sudo apt-get update
+sudo apt-get install -y curl gpg gnupg2 software-properties-common
+gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys \
+  409B6B1796C275462A1703113804BB82D39DC0E3 \
+  7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+\curl -sSL https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+rvm install 3.3.6
+rvm use 3.3.6 --default
+echo "gem: --no-document" >> ~/.gemrc
+gem install bundler -v 2.6.2
+
+```
+
+Configure git if not done before
+
+```bash
+git config --global user.name "YourGitHubUsername"
+git config --global user.email your_github_email@example.com
+
+```
+
+Configure the ssh acces to Github
+
+```bash
+ssh-keygen -t ed25519 -C "your_github_email@example.com"
+```
+
+Press ENTER to all questions in command line
+Then Execute
+
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+cat ~/.ssh/id_ed25519.pub
+```
+
+Copy the key starting with ssh-ed25519 that appears in the terminal.
+Then go to GitHub > Settings > SSH and GPG keys, click "New SSH key", and paste it there.
+
+Go to the project page on GitHub, click "Code", choose the SSH option, and copy the link. Then run:
+
+```bash
+git clone git@github.com:your_username/your_project.git
+```
+
+
+Accept the prompt by typing ```yes```
+
+Set up the project
+
+```bash
+cd ASW_Copia_Issues_Taiga_Backend_StaticSite
+bundle config set --local without 'production'
+bundle install
+bundle lock --add-platform x86_64-linux
+```
+
+Remove the encrypted credentials and create new ones
+
+```bash
+rm config/credentials.yml.enc
+rm config/master.key
+EDITOR="code --wait" bin/rails credentials:edit
+```
+
+Set up the database and run the web
+
+```bash
+rails db:drop db:create db:migrate db:seed 
+rails server
+```
 
 
 
 ## Images of the static site
+https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/config.png
+https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/newIssue.png
+https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/Issues.png
+https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/Profile.png
+
 ## Project Summary
 
 This project is a simplified version of Taiga's issue tracker, developed using Ruby on Rails, a framework we learned during the course.
