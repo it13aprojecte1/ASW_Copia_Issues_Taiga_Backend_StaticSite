@@ -13,9 +13,8 @@ The project has been done by:
 The taiga related to the project to organize it: https://tree.taiga.io/project/jansanbas-it13a_project/timeline
 
 The project is hosted in Render:
- https://waslab04-p1hk.onrender.com     
-
-
+🔗 [https://waslab04-uscf.onrender.com/issues](https://waslab04-uscf.onrender.com/issues)
+ 
 
 ## Api calls
 
@@ -34,7 +33,7 @@ There are two ways to test this project:
 ### ✅ Option 1: Use the deployed version on Render
 
 You can directly test the app using this link (please note that Render may take 1–2 minutes to load initially):  
-🔗 [https://waslab04-p1hk.onrender.com](https://waslab04-p1hk.onrender.com)
+🔗 [https://waslab04-uscf.onrender.com/issues](https://waslab04-uscf.onrender.com/issues)
 
 ---
 
