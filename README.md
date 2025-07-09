@@ -1,47 +1,82 @@
+<p align="center">
+  <a href="./README.es.md">Español</a> •
+  <a href="./README.ca.md">Català</a>
+</p>
 
-# ASW_Copia_Issues_Taiga_Backend_StaticSite
+# ASW Copia Issues Taiga 🐞
 
-Project developed during the 6th Trimester for the Applications and Web Services (ASW) subject. (https://www.fib.upc.edu/en/studies/bachelors-degrees/bachelor-degree-informatics-engineering/curriculum/syllabus/ASW) at the FIB University in Barcelona. It was implemented using Ruby on Rails (RoR) as the backend framework and HTML + CSS for the static views, applying concepts and elements learned throughout the course.
+**Simplified issue tracker inspired by Taiga, developed in Ruby on Rails with static views and REST API integration.**
 
-The project has been done by:
-* Adrián Ferrer
-* Oscar Cerezo
-* Jan Santos
-* Francesc Pérez
-
-
-The taiga related to the project to organize it: https://tree.taiga.io/project/jansanbas-it13a_project/timeline
-
-The project is hosted in Render:
-🔗 [https://waslab04-uscf.onrender.com/issues](https://waslab04-uscf.onrender.com/issues)
- 
-
-## Api calls
-
-To test the API calls using the Swagger Editor and the api.yaml file located in the project, you will need an authentication key. This key can be obtained by accessing your profile through the site's views, where a unique API key is generated for every user on the platform. Without it, you will receive a 401/403 error.
-
-![alt text](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/image1.png)
-![alt text](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/iamge2.png)
-![alt text](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/iamge3.png)
-
-
-## User Manual
-
-### How to test it 
-There are two ways to test this project:
-
-### ✅ Option 1: Use the deployed version on Render
-
-You can directly test the app using this link (please note that Render may take 1–2 minutes to load initially):  
-🔗 [https://waslab04-uscf.onrender.com/issues](https://waslab04-uscf.onrender.com/issues)
+[![Ruby](https://img.shields.io/badge/Ruby-3.3.6-red.svg)](https://www.ruby-lang.org) [![Rails](https://img.shields.io/badge/Ruby_on_Rails-7.1-red.svg)](https://rubyonrails.org) [![Status](https://img.shields.io/badge/status-finished-green.svg)](https://shields.io/)
 
 ---
 
-### 🖥️ Option 2: Run it locally on your machine (Linux instructions)
+### 📖 Table of Contents
 
-#### 1. Install Ruby 3.3.6
+- [📝 Project Description](#-project-description)
+- [🧩 Key Features](#-key-features)
+- [🌐 Live Demo](#-live-demo)
+- [🔧 Tech Stack](#-tech-stack)
+- [🚀 Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation and Setup](#installation-and-setup)
+- [🧪 API Testing](#-api-testing)
+- [🖼️ Screenshots](#-screenshots)
+- [👨‍💻 Development Team](#-development-team)
+
+---
+
+### 📝 Project Description
+
+This project was developed during the 6th trimester of the *Applications and Web Services (ASW)* course at [FIB - UPC](https://www.fib.upc.edu/en/studies/bachelors-degrees/bachelor-degree-informatics-engineering/curriculum/syllabus/ASW).
+
+It is a simplified clone of the Taiga issue tracking system, built using **Ruby on Rails** for the backend and **HTML/CSS** for static views. The application includes both a user-facing interface and a RESTful API.
+
+Project Taiga board:  
+🔗 [Taiga Timeline](https://tree.taiga.io/project/jansanbas-it13a_project/timeline)
+
+---
+
+### 🧩 Key Features
+
+- **User Authentication** with unique API key generation.
+- **Static Views** for issues, user profiles, and issue creation.
+- **RESTful API** for full integration with external applications.
+- **Database Seeding** for quick testing.
+- **Deployed to Render** with persistent data.
+
+---
+
+### 🌐 Live Demo
+
+You can test the project online:  
+🔗 [https://waslab04-uscf.onrender.com/issues](https://waslab04-uscf.onrender.com/issues)  
+⚠️ Note: Render may take 1–2 minutes to spin up the server.
+
+---
+
+### 🔧 Tech Stack
+
+- **Backend**: Ruby on Rails
+- **Frontend**: HTML, CSS (static)
+- **Deployment**: Render.com
+- **Database**: PostgreSQL
+- **Development Env**: AWS Cloud9 via AWS Academy
+
+---
+
+### 🚀 Getting Started
+
+#### Prerequisites
+
+- Ruby 3.3.6
+- Git
+- SSH access configured with GitHub
+
+#### Installation and Setup (Linux)
 
 ```bash
+# 1. Install Ruby and RVM
 sudo apt-get update
 sudo apt-get install -y curl gpg gnupg2 software-properties-common
 gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys \
@@ -51,80 +86,79 @@ gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys \
 source ~/.rvm/scripts/rvm
 rvm install 3.3.6
 rvm use 3.3.6 --default
-echo "gem: --no-document" >> ~/.gemrc
 gem install bundler -v 2.6.2
-
 ```
 
-Configure git if not done before
-
 ```bash
+# 2. Git & SSH setup
 git config --global user.name "YourGitHubUsername"
-git config --global user.email your_github_email@example.com
-
-```
-
-Configure the ssh acces to Github
-
-```bash
-ssh-keygen -t ed25519 -C "your_github_email@example.com"
-```
-
-Press ENTER to all questions in command line
-Then Execute
-
-```bash
+git config --global user.email your_email@example.com
+ssh-keygen -t ed25519 -C "your_email@example.com"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
-cat ~/.ssh/id_ed25519.pub
+cat ~/.ssh/id_ed25519.pub  # Add this to GitHub SSH keys
 ```
 
-Copy the key starting with ssh-ed25519 that appears in the terminal.
-Then go to GitHub > Settings > SSH and GPG keys, click "New SSH key", and paste it there.
-
-Go to the project page on GitHub, click "Code", choose the SSH option, and copy the link. Then run:
-
 ```bash
-git clone git@github.com:your_username/your_project.git
-```
-
-
-Accept the prompt by typing ```yes```
-
-Set up the project
-
-```bash
+# 3. Clone the repository
+git clone git@github.com:your_username/ASW_Copia_Issues_Taiga_Backend_StaticSite.git
 cd ASW_Copia_Issues_Taiga_Backend_StaticSite
+```
+
+```bash
+# 4. Install dependencies and setup
 bundle config set --local without 'production'
 bundle install
 bundle lock --add-platform x86_64-linux
 ```
 
-Remove the encrypted credentials and create new ones
-
 ```bash
+# 5. Regenerate credentials
 rm config/credentials.yml.enc
 rm config/master.key
 EDITOR="code --wait" bin/rails credentials:edit
 ```
 
-Set up the database and run the web
-
 ```bash
-rails db:drop db:create db:migrate db:seed 
+# 6. Setup the database
+rails db:drop db:create db:migrate db:seed
 rails server
 ```
 
+---
 
+### 🧪 API Testing
 
-## Images of the static site
-![alt text](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/config.png)
-![alt text](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/newIssue.png)
-![alt text](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/Issues.png)
-![alt text](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/Profile.png)
+You can test the RESTful API using [Swagger Editor](https://editor.swagger.io/) with the provided `api.yaml` file.
 
-## Project Summary
+> 🔐 **Authentication Required**:  
+> Each user has a unique API key available in their profile view. Without it, you'll get `401` or `403` errors.
 
-This project is a simplified version of Taiga's issue tracker, developed using Ruby on Rails, a framework we learned during the course.
+---
 
-It features static views for direct use, as well as API endpoints that enable a separate web application to consume its data (as demonstrated in another repository where we built a React-based web app). Development was conducted within Amazon Cloud9, leveraging the AWS Learning Academy service to familiarize ourselves with the AWS environment. We also utilized Amazon S3 for storing project images; however, this presented a challenge as the S3 keys from the AWS Academy server required renewal every 4 hours.
+### 🖼️ Screenshots
+
+**Profile View**  
+![Profile](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/Profile.png)
+
+**Issue List**  
+![Issues](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/Issues.png)
+
+**New Issue Form**  
+![New Issue](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/newIssue.png)
+
+**Configuration File**  
+![Config](https://github.com/it13aprojecte1/ASW_Copia_Issues_Taiga_Backend_StaticSite/blob/main/config.png)
+
+---
+
+### 👨‍💻 Development Team
+
+**ASW — Aplicaciones y Servicios Web, FIB - UPC**
+
+**Group Members:**
+
+- Adrián Ferrer  
+- Oscar Cerezo  
+- Jan Santos  
+- Francesc Pérez
