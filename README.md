@@ -49,7 +49,7 @@ Project Taiga board:
 
 ### 🌐 Live Demo
 
-You can test the project online:  
+You can test the project online (CURRENTLY NOT WORKING, YOU CAN WATCH THE IMAGES BELOW TO GET AN IDEA HOW IS IT DONE):  
 🔗 [https://waslab04-uscf.onrender.com/issues](https://waslab04-uscf.onrender.com/issues)  
 ⚠️ Note: Render may take 1–2 minutes to spin up the server.
 
